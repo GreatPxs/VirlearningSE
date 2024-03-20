@@ -12,7 +12,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import com.example.virlearning.common.Constants;
 import com.example.virlearning.common.Exception;
 import com.example.virlearning.common.ServiceResultEnum;
-import com.example.virlearning.config.annotation.TokenToMallUser;
+import com.example.virlearning.config.annotation.TokenToUser;
 import com.example.virlearning.dao.UserMapper;
 import com.example.virlearning.dao.UserTokenMapper;
 import com.example.virlearning.entity.User;
@@ -39,14 +39,14 @@ public class TokenToMallUserMethodArgumentResolver implements HandlerMethodArgum
     }
 
     public boolean supportsParameter(MethodParameter parameter) {
-        if (parameter.hasParameterAnnotation(TokenToMallUser.class)) {
+        if (parameter.hasParameterAnnotation(TokenToUser.class)) {
             return true;
         }
         return false;
     }
 
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
-        if (parameter.getParameterAnnotation(TokenToMallUser.class) instanceof TokenToMallUser) {
+        if (parameter.getParameterAnnotation(TokenToUser.class) instanceof TokenToUser) {
             User mallUser = null;
             String token = webRequest.getHeader("token");
             if (null != token && !"".equals(token) && token.length() == Constants.TOKEN_LENGTH) {
