@@ -11,7 +11,7 @@ import  com.example.virlearning.model.param.UserUpdateParam;
 import com.example.virlearning.model.vo.UserVO;
 import  com.example.virlearning.common.Constants;
 import  com.example.virlearning.common.ServiceResultEnum;
-import  com.example.virlearning.config.annotation.TokenToMallUser;
+import com.example.virlearning.config.annotation.TokenToUser;
 import  com.example.virlearning.entity.User;
 import com.example.virlearning.service.userService;
 import  com.example.virlearning.util.BeanUtil;
@@ -57,7 +57,7 @@ public class UserPersonalAPI {
 
     @PostMapping("/logout")
     @Operation(summary = "登出接口", description = "清除token")
-    public Result<String> logout(@TokenToMallUser @Parameter(hidden = true) User loginMallUser) {
+    public Result<String> logout(@TokenToUser @Parameter(hidden = true) User loginMallUser) {
         Boolean logoutResult = UserService.logout(loginMallUser.getUserId());
 
         logger.info("logout api,loginMallUser={}", loginMallUser.getUserId());
@@ -91,7 +91,7 @@ public class UserPersonalAPI {
 
     @PutMapping("/info")
     @Operation(summary = "修改用户信息", description = "")
-    public Result updateInfo(@RequestBody @Parameter(description = "用户信息") UserUpdateParam UserUpdateParam, @TokenToMallUser @Parameter(hidden = true) User loginUser) {
+    public Result updateInfo(@RequestBody @Parameter(description = "用户信息") UserUpdateParam UserUpdateParam, @TokenToUser @Parameter(hidden = true) User loginUser) {
         Boolean flag = UserService.updateUserInfo(UserUpdateParam, loginUser.getUserId());
         if (flag) {
             //返回成功
@@ -106,10 +106,10 @@ public class UserPersonalAPI {
 
     @GetMapping("/info")
     @Operation(summary = "获取用户信息", description = "")
-    public Result<UserVO> getUserDetail(@TokenToMallUser @Parameter(hidden = true) User loginMallUser) {
+    public Result<UserVO> getUserDetail(@TokenToUser @Parameter(hidden = true) User loginUser) {
         //已登录则直接返回
         UserVO mallUserVO = new UserVO();
-        BeanUtil.copyProperties(loginMallUser, mallUserVO);
+        BeanUtil.copyProperties(loginUser, mallUserVO);
         return ResultGenerator.genSuccessResult(mallUserVO);
     }
 }
