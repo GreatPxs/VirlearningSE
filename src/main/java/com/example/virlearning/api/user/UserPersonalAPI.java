@@ -108,8 +108,8 @@ public class UserPersonalAPI {
     @Operation(summary = "获取用户信息", description = "")
     public Result<UserVO> getUserDetail(@TokenToUser @Parameter(hidden = true) User loginUser) {
         //已登录则直接返回
-        UserVO mallUserVO = new UserVO();
-        BeanUtil.copyProperties(loginUser, mallUserVO);
-        return ResultGenerator.genSuccessResult(mallUserVO);
+        UserVO UserVO = new UserVO();
+        BeanUtil.copyProperties(loginUser, UserVO);
+        return ResultGenerator.genSuccessResult(UserVO);
     }
 }
