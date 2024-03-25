@@ -1,15 +1,15 @@
 
 package com.example.virlearning.model.param;
 
-import jakarta.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
 public class UpdateAdminPasswordParam {
 
-    @NotEmpty(message = "originalPassword不能为空")
+    @NotNull(message = "originalPassword不能为空")
     private String originalPassword;
 
-    @NotEmpty(message = "newPassword不能为空")
+    @NotNull(message = "newPassword不能为空")
     private String newPassword;
 }

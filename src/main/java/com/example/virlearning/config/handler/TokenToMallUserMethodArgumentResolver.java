@@ -48,7 +48,7 @@ public class TokenToMallUserMethodArgumentResolver implements HandlerMethodArgum
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
         if (parameter.getParameterAnnotation(TokenToUser.class) instanceof TokenToUser) {
             User User = null;
-            String token = webRequest.getHeader("token");
+            String token = webRequest.getHeader("Authorization");
             if (null != token && !"".equals(token) && token.length() == Constants.TOKEN_LENGTH) {
                 UserToken mallUserToken = UserTokenMapper.selectByToken(token);
                 if (mallUserToken == null || mallUserToken.getExpireTime().getTime() <= System.currentTimeMillis()) {

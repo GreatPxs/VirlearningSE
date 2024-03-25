@@ -5,7 +5,7 @@ import com.example.virlearning.entity.AdminUserToken;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
-import jakarta.validation.Valid;
+import javax.validation.Valid;
 import com.example.virlearning.model.param.AdminLoginParam;
 import com.example.virlearning.model.param.UpdateAdminNameParam;
 import com.example.virlearning.model.param.UpdateAdminPasswordParam;

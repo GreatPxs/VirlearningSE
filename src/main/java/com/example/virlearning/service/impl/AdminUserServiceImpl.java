@@ -20,7 +20,7 @@ public class AdminUserServiceImpl implements AdminUserService {
     private AdminUserMapper adminUserMapper;
 
     @Resource
-    private AdminUserTokenMapper newBeeAdminUserTokenMapper;
+    private AdminUserTokenMapper  AdminUserTokenMapper;
 
     @Override
     public String login(String userName, String password) {
@@ -28,7 +28,7 @@ public class AdminUserServiceImpl implements AdminUserService {
         if (loginAdminUser != null) {
             //登录后即执行修改token的操作
             String token = getNewToken(System.currentTimeMillis() + "", loginAdminUser.getAdminUserId());
-            AdminUserToken adminUserToken = newBeeAdminUserTokenMapper.selectByPrimaryKey(loginAdminUser.getAdminUserId());
+            AdminUserToken adminUserToken =  AdminUserTokenMapper.selectByPrimaryKey(loginAdminUser.getAdminUserId());
             //当前时间
             Date now = new Date();
             //过期时间
@@ -40,7 +40,7 @@ public class AdminUserServiceImpl implements AdminUserService {
                 adminUserToken.setUpdateTime(now);
                 adminUserToken.setExpireTime(expireTime);
                 //新增一条token数据
-                if (newBeeAdminUserTokenMapper.insertSelective(adminUserToken) > 0) {
+                if ( AdminUserTokenMapper.insertSelective(adminUserToken) > 0) {
                     //新增成功后返回
                     return token;
                 }
@@ -49,7 +49,7 @@ public class AdminUserServiceImpl implements AdminUserService {
                 adminUserToken.setUpdateTime(now);
                 adminUserToken.setExpireTime(expireTime);
                 //更新
-                if (newBeeAdminUserTokenMapper.updateByPrimaryKeySelective(adminUserToken) > 0) {
+                if ( AdminUserTokenMapper.updateByPrimaryKeySelective(adminUserToken) > 0) {
                     //修改成功后返回
                     return token;
                 }
@@ -87,7 +87,7 @@ public class AdminUserServiceImpl implements AdminUserService {
             if (originalPassword.equals(adminUser.getLoginPassword())) {
                 //设置新密码并修改
                 adminUser.setLoginPassword(newPassword);
-                if (adminUserMapper.updateByPrimaryKeySelective(adminUser) > 0 && newBeeAdminUserTokenMapper.deleteByPrimaryKey(loginUserId) > 0) {
+                if (adminUserMapper.updateByPrimaryKeySelective(adminUser) > 0 &&  AdminUserTokenMapper.deleteByPrimaryKey(loginUserId) > 0) {
                     //修改成功且清空当前token则返回true
                     return true;
                 }
@@ -114,6 +114,6 @@ public class AdminUserServiceImpl implements AdminUserService {
 
     @Override
     public Boolean logout(Long adminUserId) {
-        return newBeeAdminUserTokenMapper.deleteByPrimaryKey(adminUserId) > 0;
+        return  AdminUserTokenMapper.deleteByPrimaryKey(adminUserId) > 0;
     }
 }
