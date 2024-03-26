@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.virlearning.dao.DrugMapper">
+    <!-- 查询药品里面所有的id以及药品名字 -->
+    <!-- Map<Integer, String> findUidName() -->
+    <select id="findUidName" resultType="com.example.virlearning.entity.Drug">
+        select id,drugName,is_delete isDelete
+        from t_drug where is_delete != 1
+    </select>
+
+    <!-- 根据条形码查询数据 -->
+    <!-- Drug findByBarCode(String barCode) -->
+    <select id="findByBarCode" resultType="com.example.virlearning.entity.Drug">
+        select id,barCode,is_delete isDelete from t_drug where barCode=#{barCode}
+    </select>
+
+    <!-- 添加药品 -->
+    <!-- Integer insertDrug(Drug drug) -->
+    <insert id="insertDrug" >
+        insert into t_drug(
+            drugName, referred, specifications,
+             drugNote, category_id
+        ) values(
+                    #{drugName}, #{barCode}, #{referred}, #{specifications}, #{unit},
+                    #{origin}, #{approvalNumber}, #{pleasedTo}, #{salesPrice}, #{inventory},
+                    #{totalSales}, #{drugNote}, #{categoryId}, #{isDelete},
+                    #{createdUser}, #{createdTime}, #{modifiedUser}, #{modifiedTime}
+                )
+    </insert>
+
+    <!-- 查询药品数据 (关联查询)药品类别表-->
+    <!-- List<Drug> selectDrug(Map<String,Object> map); -->
+    <select id="selectDrug" resultType="com.example.virlearning.entity.DrugANDDrugCategory">
+        select
+        t_drug.id, t_drug.drugName, t_drug.barCode, t_drug.referred, t_drug.specifications, t_drug.unit,
+        t_drug.origin, t_drug.approvalNumber, t_drug.pleasedTo, t_drug.salesPrice, t_drug.inventory,
+        t_drug.totalSales, t_drug.drugNote,  t_drug_category.categoryName, t_drug.is_delete isDelete,
+        t_drug.modified_user modifiedUser, t_drug.modified_time modifiedTime
+        from t_drug , t_drug_category
+        where t_drug.category_id=t_drug_category.categoryId and t_drug.is_delete !=1
+        <if test="drugName != '' and drugName != null" >
+            and t_drug.drugName like '%${drugName}%'
+        </if>
+        <if test="unit != '' and unit != null" >
+            and t_drug.unit like '%${unit}%'
+        </if>
+        <if test="origin != '' and origin != null" >
+            and t_drug.origin like '%${origin}%'
+        </if>
+        <if test="categoryId != '' and categoryId != null" >
+            and t_drug.category_id like '%${categoryId}%'
+        </if>
+        limit #{beginNo} , #{pageSize}
+    </select>
+
+    <!-- 根据条件查询药品总条数 -->
+    <!-- Integer selectCountDrug(Map<String,Object> map); -->
+    <select id="selectCountDrug" resultType="long">
+        select count(*)
+        from t_drug
+        where is_delete !=1
+        <if test="drugName != '' and drugName != null" >
+            and drugName like '$%{drugName}%'
+        </if>
+        <if test="unit != '' and unit != null" >
+            and unit like '$%{unit}%'
+        </if>
+        <if test="origin != '' and origin != null" >
+            and origin like '$%{origin}%'
+        </if>
+        <if test="categoryId != '' and categoryId != null" >
+            and category_id like '%${categoryId}%'
+        </if>
+    </select>
+
+    <!-- 根据uid查询药品全部数据 -->
+    <!-- Drug findId(Integer id); -->
+    <select id="findId" resultType="com.example.virlearning.entity.Drug">
+        select
+            id,drugName, barCode, referred, specifications, unit,
+            origin, approvalNumber, pleasedTo, salesPrice, inventory,
+            totalSales, drugNote, category_id categoryId, is_delete isDelete
+        from t_drug
+        where id=#{id}
+    </select>
+
+    <!-- 修改药品数据 -->
+    <!-- Integer updateIdDrug(Drug drug); -->
+    <update id="updateIdDrug" >
+        update t_drug set
+                          drugName=#{drugName}, referred=#{referred},
+                          specifications=#{specifications}, unit=#{unit},
+                          origin=#{origin}, salesPrice=#{salesPrice}, inventory= #{inventory},
+                          totalSales=#{totalSales}, drugNote=#{drugNote},
+                          modified_user=#{modifiedUser}, modified_time=#{modifiedTime}
+        where id=#{id}
+    </update>
+
+    <!-- 删除药品 -->
+    <!-- Integer deleteIdDrug(Integer id); -->
+    <update id="deleteIdDrug">
+        update t_drug set
+                          is_delete=#{isDelete}, modified_user=#{modifiedUser}, modified_time=#{modifiedTime}
+        where id =#{id}
+    </update>
+
+    <!-- 根据id修改库存 -->
+    <!-- Integer updateByIdInventory(Integer id); -->
+    <update id="updateByIdInventory">
+        update t_drug set
+                          inventory=#{inventory},totalSales=#{totalSales}
+        where id =#{id}
+    </update>
+
+    <!-- 查询药品数量 -->
+    <!-- Long selectIdCount(); -->
+    <select id="selectIdCount" resultType="java.lang.Long">
+        select count(id) from t_drug where is_delete != 1
+    </select>
+
+    <!-- 根据id判断，该条数据是否被引用 -->
+    <!-- Integer deleteDrugId(Integer id); -->
+    <select id="deleteDrugId" resultType="java.lang.Integer">
+        select count(*)
+        from t_drug A,t_drug_stock B
+        where A.id=B.drug_id and A.id=#{id}
+    </select>
+
+    <!-- 根据药品名称修改库存 -->
+    <!-- Integer updateByDrugNameInventory(String drugName); -->
+    <update id="updateByDrugNameInventory">
+        update t_drug set
+            inventory=#{inventory}
+        where drugName =#{drugName}
+    </update>
+
+    <!-- 查询数据导出 -->
+    <!-- List<DrugANDDrugCategory> findselectIsdelete(); -->
+    <select id="findselectIsdelete" resultType="com.example.virlearning.entity.DrugANDDrugCategory">
+        select
+        t_drug.id, t_drug.drugName, t_drug.barCode, t_drug.referred, t_drug.specifications, t_drug.unit,
+        t_drug.origin, t_drug.approvalNumber, t_drug.pleasedTo, t_drug.salesPrice, t_drug.inventory,
+        t_drug.totalSales, t_drug.drugNote,  t_drug_category.categoryName, t_drug.is_delete isDelete,
+        t_drug.modified_user modifiedUser, t_drug.modified_time modifiedTime
+        from t_drug , t_drug_category
+        where t_drug.category_id=t_drug_category.categoryId and t_drug.is_delete !=1
+        <if test="drugName != '' and drugName != null" >
+            and t_drug.drugName like '%${drugName}%'
+        </if>
+        <if test="unit != '' and unit != null" >
+            and t_drug.unit like '%${unit}%'
+        </if>
+        <if test="origin != '' and origin != null" >
+            and t_drug.origin like '%${origin}%'
+        </if>
+        <if test="categoryId != '' and categoryId != null" >
+            and t_drug.category_id like '%${categoryId}%'
+        </if>
+    </select>
+
+
+
+
+
+</mapper>
