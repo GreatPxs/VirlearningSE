@@ -8,11 +8,7 @@
         from t_drug where is_delete != 1
     </select>
 
-    <!-- 根据条形码查询数据 -->
-    <!-- Drug findByBarCode(String barCode) -->
-    <select id="findByBarCode" resultType="com.example.virlearning.entity.Drug">
-        select id,barCode,is_delete isDelete from t_drug where barCode=#{barCode}
-    </select>
+
 
     <!-- 添加药品 -->
     <!-- Integer insertDrug(Drug drug) -->
@@ -20,11 +16,8 @@
         insert into t_drug(
             drugName, referred, specifications,
              drugNote, category_id
-        ) values(
-                    #{drugName}, #{barCode}, #{referred}, #{specifications}, #{unit},
-                    #{origin}, #{approvalNumber}, #{pleasedTo}, #{salesPrice}, #{inventory},
-                    #{totalSales}, #{drugNote}, #{categoryId}, #{isDelete},
-                    #{createdUser}, #{createdTime}, #{modifiedUser}, #{modifiedTime}
+        ) values(           #{drugName},#{referred}, #{specifications},
+                    #{drugNote}, #{categoryId}
                 )
     </insert>
 
@@ -32,7 +25,7 @@
     <!-- List<Drug> selectDrug(Map<String,Object> map); -->
     <select id="selectDrug" resultType="com.example.virlearning.entity.DrugANDDrugCategory">
         select
-        t_drug.id, t_drug.drugName, t_drug.barCode, t_drug.referred, t_drug.specifications, t_drug.unit,
+        t_drug.id, t_drug.drugName,   t_drug.referred, t_drug.specifications, t_drug.unit,
         t_drug.origin, t_drug.approvalNumber, t_drug.pleasedTo, t_drug.salesPrice, t_drug.inventory,
         t_drug.totalSales, t_drug.drugNote,  t_drug_category.categoryName, t_drug.is_delete isDelete,
         t_drug.modified_user modifiedUser, t_drug.modified_time modifiedTime
@@ -77,9 +70,7 @@
     <!-- Drug findId(Integer id); -->
     <select id="findId" resultType="com.example.virlearning.entity.Drug">
         select
-            id,drugName, barCode, referred, specifications, unit,
-            origin, approvalNumber, pleasedTo, salesPrice, inventory,
-            totalSales, drugNote, category_id categoryId, is_delete isDelete
+            id,drugName,referred, specifications, drugNote, category_id categoryId
         from t_drug
         where id=#{id}
     </select>
@@ -138,7 +129,7 @@
     <!-- List<DrugANDDrugCategory> findselectIsdelete(); -->
     <select id="findselectIsdelete" resultType="com.example.virlearning.entity.DrugANDDrugCategory">
         select
-        t_drug.id, t_drug.drugName, t_drug.barCode, t_drug.referred, t_drug.specifications, t_drug.unit,
+        t_drug.id, t_drug.drugName,   t_drug.referred, t_drug.specifications, t_drug.unit,
         t_drug.origin, t_drug.approvalNumber, t_drug.pleasedTo, t_drug.salesPrice, t_drug.inventory,
         t_drug.totalSales, t_drug.drugNote,  t_drug_category.categoryName, t_drug.is_delete isDelete,
         t_drug.modified_user modifiedUser, t_drug.modified_time modifiedTime

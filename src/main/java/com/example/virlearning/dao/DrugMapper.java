@@ -20,12 +20,7 @@ public interface DrugMapper {
 	 */
 	List<Drug> findUidName();
 	
-	/**
-	 * 根据条形码查询数据
-	 * @param barCode
-	 * @return
-	 */
-	Drug findByBarCode(String barCode);
+
 	
 	/**
 	 * 添加药品
@@ -49,7 +44,7 @@ public interface DrugMapper {
 	
 	/**
 	 * 根据uid查询药品全部数据
-	 * @param uid
+	 * @param id
 	 * @return
 	 */
 	Drug findId(Integer id);

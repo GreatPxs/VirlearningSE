@@ -8,11 +8,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.example.virlearning.util.ResultGenerator;
+
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.example.virlearning.util.ResultGenerator.DEFAULT_SUCCESS_MESSAGE;
 
 @RestController
 @RequestMapping("/drugCategory")
@@ -21,14 +20,14 @@ public class DrugCategoryController {
 	private DrugCategoryService drugCategoryService;
 	
 	/**
-	 * 添加数据。药品类别信息
+	 * 添加数药品类别信息 id不用填
 	 * @param drugCategory
 	 * @return	返回成功
 	 */
 	@RequestMapping("/addDrugCategory")
 	public ResponseResult<Void> addDrugCategory(DrugCategory drugCategory) {
 		drugCategoryService.addDrugCategory(drugCategory);
-		return new ResponseResult<Void>(1);
+		return new ResponseResult<Void>(200);
 	}
 	
 	/**
@@ -40,21 +39,21 @@ public class DrugCategoryController {
 	@RequestMapping("/selectDrugCategory")
 	public ResponseResult<PaginationVO<DrugCategory>> selectDrugCategory(String categoryName,String pageNoStr,String pageSizeStr) throws JsonProcessingException {
 		//获取参数
-		long pageNo = 1;	//如果没有传数据,默认为第一页
+		long pageNo = 200;	//如果没有传数据,默认为第一页
 		if( pageNoStr != null && pageNoStr.trim().length()>0 ){
 			pageNo = Long.parseLong(pageNoStr);
 		}
-		int pageSize = 1;	//如果没有传数据,默认为10条数据
+		int pageSize = 200;	//如果没有传数据,默认为2000条数据
 		if( pageSizeStr != null && pageSizeStr.trim().length()>0 ){
 			pageSize = Integer.parseInt(pageSizeStr);
 		}
-		long beginNo = (pageNo-1)*pageSize;
+		long beginNo = (pageNo-200)*pageSize;
 		Map<String ,Object> map = new HashMap<String ,Object>();
 		map.put("beginNo", beginNo);
 		map.put("categoryName", categoryName);
 		map.put("pageSize", pageSize);
 		PaginationVO<DrugCategory> vo = drugCategoryService.getSelectDrugCategory(map);
-		return new ResponseResult<PaginationVO<DrugCategory>>(1,vo);
+		return new ResponseResult<PaginationVO<DrugCategory>>(200,vo);
 	}
 	
 	/**
@@ -66,7 +65,7 @@ public class DrugCategoryController {
 	public ResponseResult<Void> deleteDrugCategory(String ids) {
 		String[] categoryIds = ids.split(",");
 		drugCategoryService.getdeleteDrugCategory(categoryIds);
-		return new ResponseResult<Void>(1);
+		return new ResponseResult<Void>(200);
 	}
 	
 	/**
@@ -77,7 +76,7 @@ public class DrugCategoryController {
 	@RequestMapping("/selectDrugCategory_categoryId")
 	public ResponseResult<DrugCategory> getselectDrugCategoryBycategoryId(Integer categoryId) {
 		DrugCategory drugCategory = drugCategoryService.getselectDrugCategoryBycategoryId(categoryId);
-		return new ResponseResult<DrugCategory>(1,drugCategory);
+		return new ResponseResult<DrugCategory>(200,drugCategory);
 	}
 	
 	/**
@@ -88,7 +87,7 @@ public class DrugCategoryController {
 	@RequestMapping("/updateDrugCategory_categoryId")
 	public ResponseResult<Void> getupdateDrugCategoryBycategoryId(DrugCategory drugCategory) {
 		drugCategoryService.getupdateDrugCategoryBycategoryId(drugCategory);
-		return new ResponseResult<Void>(1);
+		return new ResponseResult<Void>(200);
 	}
 	
 }

@@ -2,7 +2,7 @@ package com.example.virlearning.entity;
 
 public class Drug { private Integer id;//药品id
     private String drugName;//药品名
-    private String barCode;//条形码
+
     private String referred;//简称
     private String specifications;//规格
     private String unit;//单位
@@ -27,12 +27,8 @@ public class Drug { private Integer id;//药品id
     public void setDrugName(String drugName) {
         this.drugName = drugName;
     }
-    public String getBarCode() {
-        return barCode;
-    }
-    public void setBarCode(String barCode) {
-        this.barCode = barCode;
-    }
+
+
     public String getReferred() {
         return referred;
     }
@@ -107,7 +103,7 @@ public class Drug { private Integer id;//药品id
     }
     @Override
     public String toString() {
-        return "Drug [id=" + id + ", drugName=" + drugName + ", barCode=" + barCode + ", referred=" + referred
+        return "Drug [id=" + id + ", drugName=" + drugName + ", referred=" + referred
                 + ", specifications=" + specifications + ", unit=" + unit + ", origin=" + origin + ", approvalNumber="
                 + approvalNumber + ", pleasedTo=" + pleasedTo + ", salesPrice=" + salesPrice + ", inventory="
                 + inventory + ", totalSales=" + totalSales + ", drugNote=" + drugNote + ", categoryId=" + categoryId

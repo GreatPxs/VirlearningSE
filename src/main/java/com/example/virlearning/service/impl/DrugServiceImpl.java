@@ -33,14 +33,6 @@ public class DrugServiceImpl implements DrugService{
 	 */
 	@Override
 	public void addDrug(Drug drug,String username) throws  InsertException {
-		String barCode = drug.getBarCode();
-		Drug resultBarCode = findByBarCode(barCode);
-
-		//判断药品信息是否存在
-		
-		//设置is_delete
-		drug.setIsDelete(0);
-		//设置四项日志
 
 		insertDrug(drug);
 	}
@@ -186,15 +178,7 @@ public class DrugServiceImpl implements DrugService{
 		return count;
 	};
 	
-	/**
-	 * 根据条形码查询数据
-	 * @param barCode
-	 * @return
-	 */
-	private Drug findByBarCode(String barCode) {
-		return drugdao.findByBarCode(barCode);
-	};
-	
+
 	/**
 	 * 判断该条数据是否被引用
 	 * @param uid

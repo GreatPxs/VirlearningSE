@@ -46,14 +46,14 @@ public interface DrugCategoryMapper {
 	
 	/**
 	 * 根据药品类别id查询药品类别名称
-	 * @param CategoryId
+	 * @param categoryId
 	 * @return
 	 */			
 	DrugCategory findByCategoryId(Integer categoryId);
 	
 	/**
 	 * 根据药品类别id删除药品类别
-	 * @param categoryId
+	 * @param categoryIds
 	 * @return
 	 */
 	Integer deleteDrugCategoryByids(String[] categoryIds);
@@ -74,7 +74,7 @@ public interface DrugCategoryMapper {
 	
 	/**
 	 * 根据id，进行修改数据
-	 * @param categoryId
+	 * @param drugCategory
 	 * @return
 	 */
 	Integer updateDrugCategoryBycategoryId(DrugCategory drugCategory);
