@@ -8,7 +8,7 @@ import java.util.Date;
 @Data
 public class Case {
 
-        private Integer caseId;
+        private Integer case_id;
 
         private String name;
 
@@ -16,13 +16,9 @@ public class Case {
 
         private String animal;
 
-        private String cureMethod;
-
-        private Date time;
+        private String cure_method;
 
         private Integer uploadUser;
 
-        @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-        private Date createTime;
 
 }
