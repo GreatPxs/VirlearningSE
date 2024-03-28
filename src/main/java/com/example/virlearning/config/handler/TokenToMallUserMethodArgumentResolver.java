@@ -31,9 +31,9 @@ import java.io.IOException;
 public class TokenToMallUserMethodArgumentResolver implements HandlerMethodArgumentResolver {
 
     @Autowired
-    private UserMapper mallUserMapper;
+    private UserMapper UserMapper;
     @Autowired
-    private UserTokenMapper newBeeMallUserTokenMapper;
+    private UserTokenMapper UserTokenMapper;
 
     public TokenToMallUserMethodArgumentResolver() {
     }
@@ -47,21 +47,21 @@ public class TokenToMallUserMethodArgumentResolver implements HandlerMethodArgum
 
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
         if (parameter.getParameterAnnotation(TokenToUser.class) instanceof TokenToUser) {
-            User mallUser = null;
-            String token = webRequest.getHeader("token");
+            User User = null;
+            String token = webRequest.getHeader("Authorization");
             if (null != token && !"".equals(token) && token.length() == Constants.TOKEN_LENGTH) {
-                UserToken mallUserToken = newBeeMallUserTokenMapper.selectByToken(token);
+                UserToken mallUserToken = UserTokenMapper.selectByToken(token);
                 if (mallUserToken == null || mallUserToken.getExpireTime().getTime() <= System.currentTimeMillis()) {
                     Exception.fail(ServiceResultEnum.TOKEN_EXPIRE_ERROR.getResult());
                 }
-                mallUser = mallUserMapper.selectByPrimaryKey(mallUserToken.getUserId());
-                if (mallUser == null) {
+                User = UserMapper.selectByPrimaryKey(mallUserToken.getUserId());
+                if (User == null) {
                     Exception.fail(ServiceResultEnum.USER_NULL_ERROR.getResult());
                 }
-                if (mallUser.getLockedFlag().intValue() == 1) {
+                if (User.getLockedFlag().intValue() == 1) {
                     Exception.fail(ServiceResultEnum.LOGIN_USER_LOCKED_ERROR.getResult());
                 }
-                return mallUser;
+                return User;
             } else {
                 Exception.fail(ServiceResultEnum.NOT_LOGIN_ERROR.getResult());
             }

@@ -4,7 +4,7 @@ package com.example.virlearning.api.user;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
+import javax.validation.Valid;
 import  com.example.virlearning.model.param.UserLoginParam;
 import  com.example.virlearning.model.param.UserRegisterParam;
 import  com.example.virlearning.model.param.UserUpdateParam;
@@ -108,8 +108,8 @@ public class UserPersonalAPI {
     @Operation(summary = "获取用户信息", description = "")
     public Result<UserVO> getUserDetail(@TokenToUser @Parameter(hidden = true) User loginUser) {
         //已登录则直接返回
-        UserVO mallUserVO = new UserVO();
-        BeanUtil.copyProperties(loginUser, mallUserVO);
-        return ResultGenerator.genSuccessResult(mallUserVO);
+        UserVO UserVO = new UserVO();
+        BeanUtil.copyProperties(loginUser, UserVO);
+        return ResultGenerator.genSuccessResult(UserVO);
     }
 }
