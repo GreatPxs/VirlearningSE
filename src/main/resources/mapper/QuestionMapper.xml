@@ -23,4 +23,42 @@
     <delete id="deleteQuestionById">
         update question set is_deleted=1 where is_deleted = #{questionId}
     </delete>
+
+    <resultMap id="BaseResultMap1" type="com.example.virlearning.entity.Question">
+        <result column="description" jdbcType="LONGVARCHAR" property="description"/>
+        <result column="option_a" jdbcType="VARCHAR" property="optionA"/>
+        <result column="option_b" jdbcType="VARCHAR" property="optionB"/>
+        <result column="option_c" jdbcType="VARCHAR" property="optionC"/>
+        <result column="option_d" jdbcType="VARCHAR" property="optionD"/>
+        <result column="answer" jdbcType="VARCHAR" property="answer"/>
+        <result column="is_deleted" jdbcType="BIT" property="is_deleted"/>
+    </resultMap>
+    <sql id="Base_Column_List1">
+        description,
+            option_a,
+            option_b,
+            option_c,
+            option_d,
+            answer,
+            is_deleted
+    </sql>
+
+    <select id="getTotalUsers" parameterType="Map" resultType="int">
+        select count(*) from question
+        where 1=1
+        <if test="description!=null and description!='' ">
+            and description LIKE CONCAT('%',#{description},'%')
+        </if>
+    </select>
+
+    <select id="findQuestionsByPage" parameterType="Map" resultMap="BaseResultMap1">
+        select
+        <include refid="Base_Column_List1"/>
+        from question
+        where 1=1
+        <if test="description!=null and description!='' ">
+            and description LIKE CONCAT('%',#{description},'%')
+        </if>
+    </select>
+
 </mapper>
