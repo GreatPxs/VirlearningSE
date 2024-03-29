@@ -2,6 +2,7 @@
 package com.example.virlearning.api.sysadmin;
 
 import com.example.virlearning.entity.AdminUserToken;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
@@ -35,13 +36,15 @@ public class AdminManageUserAPI {
     private static final Logger logger = LoggerFactory.getLogger(AdminManageUserAPI.class);
 
     @RequestMapping(value = "/adminUser/login", method = RequestMethod.POST)
+    @Operation(summary = "管理员登录", description = "message字段为1是数据管理员，2是数据管理员；data返回token")
     public Result<String> login(@RequestBody @Valid AdminLoginParam adminLoginParam) {
         String loginResult = adminUserService.login(adminLoginParam.getUserName(), adminLoginParam.getPasswordMd5());
         logger.info("manage login api,adminName={},loginResult={}", adminLoginParam.getUserName(), loginResult);
-
+        String username=adminLoginParam.getUserName();
         //登录成功
         if (StringUtils.hasText(loginResult) && loginResult.length() == Constants.TOKEN_LENGTH) {
             Result result = ResultGenerator.genSuccessResult();
+            result.setMessage(String.valueOf(adminUserService.getrole(username)));
             result.setData(loginResult);
             return result;
         }

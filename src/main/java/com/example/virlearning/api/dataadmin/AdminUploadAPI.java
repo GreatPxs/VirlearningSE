@@ -1,6 +1,7 @@
 
 package com.example.virlearning.api.dataadmin;
-
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -14,7 +15,12 @@ import com.example.virlearning.util.ResultGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -78,7 +84,7 @@ public class AdminUploadAPI {
      * 图片上传
      */
     @RequestMapping(value = "/upload/files", method = RequestMethod.POST)
-    @Operation(summary = "多图上传", description = "wangEditor图片上传")
+    @Operation(summary = "多图上传", description = "图片上传")
     public Result uploadV2(HttpServletRequest httpServletRequest, @TokenToAdminUser @Parameter(hidden = true) AdminUserToken adminUser) throws URISyntaxException {
         logger.info("adminUser:{}", adminUser.toString());
         List<MultipartFile> multipartFiles = new ArrayList<>(8);
@@ -131,5 +137,34 @@ public class AdminUploadAPI {
         resultSuccess.setData(fileNames);
         return resultSuccess;
     }
+    @RequestMapping("/download")
+    public ResponseEntity<byte[]> download(@RequestParam String FileName) {
+        try {
+            HttpServletRequest httpServletRequest;
+            /*File path = new File(ResourceUtils.getURL((httpServletRequest.getRequestURL() + "")) + "/upload/" + fileName).getPath());
+            if(!path.exists()) {
+                path = new File("");
+            }
+            File upload = new File(path.getAbsolutePath(),Constants.FILE_UPLOAD_DIC);
+            if(!upload.exists()) {
+                upload.mkdirs();
+            }*/
+            String fileName= FileName.substring(30);
+            File file = new File(Constants.FILE_UPLOAD_DIC+fileName);
+            if(file.exists()){
+				/*if(!fileService.canRead(file, SessionManager.getSessionUser())){
+					getResponse().sendError(403);
+				}*/
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+                headers.setContentDispositionFormData("attachment", fileName);
+                return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file),headers, HttpStatus.CREATED);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity<byte[]>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
 
 }

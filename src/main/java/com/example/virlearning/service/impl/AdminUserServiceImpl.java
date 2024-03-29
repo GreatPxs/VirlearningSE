@@ -111,7 +111,10 @@ public class AdminUserServiceImpl implements AdminUserService {
         }
         return false;
     }
-
+    @Override
+    public int getrole(String username) {
+        return  adminUserMapper.getrole(username);
+    }
     @Override
     public Boolean logout(Long adminUserId) {
         return  AdminUserTokenMapper.deleteByPrimaryKey(adminUserId) > 0;

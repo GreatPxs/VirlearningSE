@@ -41,12 +41,14 @@ public interface AdminUserService {
      */
     Boolean updateName(Long loginUserId, String loginUserName, String nickName);
 
+
+
     /**
      * 登出接口
      * @param adminUserId
      * @return
      */
     Boolean logout(Long adminUserId);
-
+    int getrole(String username);
 
 }

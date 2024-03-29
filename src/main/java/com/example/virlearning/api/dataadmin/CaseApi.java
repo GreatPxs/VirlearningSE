@@ -17,7 +17,7 @@ public class CaseApi {
     private CaseService caseService;
 
     /**
-     * 添加数据。药品类别信息
+     * 添加病例信息
      *
      * @param record
      * @return 返回成功
@@ -29,7 +29,7 @@ public class CaseApi {
         return new ResponseResult<Void>(200);
     }
     /**
-     * 根据uid查询药品全部数据
+     * 根据uid查询病例全部数据
      * @param id
      * @return
      */
@@ -40,7 +40,7 @@ public class CaseApi {
     };
 
     /**
-     * 修改药品数据
+     * 修改病例数据
      *
      * @param record
      * @return

@@ -12,7 +12,9 @@ import java.util.Map;
 @Repository
 
 public interface CaseMapper {
-
+    /**
+     * 插入病例数据
+     */
     Integer insert(Case record);
     int deleteByPrimaryKey(Long userId);
     int insertSelective(Case record);

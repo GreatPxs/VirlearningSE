@@ -10,7 +10,7 @@
         <result column="locked" jdbcType="TINYINT" property="locked" />
     </resultMap>
     <sql id="Base_Column_List">
-        admin_user_id, login_user_name, login_password, nick_name, locked
+        admin_user_id, login_user_name, login_password, nick_name, locked,`role`
     </sql>
 
     <select id="login" resultMap="BaseResultMap">
@@ -19,7 +19,11 @@
         from  admin_user
         where login_user_name = #{userName,jdbcType=VARCHAR} AND login_password=#{password,jdbcType=VARCHAR} AND locked = 0
     </select>
-
+    <select id="getrole" parameterType="java.lang.String">
+        select role
+        from  admin_user
+        where login_user_name = #{username,jdbcType=VARCHAR}
+    </select>
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List" />
@@ -28,9 +32,9 @@
     </select>
     <insert id="insert" parameterType="com.example.virlearning.entity.AdminUser">
         insert into  admin_user (admin_user_id, login_user_name, login_password,
-        nick_name, locked)
+        nick_name, locked,role)
         values (#{adminUserId,jdbcType=BIGINT}, #{loginUserName,jdbcType=VARCHAR}, #{loginPassword,jdbcType=VARCHAR},
-        #{nickName,jdbcType=VARCHAR}, #{locked,jdbcType=TINYINT})
+        #{nickName,jdbcType=VARCHAR}, #{locked,jdbcType=TINYINT},#{role,jdbcType=INTEGER})
     </insert>
     <insert id="insertSelective" parameterType="com.example.virlearning.entity.AdminUser">
         insert into  admin_user

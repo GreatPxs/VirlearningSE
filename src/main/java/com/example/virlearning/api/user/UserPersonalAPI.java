@@ -47,6 +47,7 @@ public class UserPersonalAPI {
         //登录成功
         if (StringUtils.hasText(loginResult) && loginResult.length() == Constants.TOKEN_LENGTH) {
             Result result = ResultGenerator.genSuccessResult();
+            result.setMessage("1");
             result.setData(loginResult);
             return result;
         }
@@ -77,6 +78,7 @@ public class UserPersonalAPI {
         if (!NumberUtil.isPhone(UserRegisterParam.getLoginName())){
             return ResultGenerator.genFailResult(ServiceResultEnum.LOGIN_NAME_IS_NOT_PHONE.getResult());
         }
+        if(UserRegisterParam.getPassword() == null)return ResultGenerator.genFailResult(ServiceResultEnum.LOGIN_PASSWORD_NULL.getResult());
         String registerResult = UserService.register(UserRegisterParam.getLoginName(), UserRegisterParam.getPassword());
 
         logger.info("register api,loginName={},loginResult={}", UserRegisterParam.getLoginName(), registerResult);
