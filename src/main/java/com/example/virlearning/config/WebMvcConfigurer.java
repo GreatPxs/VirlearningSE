@@ -3,6 +3,7 @@ package com.example.virlearning.config;
 
 import com.example.virlearning.common.Constants;
 import com.example.virlearning.config.handler.TokenToMallUserMethodArgumentResolver;
+import com.example.virlearning.config.handler.TokenToAdminUserMethodArgumentResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
@@ -17,8 +18,8 @@ public class WebMvcConfigurer extends WebMvcConfigurationSupport {
 
     @Autowired
     private TokenToMallUserMethodArgumentResolver tokenToMallUserMethodArgumentResolver;
-    //@Autowired
-   // private TokenToAdminUserMethodArgumentResolver tokenToAdminUserMethodArgumentResolver;
+    @Autowired
+    private TokenToAdminUserMethodArgumentResolver tokenToAdminUserMethodArgumentResolver;
 
     /**
      * @param argumentResolvers
@@ -26,7 +27,7 @@ public class WebMvcConfigurer extends WebMvcConfigurationSupport {
      */
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
         argumentResolvers.add(tokenToMallUserMethodArgumentResolver);
-       // argumentResolvers.add(tokenToAdminUserMethodArgumentResolver);
+       argumentResolvers.add(tokenToAdminUserMethodArgumentResolver);
     }
 
     public void addResourceHandlers(ResourceHandlerRegistry registry) {

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.virlearning.dao.DeptMapper">
+    <select id="getfindName" resultType="com.example.virlearning.entity.Department">
+        select * from department
+        <where>
+            <if test="name != null and name != ''">
+                and name like concat('%', #{ name }, '%')
+            </if>
+        </where>
+    </select>
+
+    <insert id="insertDept">
+        insert into department(
+            name,dep_inf)
+        values(#{name},#{dep_inf})
+    </insert>
+
+    <delete id="deleteDept">
+        DELETE FROM department
+        WHERE id = #{id} or name = #{name}
+    </delete>
+
+    <update id="modifyDept">
+        update department
+        <set >
+            <if test="name != null and name != ''" >
+                name = #{name},
+            </if>
+            <if test="dep_inf != null and dep_inf != ''" >
+                dep_inf = #{dep_inf},
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+
+
+
+
+</mapper>

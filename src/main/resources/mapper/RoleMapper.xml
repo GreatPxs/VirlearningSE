@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.virlearning.dao.RoleMapper">
+    <select id="getfindNameDep" resultType="com.example.virlearning.entity.Role">
+        select * from role
+        <where>
+            <if test="name != null and name != ''">
+                and name like concat('%', #{ name }, '%')
+            </if>
+            <if test="dep != null and dep != ''">
+                and dep_name like concat('%', #{ dep }, '%')
+            </if>
+        </where>
+    </select>
+
+    <insert id="insertRole">
+        insert into role(
+            name,dep_name,role,sex,age)
+            values(#{name},#{dep_name},#{role},#{sex},#{age})
+    </insert>
+
+    <delete id="deleteRole">
+        DELETE FROM role
+        WHERE id = #{id} or name = #{name}
+    </delete>
+
+    <update id="modifyRole">
+        update role
+        <set >
+            <if test="name != null and name != ''" >
+                name = #{name},
+            </if>
+            <if test="dep_name != null and dep_name != ''" >
+                dep_name = #{dep_name},
+            </if>
+            <if test="role != null and role != ''" >
+                role = #{role},
+            </if>
+            <if test="sex != null and sex != ''" >
+                sex = #{sex},
+            </if>
+            <if test="age != null and age != ''" >
+                age = #{age},
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+
+
+
+
+</mapper>

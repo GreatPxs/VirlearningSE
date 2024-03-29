@@ -4,7 +4,7 @@ package com.example.virlearning.api.user;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
+import javax.validation.Valid;
 import  com.example.virlearning.model.param.UserLoginParam;
 import  com.example.virlearning.model.param.UserRegisterParam;
 import  com.example.virlearning.model.param.UserUpdateParam;

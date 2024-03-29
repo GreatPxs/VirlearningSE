@@ -55,5 +55,5 @@ public interface userService {
      * @param pageUtil
      * @return
      */
-    //PageResult getNewBeeMallUsersPage(PageQueryUtil pageUtil);
+    PageResult getUsersPage(PageQueryUtil pageUtil);
 }
