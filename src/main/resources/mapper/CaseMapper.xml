@@ -2,18 +2,40 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.virlearning.dao.CaseMapper">
-    <resultMap id="BaseResultMap" type="com.example.virlearning.entity.Case">
-        <id column="case_id" jdbcType="BIGINT" property="caseId"/>
-        <result column="name" jdbcType="VARCHAR" property="name"/>
-        <result column="symptom" jdbcType="VARCHAR" property="symptom"/>
-        <result column="animal" jdbcType="VARCHAR" property="animal"/>
-        <result column="cure_method" jdbcType="VARCHAR" property="cureMethod"/>
-        <result column="upload_user" jdbcType="TINYINT" property="uploadUser"/>
-        <result column="time" jdbcType="TIMESTAMP" property="time"/>
-    </resultMap>
+    <insert id="insert" >
+        insert into  `case`(
+            name, symptom, animal,cure_method
+        ) values(           #{name},#{symptom}, #{animal},
+                            #{cure_method} )
+    </insert>
+    <!-- 根据条件查询病例总条数 -->
+    <!-- Integer selectCountCase(Map<String,Object> map); -->
+    <select id="CountCase" resultType="long">
+        select count(*)
+        from `case`
+        <if test="name != '' and name != null" >
+            and `name` like '$%{name}%'
+        </if>
 
+    </select>
 
+    <!-- 根据id查询病例全部数据 -->
+    <!--  Case findId(Integer id); -->
+    <select id="findId" resultType="com.example.virlearning.entity.Case">
+        select
+           case_id, name, symptom, animal,cure_method
+        from `case`
+        where case_id=#{id}
+    </select>
 
+    <!-- 修改药品数据 -->
+    <!--Integer updateIdCase(Case record); -->
+    <update id="updateIdCase" >
+        update `case` set
+                          name=#{name}, symptom=#{symptom},
+                          animal=#{animal},cure_method=#{cure_method}
+        where case_id=#{case_id}
+    </update>
 
 
 

@@ -1,4 +1,3 @@
-
 package com.example.virlearning.model.param;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -7,17 +6,14 @@ import lombok.Data;
 
 import java.io.Serializable;
 
-/**
- * 用户注册param
- */
 @Data
-public class UserRegisterParam implements Serializable {
+public class AdminLoginParam implements Serializable {
 
     @Schema(title = "登录名")
     @NotNull(message = "登录名不能为空")
-    private String loginName;
+    private String userName;
 
-    @Schema(title = "用户密码")
+    @Schema(title = "用户密码(需要MD5加密)")
     @NotNull(message = "密码不能为空")
-    private String password;
+    private String passwordMd5;
 }

@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 
 @Service
@@ -118,12 +119,12 @@ public  class userServiceImpl implements userService {
     }
 
 
-    /*public PageResult getNewBeeUsersPage(PageQueryUtil pageUtil) {
+    public PageResult getUsersPage(PageQueryUtil pageUtil) {
         List<User> Users = UserServiceMapper.findUserList(pageUtil);
         int total = UserServiceMapper.getTotalUsers(pageUtil);
         PageResult pageResult = new PageResult(Users, total, pageUtil.getLimit(), pageUtil.getPage());
         return pageResult;
-    }*/
+    }
 
     @Override
     public Boolean lockUsers(Long[] ids, int lockStatus) {

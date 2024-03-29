@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.virlearning.dao.DrugCategoryMapper">
+<!-- 药品类别的Mybatis数据语句 -->
+<!-- namespace：匹配java接口， id:对应的是抽象方法的方法名, parameterType:对应的是方法用到的实体类 #{}:中的名称是参数User类中的属性 -->
+
+	
+	<!-- 查询药品类别表的categoryId和categoryName -->
+	<!-- DrugCategory findByCategoryIdCategoryName() -->
+	<select id="findByCategoryIdCategoryName" resultType="com.example.virlearning.entity.DrugCategory">
+		select categoryId,categoryName from t_drug_category
+	</select>
+	
+	<!-- 根据药品类别名称查询 -->
+	<!-- DrugCategory findByCategoryName(String categoryName) -->
+	<select id="findByCategoryName" resultType="com.example.virlearning.entity.DrugCategory">
+		select categoryId,categoryName from t_drug_category where categoryName=#{categoryName}
+	</select>
+	
+	<!-- 添加药品类别 -->
+	<!-- Integer insertDrugCategory(DrugCategory drugCategory) -->
+	<insert id="insertDrugCategory">
+		insert into t_drug_category(
+			categoryName, note
+		) values(
+			#{categoryName}, #{note}
+		)
+	</insert>
+	
+	<!-- 查询药品所有数据 -->
+	<!-- List<DrugCategory> selectDrugCategoryForPage() -->
+	<select id="selectDrugCategoryForPage" resultType="com.example.virlearning.entity.DrugCategory" >
+		select categoryId, categoryName, note
+		from t_drug_category
+		<where>
+			<if test="categoryName != '' and categoryName != null" >
+				and categoryName like '%${categoryName}%'
+			</if>
+		</where>
+		limit #{beginNo} , #{pageSize}  
+	</select>
+	
+	<!-- 根据条件查询药品类别总条数 -->
+	<!-- Long selectCountDrugCategory(Map<String,Object> map); -->
+	<select id="selectCountDrugCategory" resultType="long">
+		select count(categoryId)
+		from t_drug_category
+		<where>
+			<if test="categoryName != '' and categoryName != null" >
+				and categoryName like '%${categoryName}%'
+			</if>
+		</where>
+	</select>
+	
+	<!-- 根据药品类别id查询药品类别名称 -->
+	<!-- DrugCategory findByCategoryId(Integer categoryId); -->
+	<select id="findByCategoryId" resultType="com.example.virlearning.entity.DrugCategory" >
+		select categoryName from t_drug_category where categoryId=#{categoryId}
+	</select>
+	
+	<!-- 根据药品类别id删除药品类别 -->
+	<!-- Integer deleteDrugCategoryByids(String[] categoryIds); -->
+	<delete id="deleteDrugCategoryByids" parameterType="integer" >
+		delete from t_drug_category where categoryId in
+		<foreach collection="array" item="categoryIds" index="no" open="(" separator="," close=")">
+			#{categoryIds}
+		</foreach>
+	</delete>
+	
+	<!-- 根据类别id判断，该条数据是否被引用 -->
+	<!-- Integer deleteBycategoryId(Integer categoryId); -->
+	<select id="deleteBycategoryId" resultType="java.lang.Integer">
+		select count(*) 
+		from t_drug A,t_drug_category B
+		where A.category_id=B.categoryId and B.categoryId=#{categoryId}
+	</select>
+	
+	<!-- 根据药品类别id，查询改条数据 -->
+	<!-- DrugCategory selectDrugCategoryBycategoryId(Integer categoryId); -->
+	<select id="selectDrugCategoryBycategoryId" resultType="com.example.virlearning.entity.DrugCategory">
+		select categoryId,categoryName,note from t_drug_category where categoryId=#{categoryId}
+	</select>
+	
+	<!-- 根据id，进行修改数据 -->
+	<!-- Integer updateDrugCategoryBycategoryId(Integer categoryId); -->
+	<update id="updateDrugCategoryBycategoryId">
+		update t_drug_category 
+		set categoryName=#{categoryName},note=#{note}
+		where categoryId=#{categoryId}
+	</update>
+	
+	
+	
+	
+</mapper>
