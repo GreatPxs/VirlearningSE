@@ -38,6 +38,12 @@
             and login_name = #{loginName}
         </if>
     </select>
+    <select id="findname" resultType="com.example.virlearning.entity.User">
+        select
+            user_id,nick_name,login_name, password_md5, create_time
+        from virlearning_mall_user
+        where login_name=#{name}
+    </select>
 
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
         select

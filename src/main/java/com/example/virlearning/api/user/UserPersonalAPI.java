@@ -1,6 +1,8 @@
 
 package com.example.virlearning.api.user;
 
+import com.example.virlearning.entity.Drug;
+import com.example.virlearning.util.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -14,10 +16,6 @@ import  com.example.virlearning.common.ServiceResultEnum;
 import com.example.virlearning.config.annotation.TokenToUser;
 import  com.example.virlearning.entity.User;
 import com.example.virlearning.service.userService;
-import  com.example.virlearning.util.BeanUtil;
-import  com.example.virlearning.util.NumberUtil;
-import  com.example.virlearning.util.Result;
-import  com.example.virlearning.util.ResultGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +31,7 @@ public class UserPersonalAPI {
     private userService UserService;
 
     private static final Logger logger = LoggerFactory.getLogger(UserPersonalAPI.class);
+    private UserPersonalAPI drugService;
 
     @PostMapping("/login")
     @Operation(summary = "登录接口", description = "返回token")
@@ -47,14 +46,19 @@ public class UserPersonalAPI {
         //登录成功
         if (StringUtils.hasText(loginResult) && loginResult.length() == Constants.TOKEN_LENGTH) {
             Result result = ResultGenerator.genSuccessResult();
-            result.setMessage("1");
+            result.setMessage("0");
             result.setData(loginResult);
             return result;
         }
         //登录失败
         return ResultGenerator.genFailResult(loginResult);
     }
-
+    @PostMapping("/findname")
+    @Operation(summary = "根据账号查询", description = "获取指定用户信息")
+    public ResponseResult<User> getfindId(String loginname){
+        User user = UserService.selectByLoginName(loginname);
+        return new ResponseResult<User>(200,user);
+    };
 
     @PostMapping("/logout")
     @Operation(summary = "登出接口", description = "清除token")
