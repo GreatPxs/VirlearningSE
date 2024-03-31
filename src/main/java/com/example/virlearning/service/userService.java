@@ -1,6 +1,7 @@
 
 package com.example.virlearning.service;
 
+import com.example.virlearning.entity.User;
 import com.example.virlearning.model.param.UserUpdateParam;
 import com.example.virlearning.util.PageQueryUtil;
 import com.example.virlearning.util.PageResult;
@@ -56,4 +57,11 @@ public interface userService {
      * @return
      */
     PageResult getUsersPage(PageQueryUtil pageUtil);
+    /**
+     * 后台分页
+     *
+     * @param loginName
+     * @return
+     */
+    User selectByLoginName(String loginName);
 }
