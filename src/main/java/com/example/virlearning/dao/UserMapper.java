@@ -12,7 +12,6 @@ import java.util.List;
 @Repository
 public interface UserMapper {
     int deleteByPrimaryKey(Long userId);
-    User findname(String name);
 
     int insert(User record);
 

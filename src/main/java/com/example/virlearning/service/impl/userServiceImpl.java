@@ -133,8 +133,4 @@ public  class userServiceImpl implements userService {
         }
         return UserServiceMapper.lockUserBatch(ids, lockStatus) > 0;
     }
-    @Override
-    public User selectByLoginName(String loginName){
-        return UserServiceMapper.selectByLoginName(loginName);
-    }
 }
