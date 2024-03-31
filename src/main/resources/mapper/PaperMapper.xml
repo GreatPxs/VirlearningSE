@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.virlearning.dao.PaperMapper">
+    <resultMap id="paperMap" type="com.example.virlearning.entity.Paper">
+        <id column="id" property="paperId" />
+    </resultMap>
+
+    <select id="getfindbyName" resultMap="paperMap" resultType="com.example.virlearning.entity.Paper">
+        select * from paper
+        <where>
+            <if test="type != null and type != ''">
+                and name like concat('%', #{ name }, '%')
+            </if>
+        </where>
+    </select>
+
+    <insert id="insertPaper">
+        insert into paper(
+            name)
+        values(#{name})
+    </insert>
+
+    <delete id="deletePaper">
+        DELETE FROM paper
+        WHERE id = #{paperId}
+    </delete>
+
+    <update id="modifyPaper">
+        update paper
+        <set >
+            <if test="name != null and name != ''" >
+                name = #{name}
+            </if>
+
+        </set>
+        where id=#{paperId}
+    </update>
+
+    <select id="getPaperInf">
+        select *
+        from paper p left join paper_question pq on p.id = pq.paper_id
+        left join question q on q.id = pq.question_id
+        where p.id = #{paperId}
+    </select>
+
+    <insert id="insertPaperQuestion" parameterType="map">
+        insert into paper_question(paper_id,question_id)
+        values(#{paper.paperId},#{question.id}
+        )
+    </insert>
+
+    <delete id="deletePaperQuestion" parameterType="map">
+        delete from paper_question
+        where paper_id = #{paper.paperId} and question_id = #{question.id}
+    </delete>
+
+
+
+
+</mapper>

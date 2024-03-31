@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.virlearning.dao.ExamMapper">
+    <resultMap id="examMap" type="com.example.virlearning.entity.Exam">
+        <!--  这里的id标签标示它是主键  -->
+        <!--  column:数据库表中的字段名  -->
+        <!--  property:指定JavaBean中的属性  -->
+        <id column="id" property="examId" />
+
+        <!--  这里的result标签标示它是普通字段，其属性值与上述一致  -->
+        <result column="paper_id" property="paperId" />
+        <result column="start_time" property="startTime" />
+        <result column="end_time" property="endTime" />
+    </resultMap>
+
+    <select id="getfindbyName" resultMap="examMap">
+        select * from Exam
+        <where>
+            <if test="name != null and name != ''">
+                and name like concat('%', #{ name }, '%')
+            </if>
+        </where>
+    </select>
+
+    <insert id="insertExam">
+        insert into exam(
+            name,paper_id,start_time,end_time)
+        values(#{name},#{paperId},
+                <choose>
+                    <when test="startTime != null and startTime != ''">
+                        #{startTime}
+                    </when>
+                    <otherwise>
+                        NULL
+                    </otherwise>
+                </choose>,
+                <choose>
+                    <when test="endTime != null and endTime != ''">
+                        #{endTime}
+                    </when>
+                    <otherwise>
+                        NULL
+                    </otherwise>
+                </choose>
+                )
+
+    </insert>
+
+    <delete id="deleteExam">
+        DELETE FROM exam
+        WHERE id = #{examId} or name = #{name}
+    </delete>
+
+    <update id="modifyExam">
+        update exam
+        <set >
+            <if test="name != null and name != ''" >
+                name = #{name},
+            </if>
+            <if test="paperId != null and paperId != ''" >
+                paper_id = #{paperId},
+            </if>
+            <if test="startTime != null and startTime != ''" >
+                start_time = #{startTime},
+            </if>
+            <if test="endTime != null and endTime != ''" >
+                end_time = #{endTime},
+            </if>
+        </set>
+        where id=#{examId}
+    </update>
+
+
+
+
+</mapper>
