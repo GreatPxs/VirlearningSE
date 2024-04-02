@@ -58,7 +58,7 @@ public class DrugController {
 		if( pageNoStr != null && pageNoStr.trim().length()>0 ){
 			pageNo = Long.parseLong(pageNoStr);
 		}
-		int pageSize = 1;	//如果没有传数据,默认为10条数据
+		int pageSize = 10;	//如果没有传数据,默认为10条数据
 		if( pageSizeStr != null && pageSizeStr.trim().length()>0 ){
 			pageSize = Integer.parseInt(pageSizeStr);
 		}

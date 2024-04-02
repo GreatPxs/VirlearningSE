@@ -34,7 +34,7 @@ public class AdminRegisteUserAPI {
      * 列表
      */
     @RequestMapping(value = "/users", method = RequestMethod.GET)
-    @Operation(summary = "商城注册用户列表", description = "商城注册用户列表")
+    @Operation(summary = "注册用户列表", description = "注册用户列表")
     public Result list(@RequestParam(required = false) @Parameter(description = "页码") Integer pageNumber,
                        @RequestParam(required = false) @Parameter(description = "每页条数") Integer pageSize,
                        @RequestParam(required = false) @Parameter(description = "用户状态") Integer lockStatus, @TokenToAdminUser @Parameter(hidden = true) AdminUserToken adminUser) {
