@@ -125,6 +125,12 @@ public  class userServiceImpl implements userService {
         PageResult pageResult = new PageResult(Users, total, pageUtil.getLimit(), pageUtil.getPage());
         return pageResult;
     }
+    public String insertfile(Long id,String url){
+        if (UserServiceMapper.selectByPrimaryKey(id)==null) {
+            return ServiceResultEnum.Empty_USER_ERROR.getResult();
+        }
+        UserServiceMapper.insertfile(id, url);
+        return ServiceResultEnum.SUCCESS.getResult();}
 
     @Override
     public Boolean lockUsers(Long[] ids, int lockStatus) {

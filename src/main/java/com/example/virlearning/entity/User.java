@@ -7,7 +7,7 @@ import java.util.Date;
 @Data
 public class User {
     private Long userId;
-
+    private String fileurl;
     private String nickName;
 
     private String loginName;

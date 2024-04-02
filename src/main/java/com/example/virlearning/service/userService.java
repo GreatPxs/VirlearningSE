@@ -58,10 +58,17 @@ public interface userService {
      */
     PageResult getUsersPage(PageQueryUtil pageUtil);
     /**
-     * 后台分页
+     * 账户查询
      *
      * @param loginName
      * @return
      */
     User selectByLoginName(String loginName);
+    /**
+     * 账户查询
+     *
+     * @param id,url
+     * @return
+     */
+    String insertfile(Long id,String url);
 }

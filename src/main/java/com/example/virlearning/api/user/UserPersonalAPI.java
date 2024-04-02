@@ -2,6 +2,7 @@
 package com.example.virlearning.api.user;
 
 import com.example.virlearning.entity.Drug;
+import com.example.virlearning.service.FileService;
 import com.example.virlearning.util.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -21,12 +22,18 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.UUID;
 
 @RestController
 @Tag(description = "v1", name = "虚拟宠物医院学习系统接口")
 @RequestMapping("/api/v1/user")
 public class UserPersonalAPI {
-
+    @Autowired
+    private FileService fileService;
     @Autowired
     private userService UserService;
 
@@ -109,7 +116,24 @@ public class UserPersonalAPI {
             return result;
         }
     }
+    @PostMapping("/file")
+    public Result insertFile(@RequestParam("id :") Long id , MultipartFile file) throws IOException {
 
+        // 获取文件的输入流
+        InputStream inputStream = file.getInputStream();
+        // 生成文件名
+        String filename = UUID.randomUUID().toString() + file.getOriginalFilename();
+        // 调用文件上传方法
+        String fileUrl = fileService.uploadFile(filename, inputStream);
+        String insertFileResult = UserService.insertfile(id,fileUrl);
+        if (ServiceResultEnum.SUCCESS.getResult().equals(insertFileResult)) {
+            Result result=ResultGenerator.genSuccessResult();
+            result.setData(fileUrl);
+            return result;
+        }
+        return ResultGenerator.genFailResult(insertFileResult);
+
+    }
     @GetMapping("/info")
     @Operation(summary = "获取用户信息", description = "")
     public Result<UserVO> getUserDetail(@TokenToUser @Parameter(hidden = true) User loginUser) {

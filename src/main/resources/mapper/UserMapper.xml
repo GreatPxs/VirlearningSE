@@ -14,7 +14,7 @@
     </resultMap>
     <sql id="Base_Column_List">
         user_id, nick_name, login_name, password_md5, introduce_sign, is_deleted,
-    locked_flag, create_time
+    locked_flag, create_time,fileurl
     </sql>
 
     <select id="findUserList" parameterType="Map" resultMap="BaseResultMap">
@@ -38,6 +38,13 @@
             and login_name = #{loginName}
         </if>
     </select>
+    <update id="insertfile">
+        update  virlearning_mall_user
+        <set>
+            fileurl= #{url}
+        </set>
+        WHERE user_id = #{id}
+    </update>
     <select id="findname" resultType="com.example.virlearning.entity.User">
         select
             user_id,nick_name,login_name, password_md5, create_time

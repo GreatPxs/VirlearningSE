@@ -29,7 +29,7 @@ public interface UserMapper {
     int updateByPrimaryKey(User record);
 
     List<User> findUserList(PageQueryUtil pageUtil);
-
+    int insertfile(Long id,String url);
     int getTotalUsers(PageQueryUtil pageUtil);
 
     int lockUserBatch(@Param("ids") Long[] ids, @Param("lockStatus") int lockStatus);
