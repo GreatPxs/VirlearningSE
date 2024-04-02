@@ -11,6 +11,7 @@ public class Department {
     private String name;
     private String dep_inf;
     private String play_role;
+    private String fileurl;
 
     public Integer getId() {
         return id;
@@ -24,6 +25,8 @@ public class Department {
         return name;
     }
 
+    public String geturl(){return fileurl;}
+
     public void setName(String name) {
         this.name = name;
     }
@@ -34,6 +37,10 @@ public class Department {
     public String getDep_inf() {
         return dep_inf;
     }
+    public void setrole(String role) {
+        this.play_role = role;
+    }
+    public  void seturl(String url){this.fileurl=url;}
 
     public void setDep_inf(String dep_inf) {
         this.dep_inf = dep_inf;

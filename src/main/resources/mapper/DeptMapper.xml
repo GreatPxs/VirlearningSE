@@ -17,19 +17,52 @@
             </if>
         </where>
     </select>
-    
+    <select id="findDeptList" resultType="com.example.virlearning.entity.Department">
+        select
+       id,name,play_role,dep_inf,fileurl
+        from  department_role
+        where 1=1
+        <if test="start!=null and limit!=null">
+            limit #{start},#{limit}
+        </if>
+    </select>
+    <select id="getTotalDepts" resultType="int">
+        select count(*) from department_role
+        where 1=1
 
+    </select>
+    <select id="selectbyname" resultType="com.example.virlearning.entity.Department">
+        select * from department_role
+        <where>
+            <if test="name != null and name != ''">
+                and name =#{ name }
+            </if>
+        </where>
+    </select>
     <insert id="insertDept">
         insert into department_role(
             name,dep_inf,play_role)
         values(#{name},#{dep_inf},#{role})
     </insert>
-
+    <update id="insertfile">
+        update  department_role
+            <set>
+             fileurl= #{url}
+            </set>
+        WHERE id = #{id}
+    </update>
     <delete id="deleteDept">
         DELETE FROM department_role
         WHERE id = #{id} or name = #{name}
     </delete>
-
+    <select id="getfindid" resultType="com.example.virlearning.entity.Department">
+        select * from department_role
+        <where>
+            <if test="id != null ">
+                and id =#{ id }
+            </if>
+        </where>
+    </select>
     <update id="modifyDept">
         update department_role
         <set >
@@ -38,6 +71,9 @@
             </if>
             <if test="dep_inf != null and dep_inf != ''" >
                 dep_inf = #{dep_inf},
+            </if>
+            <if test="play_role!= null and play_role != ''" >
+                play_role = #{role},
             </if>
         </set>
         where id=#{id}

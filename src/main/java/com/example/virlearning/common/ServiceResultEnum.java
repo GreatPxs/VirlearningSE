@@ -8,8 +8,10 @@ public enum ServiceResultEnum {
     ERROR("error"),
 
     SUCCESS("success"),
-
+    Empty_DEPT_ERROR("科室不存在！"),
     DATA_NOT_EXIST("未查询到记录！"),
+
+    SAME_DEPT_NAME_EXIST("科室名重复！"),
 
     PARAM_ERROR("参数错误！"),
 

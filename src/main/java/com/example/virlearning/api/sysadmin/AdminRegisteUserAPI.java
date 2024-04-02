@@ -39,7 +39,7 @@ public class AdminRegisteUserAPI {
                        @RequestParam(required = false) @Parameter(description = "每页条数") Integer pageSize,
                        @RequestParam(required = false) @Parameter(description = "用户状态") Integer lockStatus, @TokenToAdminUser @Parameter(hidden = true) AdminUserToken adminUser) {
         logger.info("adminUser:{}", adminUser.toString());
-        if (pageNumber == null || pageNumber < 1 || pageSize == null || pageSize < 10) {
+        if (pageNumber == null || pageNumber < 1 || pageSize == null || pageSize < 5) {
             return ResultGenerator.genFailResult("参数异常！");
         }
         Map params = new HashMap(8);
