@@ -19,4 +19,10 @@ public class DeptServiceImpl implements DeptService {
     public Integer deleteDept(Department dept){return deptDao.deleteDept(dept);}
 
     public Integer modifyDept(Department dept){return deptDao.modifyDept(dept);}
+    /*根据职能名搜索对应的科室
+
+     */
+    public List<String> getdepname(String role){
+    return deptDao.getdepname(role);
+    }
 }

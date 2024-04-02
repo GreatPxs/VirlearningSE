@@ -9,11 +9,19 @@
             </if>
         </where>
     </select>
+    <select id="getdepname" resultType="String">
+        select name from department
+        <where>
+            <if test="play_role != null and play_role != ''">
+                and play_role like concat('%', #{ role }, '%')
+            </if>
+        </where>
+    </select>
 
     <insert id="insertDept">
         insert into department(
-            name,dep_inf)
-        values(#{name},#{dep_inf})
+            name,dep_inf,play_role)
+        values(#{name},#{dep_inf},#{role})
     </insert>
 
     <delete id="deleteDept">

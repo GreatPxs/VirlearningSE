@@ -13,5 +13,7 @@ public interface DeptMapper {
     Integer deleteDept(Department dept);
 
     Integer modifyDept(Department dept);
+
+    List <String> getdepname(String role);
     
 }

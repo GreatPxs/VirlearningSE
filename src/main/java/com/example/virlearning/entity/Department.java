@@ -10,6 +10,7 @@ public class Department {
     private Integer id;
     private String name;
     private String dep_inf;
+    private String play_role;
 
     public Integer getId() {
         return id;
@@ -27,6 +28,9 @@ public class Department {
         this.name = name;
     }
 
+    public String getrole() {
+        return play_role;
+    }
     public String getDep_inf() {
         return dep_inf;
     }
