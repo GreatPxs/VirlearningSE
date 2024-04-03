@@ -1,7 +1,9 @@
 package com.example.virlearning.dao;
 
+import com.example.virlearning.entity.Department;
 import com.example.virlearning.entity.Drug;
 import com.example.virlearning.entity.DrugANDDrugCategory;
+import com.example.virlearning.util.PageQueryUtil;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.Date;
@@ -96,5 +98,6 @@ public interface DrugMapper {
 	 * @return
 	 */
 	Integer updateByDrugNameInventory(@Param("drugName")String drugName,@Param("inventory")Integer inventory);
+	List<Drug> findDrugList(PageQueryUtil pageUtil);
 	
 }

@@ -1,12 +1,15 @@
 package com.example.virlearning.service.impl;
 
 import com.example.virlearning.dao.DrugMapper;
+import com.example.virlearning.entity.Department;
 import com.example.virlearning.entity.Drug;
 import com.example.virlearning.entity.DrugANDDrugCategory;
 import com.example.virlearning.model.vo.PaginationVO;
 import com.example.virlearning.service.DrugService;
 
 import com.example.virlearning.config.*;
+import com.example.virlearning.util.PageQueryUtil;
+import com.example.virlearning.util.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -211,10 +214,16 @@ public class DrugServiceImpl implements DrugService{
 			throw new DeleteException("删除数据时出现未知错误！");
 		}
 	};
+
+
+	public PageResult getDrugsPage(PageQueryUtil pageUtil) {
+		List<Drug> Dept = drugdao.findDrugList(pageUtil);
+		int total = Math.toIntExact(drugdao.selectIdCount());
+		PageResult pageResult = new PageResult(Dept, total, pageUtil.getLimit(), pageUtil.getPage());
+		return pageResult;
+	}
 	
-	
-	
-	
+
 	
 	
 }

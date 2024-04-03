@@ -9,7 +9,7 @@ import java.io.Serializable;
 /**
  * 消息 DTO
  *
- * @author wsl
+ * @author Pxs
  * @date 2024/2/20
  */
 @Data

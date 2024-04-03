@@ -24,11 +24,15 @@ public class Department {
     public String getName() {
         return name;
     }
+    public String getPlay_role(){return play_role;}
 
     public String geturl(){return fileurl;}
 
     public void setName(String name) {
         this.name = name;
+    }
+    public void setPlay_role(String role) {
+        this.play_role = role;
     }
 
     public String getrole() {
@@ -37,9 +41,7 @@ public class Department {
     public String getDep_inf() {
         return dep_inf;
     }
-    public void setrole(String role) {
-        this.play_role = role;
-    }
+
     public  void seturl(String url){this.fileurl=url;}
 
     public void setDep_inf(String dep_inf) {

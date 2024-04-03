@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 /**
  * AI应用Controller
  *
- * @author wsl
+ * @author PXs
  * @date 2024/02/19
  */
 @Slf4j

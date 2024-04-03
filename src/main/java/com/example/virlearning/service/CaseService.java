@@ -3,6 +3,8 @@ package com.example.virlearning.service;
 import com.example.virlearning.config.InsertException;
 import com.example.virlearning.entity.Case;
 import com.example.virlearning.entity.Drug;
+import com.example.virlearning.util.PageQueryUtil;
+import com.example.virlearning.util.PageResult;
 
 
 public interface CaseService {
@@ -26,5 +28,20 @@ public interface CaseService {
      * @return
      */
     Integer updateIdCase(Case record);
+    /**
+     * 后台分页
+     *
+     * @param pageUtil
+     * @return
+     */
+    PageResult getCasesPage(PageQueryUtil pageUtil);
+    String insertfile1(Integer id,String url);
+    String insertfile2(Integer id,String url);
+    String insertfile3(Integer id,String url);
+    String insertfile4(Integer id,String url);
+    String insertfile5(Integer id,String url);
+    String insertfile6(Integer id,String url);
+    String insertfile7(Integer id,String url);
+    String insertfile8(Integer id,String url);
 
 }

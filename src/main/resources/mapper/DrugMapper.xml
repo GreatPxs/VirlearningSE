@@ -14,10 +14,10 @@
     <!-- Integer insertDrug(Drug drug) -->
     <insert id="insertDrug" >
         insert into t_drug(
-            drugName, referred, specifications,
-             drugNote, category_id
-        ) values(           #{drugName},#{referred}, #{specifications},
-                    #{drugNote}, #{categoryId}
+            drugName,  specifications,unit,
+             drugNote
+        ) values(           #{drugName}, #{specifications},#{unit},
+                    #{drugNote}
                 )
     </insert>
 
@@ -70,7 +70,7 @@
     <!-- Drug findId(Integer id); -->
     <select id="findId" resultType="com.example.virlearning.entity.Drug">
         select
-            id,drugName,referred, specifications, drugNote, category_id categoryId
+            id,drugName,unit, specifications, drugNote,fileurl
         from t_drug
         where id=#{id}
     </select>
@@ -79,11 +79,10 @@
     <!-- Integer updateIdDrug(Drug drug); -->
     <update id="updateIdDrug" >
         update t_drug set
-                          drugName=#{drugName}, referred=#{referred},
-                          specifications=#{specifications}, unit=#{unit},
-                          origin=#{origin}, salesPrice=#{salesPrice}, inventory= #{inventory},
-                          totalSales=#{totalSales}, drugNote=#{drugNote},
-                          modified_user=#{modifiedUser}, modified_time=#{modifiedTime}
+                          drugName=#{drugName},
+                          specifications=#{specifications},
+                          unit=#{unit},
+                          drugNote=#{drugNote}
         where id=#{id}
     </update>
 
@@ -125,6 +124,15 @@
         where drugName =#{drugName}
     </update>
 
+    <select id="findDrugList" resultType="com.example.virlearning.entity.Drug">
+        select
+        id,drugName,specifications,unit,drugNote,fileurl
+        from  t_drug
+        where 1=1
+        <if test="start!=null and limit!=null">
+            limit #{start},#{limit}
+        </if>
+    </select>
     <!-- 查询数据导出 -->
     <!-- List<DrugANDDrugCategory> findselectIsdelete(); -->
     <select id="findselectIsdelete" resultType="com.example.virlearning.entity.DrugANDDrugCategory">

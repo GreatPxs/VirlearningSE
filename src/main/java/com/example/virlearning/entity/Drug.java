@@ -10,6 +10,7 @@ public class Drug { private Integer id;//药品id
     private String approvalNumber;//批准文号
     private Double pleasedTo;//进货价
     private Double salesPrice;//售货价
+    private String fileurl;
     private Integer inventory;//库存
     private Integer totalSales;//销售总量
     private String drugNote;//药品备注
@@ -28,7 +29,12 @@ public class Drug { private Integer id;//药品id
         this.drugName = drugName;
     }
 
-
+    public String geturl() {
+        return fileurl;
+    }
+    public void seturl(String url) {
+        this.fileurl = url;
+    }
     public String getReferred() {
         return referred;
     }

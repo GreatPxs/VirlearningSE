@@ -6,7 +6,7 @@ import com.example.virlearning.model.vo.ChatResponseVO;
 /**
  * 模型服务
  *
- * @author wsl
+ * @author Pxs
  * @date 2024/2/19
  */
 public interface ModelService {

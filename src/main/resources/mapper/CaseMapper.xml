@@ -2,11 +2,33 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.virlearning.dao.CaseMapper">
+    <resultMap id="BaseResultMap" type="com.example.virlearning.entity.Case">
+        <id column="case_id" jdbcType="BIGINT" />
+        <result column="name" jdbcType="VARCHAR" />
+        <result column="symptom" jdbcType="VARCHAR" />
+        <result column="animal" jdbcType="VARCHAR" />
+        <result column="jzword" jdbcType="VARCHAR" />
+        <result column="jzphoto" jdbcType="VARCHAR" />
+        <result column="jzvideo" jdbcType="VARCHAR" />
+        <result column="jcword" jdbcType="VARCHAR" />
+        <result column="jcphoto" jdbcType="VARCHAR" />
+        <result column="jcvideo" jdbcType="VARCHAR" />
+        <result column="zdword" jdbcType="VARCHAR" />
+        <result column="zdphoto" jdbcType="VARCHAR" />
+        <result column="zdvideo" jdbcType="VARCHAR" />
+        <result column="zlword" jdbcType="VARCHAR" />
+        <result column="zlphoto" jdbcType="VARCHAR" />
+        <result column="zlvideo" jdbcType="VARCHAR" />
+
+    </resultMap>
+    <sql id="Base_Column_List">
+        case_id, `name`, symptom, animal, jzword, jzphoto,jzvideo,jcword,jcphoto,jcvideo,zdword,zdphoto,zdvideo,
+    zlword, zlphoto,zlvideo
+    </sql>
     <insert id="insert" >
         insert into  `case`(
-            name, symptom, animal,cure_method
-        ) values(           #{name},#{symptom}, #{animal},
-                            #{cure_method} )
+            name, symptom, animal,jzword,jcword,zdword,zlword
+        ) values(           #{name},#{symptom}, #{animal},#{jzword},#{jcword},#{zdword},#{zlword} )
     </insert>
     <!-- 根据条件查询病例总条数 -->
     <!-- Integer selectCountCase(Map<String,Object> map); -->
@@ -23,7 +45,7 @@
     <!--  Case findId(Integer id); -->
     <select id="findId" resultType="com.example.virlearning.entity.Case">
         select
-           case_id, name, symptom, animal,cure_method
+        <include refid="Base_Column_List"/>
         from `case`
         where case_id=#{id}
     </select>
@@ -33,14 +55,84 @@
     <update id="updateIdCase" >
         update `case` set
                           name=#{name}, symptom=#{symptom},
-                          animal=#{animal},cure_method=#{cure_method}
+                          animal=#{animal},jzword=#{jzword},jcword=#{jcword},zdword=#{zdword},zlword=#{zlword}
         where case_id=#{case_id}
     </update>
+    <!-- 查询总数-->
+    <select id="getTotalCases" parameterType="Map" resultType="int">
+        select count(*) from `case`
+        where 1=1
+        <if test="loginName!=null and loginName!=''">
+            and login_name = #{loginName}
+        </if>
+    </select>
+    <!-- 病例列表-->
+    <select id="findCaseList" resultType="com.example.virlearning.entity.Case">
+        select
+        <include refid="Base_Column_List"/>
+        from `case`
+        where 1=1
+        order by case_id
+        <if test="start!=null and limit!=null">
+            limit #{start},#{limit}
+        </if>
+    </select>
 
-
-
-
-
-
+    <update id="insertfile1">
+        update  `Case`
+        <set>
+            jzphoto= #{url}
+        </set>
+        WHERE case_id = #{id}
+    </update>
+    <update id="insertfile2">
+        update  `Case`
+        <set>
+            jzphoto= #{url}
+        </set>
+        WHERE case_id = #{id}
+    </update>
+    <update id="insertfile3">
+        update  `Case`
+        <set>
+            jzphoto= #{url}
+        </set>
+        WHERE case_id = #{id}
+    </update>
+    <update id="insertfile4">
+        update  `Case`
+        <set>
+            jzphoto= #{url}
+        </set>
+        WHERE case_id = #{id}
+    </update>
+    <update id="insertfile5">
+        update  `Case`
+        <set>
+            jzphoto= #{url}
+        </set>
+        WHERE case_id = #{id}
+    </update>
+    <update id="insertfile6">
+        update  `Case`
+        <set>
+            jzphoto= #{url}
+        </set>
+        WHERE case_id = #{id}
+    </update>
+    <update id="insertfile7">
+        update  `Case`
+        <set>
+            jzphoto= #{url}
+        </set>
+        WHERE case_id = #{id}
+    </update>
+    <update id="insertfile8">
+        update  `Case`
+        <set>
+            jzphoto= #{url}
+        </set>
+        WHERE case_id = #{id}
+    </update>
 
 </mapper>

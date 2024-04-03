@@ -5,6 +5,8 @@ import com.example.virlearning.entity.DrugANDDrugCategory;
 import com.example.virlearning.model.vo.PaginationVO;
 
 import com.example.virlearning.config.InsertException;
+import com.example.virlearning.util.PageQueryUtil;
+import com.example.virlearning.util.PageResult;
 
 import java.util.List;
 import java.util.Map;
@@ -61,4 +63,5 @@ public interface DrugService {
 	 * @return
 	 */
 	List<DrugANDDrugCategory> findselectIsdelete(Map<String,Object> map);
+	PageResult getDrugsPage(PageQueryUtil pageUtil);
 }
