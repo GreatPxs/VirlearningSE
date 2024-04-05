@@ -49,4 +49,40 @@ public class ExamController {
         examService.deleteExamUser(exam,user);
         return new ResponseResult<>(200);
     }
+    //考试提交后，计算得分
+    @GetMapping("/calculateExamScore")
+    public ResponseResult<Integer> calculateExamScore(Exam exam,User user,String userAnswer) {
+        Integer score = examService.calculateExamScore(exam,user,userAnswer);
+        return new ResponseResult<Integer>(200,score);
+    }
+    //将用户提交的答案存入
+    @PutMapping("/updateUserAnswer")
+    public ResponseResult<Void> updateUserAnswer(Exam exam,User user,String userAnswer) {
+        examService.updateUserAnswer(exam,user,userAnswer);
+        return new ResponseResult<>(200);
+    }
+    //将计算出的用户分数存入
+    @PutMapping("/updateUserScore")
+    public ResponseResult<Void> updateUserScore(Exam exam,User user,Integer score) {
+        examService.updateUserScore(exam,user,score);
+        return new ResponseResult<>(200);
+    }
+    //根据用户查历史考试
+    @GetMapping("/getUserExam")
+    public ResponseResult<List<Exam>> getUserExam(User user) {
+        List<Exam> list = examService.getUserExam(user);
+        return new ResponseResult<>(200,list);
+    }
+    //查用户一个考试的分数
+    @GetMapping("/getExamScore")
+    public ResponseResult<Integer> getExamScore(Exam exam,User user) {
+        Integer score = examService.getExamScore(exam,user);
+        return new ResponseResult<>(200,score);
+    }
+    //查用户一个考试的用户答案
+    @GetMapping("/getExamUserAnswer")
+    public ResponseResult<String> getExamUserAnswer(Exam exam,User user) {
+        String ans = examService.getExamUserAnswer(exam,user);
+        return new ResponseResult<>(200,ans);
+    }
 }

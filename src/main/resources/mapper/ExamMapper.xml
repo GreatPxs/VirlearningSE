@@ -109,7 +109,56 @@
         where exam_id = #{exam.examId} and user_id = #{user.userId}
     </delete>
 
+    <select id="getPaperId">
+        select paper_id
+        from exam
+        where id = #{examId}
+    </select>
 
+    <select id="getPaperQuestionAnswer">
+        select Answer
+        from question
+        where id in (select question_id
+                     from paper_question
+                     where paper_id = #{paperId} and question_in_paper_id = #{i})
+    </select>
+    <select id="getPaperTotalNum">
+        select total_num
+        from paper
+        where id = #{paperId}
+    </select>
+    <select id="getPaperQuestionScore">
+        select question_score
+        from paper_question
+        where paper_id = #{paperId} and question_in_paper_id = #{i}
+    </select>
 
+    <update id="updateUserAnswer">
+        update exam_user
+        set user_answer = #{userAnswer}
+        where exam_id = #{examId} and user_id = #{userId}
+    </update>
 
+    <update id="updateUserScore">
+        update exam_user
+        set user_score = #{score}
+        where exam_id = #{examId} and user_id = #{userId}
+    </update>
+    <select id="getUserExam" resultMap="examMap" resultType="com.example.virlearning.entity.Exam">
+        select * from exam
+        where id in
+        (select exam_id
+        from exam_user
+        where user_id = #{userId})
+    </select>
+    <select id="getExamScore">
+        select user_score
+        from exam_user
+        where exam_id = #{examId} and user_id = #{userId}
+    </select>
+    <select id="getExamUserAnswer">
+        select user_answer
+        from exam_user
+        where exam_id = #{examId} and user_id = #{userId}
+    </select>
 </mapper>

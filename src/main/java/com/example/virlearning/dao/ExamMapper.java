@@ -20,4 +20,16 @@ public interface ExamMapper {
     Integer insertExamUser(Exam exam,User user);
     //删除
     Integer deleteExamUser(Exam exam,User user);
+    Integer getPaperId(Integer examId);
+    //得到试卷中题号为i的题目正确答案
+    char getPaperQuestionAnswer(Integer paperId,int i);
+    //得到试卷的题目总数
+    Integer getPaperTotalNum(Integer paperId);
+    Integer getPaperQuestionScore(Integer paperId,int i);
+    Integer updateUserAnswer(Integer examId,Long userId,String userAnswer);
+    Integer updateUserScore(Integer examId,Long userId, Integer score);
+    List<Exam> getUserExam(Long userId);
+    Integer getExamScore(Integer examId,Long userId);
+    String getExamUserAnswer(Integer examId,Long userId);
+
 }
