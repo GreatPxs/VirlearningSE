@@ -13,9 +13,19 @@
         <result column="start_time" property="startTime" />
         <result column="end_time" property="endTime" />
     </resultMap>
+    <resultMap id="userMap" type="com.example.virlearning.entity.User">
+        <id column="user_id" jdbcType="BIGINT" property="userId"/>
+        <result column="nick_name" jdbcType="VARCHAR" property="nickName"/>
+        <result column="login_name" jdbcType="VARCHAR" property="loginName"/>
+        <result column="password_md5" jdbcType="VARCHAR" property="passwordMd5"/>
+        <result column="introduce_sign" jdbcType="VARCHAR" property="introduceSign"/>
+        <result column="is_deleted" jdbcType="TINYINT" property="isDeleted"/>
+        <result column="locked_flag" jdbcType="TINYINT" property="lockedFlag"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+    </resultMap>
 
-    <select id="getfindbyName" resultMap="examMap">
-        select * from Exam
+    <select id="getfindbyName" resultMap="examMap" resultType="com.example.virlearning.entity.Exam">
+        select * from exam
         <where>
             <if test="name != null and name != ''">
                 and name like concat('%', #{ name }, '%')
@@ -70,6 +80,34 @@
         </set>
         where id=#{examId}
     </update>
+
+    <select id="getExamUser" resultMap="userMap" resultType="com.example.virlearning.entity.User">
+        select * from virlearning_mall_user
+        where user_id in
+        (select u.user_id
+        from exam e left join exam_user eu on e.id = eu.exam_id
+        left join virlearning_mall_user u on eu.user_id = u.user_id
+        where e.id = #{examId})
+    </select>
+
+<!--    <select id="getExamUser" resultMap="examMap" resultType="com.example.virlearning.entity.Exam">-->
+<!--        select * from exam-->
+<!--&#45;&#45;         where user_id in-->
+<!--&#45;&#45;         (select u.user_id-->
+<!--&#45;&#45;         from exam e left join exam_user eu on e.id = eu.exam_id-->
+<!--&#45;&#45;         left join virlearning_mall_user u on eu.user_id = u.user_id-->
+<!--&#45;&#45;         where e.id = #{examId})-->
+<!--    </select>-->
+
+    <insert id="insertExamUser" parameterType="map">
+        insert into exam_user(exam_id,user_id)
+        values(#{exam.examId},#{user.userId})
+    </insert>
+
+    <delete id="deleteExamUser" parameterType="map">
+        delete from exam_user
+        where exam_id = #{exam.examId} and user_id = #{user.userId}
+    </delete>
 
 
 

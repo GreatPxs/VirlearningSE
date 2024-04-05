@@ -1,12 +1,11 @@
 package com.example.virlearning.api.dataadmin;
 
 import com.example.virlearning.entity.Exam;
+import com.example.virlearning.entity.User;
 import com.example.virlearning.service.ExamService;
 import com.example.virlearning.util.ResponseResult;
 import jakarta.annotation.Resource;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -33,6 +32,21 @@ public class ExamController {
     @GetMapping("/modify")
     public ResponseResult<Void> modifyExam(Exam exam) {
         examService.modifyExam(exam);
+        return new ResponseResult<>(200);
+    }
+    @GetMapping("/getExamUser")
+    public ResponseResult<List<User>> getExamUser(Exam exam) {
+        List<User> list = examService.getExamUser(exam);
+        return new ResponseResult<>(200,list);
+    }
+    @PostMapping("/insertExamUser")
+    public ResponseResult<Void> insertExamUser(Exam exam,User user) {
+        examService.insertExamUser(exam,user);
+        return new ResponseResult<>(200);
+    }
+    @DeleteMapping("/deleteExamUser")
+    public ResponseResult<Void> deleteExamUser(Exam exam,User user) {
+        examService.deleteExamUser(exam,user);
         return new ResponseResult<>(200);
     }
 }

@@ -7,6 +7,7 @@ import javax.persistence.*;
 public class Question {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)//自增
+    @Column(name = "id")
     private Integer id;
     private String type;
     private String description;

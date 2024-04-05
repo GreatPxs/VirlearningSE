@@ -11,6 +11,6 @@ public interface PaperService {
     Integer deletePaper(Paper paper);
     Integer modifyPaper(Paper paper);
     List<Question> getPaperInf(Paper paper);
-    Integer insertPaperQuestion(Paper paper,Question question);
+    Integer insertPaperQuestion(Paper paper,Question question,Integer pqScore);
     Integer deletePaperQuestion(Paper paper,Question question);
 }

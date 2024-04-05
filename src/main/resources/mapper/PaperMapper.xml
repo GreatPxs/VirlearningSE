@@ -37,23 +37,71 @@
     </update>
 
     <select id="getPaperInf">
-        select *
-        from paper p left join paper_question pq on p.id = pq.paper_id
-        left join question q on q.id = pq.question_id
-        where p.id = #{paperId}
+        SELECT *
+        FROM question q
+        WHERE q.id IN (SELECT pq.question_id
+                       FROM paper_question pq
+                       WHERE pq.paper_id = #{paperId})
     </select>
 
-    <insert id="insertPaperQuestion" parameterType="map">
-        insert into paper_question(paper_id,question_id)
-        values(#{paper.paperId},#{question.id}
-        )
+    <select id="getPaperTotal">
+        select total_num
+        from paper
+        where id = #{paperId}
+    </select>
+
+    <select id="getPaperTotalScore">
+        select total_score
+        from paper
+        where id = #{paperId}
+    </select>
+
+<!--先查试卷中题目题号的最大值，加一作为新添加题目的题号-->
+<!--    <insert id="insertPaperQuestion">-->
+<!--&#45;&#45;         SET @num = COALESCE((-->
+<!--&#45;&#45;             SELECT MAX(question_in_paper_id)-->
+<!--&#45;&#45;             FROM paper_question-->
+<!--&#45;&#45;             WHERE paper_id = #{paper.paperId}-->
+<!--&#45;&#45;         ), 0);-->
+
+<!--        INSERT INTO paper_question (paper_id, question_id, question_in_paper_id)-->
+<!--        VALUES (#{paperId, jdbcType=INTEGER}, #{questionId, jdbcType=INTEGER}, #{totalNum});-->
+<!--    </insert>-->
+    <insert id="insertPaperQuestion">
+        insert into paper_question(paper_id,question_id,question_in_paper_id,question_score)
+        values(#{paperId}, #{questionId},#{totalNum}+1,#{pqScore})
     </insert>
 
-    <delete id="deletePaperQuestion" parameterType="map">
-        delete from paper_question
-        where paper_id = #{paper.paperId} and question_id = #{question.id}
+    <update id="updateTotalNum">
+        update paper
+        set total_num = #{totalNum}
+        where id = #{paperId}
+    </update>
+
+    <update id="updateTotalScore">
+        update paper
+        set total_score = #{totalScore}
+        where id = #{paperId}
+    </update>
+
+    <!-- 删除指定题目 -->
+    <delete id="deletePaperQuestion" parameterType="com.example.virlearning.entity.Paper">
+        DELETE from paper_question
+        WHERE paper_id = #{paper.paperId} AND question_id = #{question.id};
     </delete>
 
+    <!-- 更新后续题目的题号 -->
+    <update id="updateQuestionIds" parameterType="com.example.virlearning.entity.Paper">
+        UPDATE paper_question AS pq1
+            INNER JOIN (
+            SELECT paper_id, question_in_paper_id
+            FROM paper_question
+            WHERE paper_id = #{paper.paperId} AND question_id = #{question.id}
+            ) AS pq2
+        ON pq1.paper_id = pq2.paper_id
+            AND pq1.question_in_paper_id > pq2.question_in_paper_id
+            SET pq1.question_in_paper_id = pq1.question_in_paper_id - 1;
+    </update>
 
 
 

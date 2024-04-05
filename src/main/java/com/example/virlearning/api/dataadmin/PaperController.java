@@ -43,8 +43,9 @@ public class PaperController {
         return new ResponseResult<List<Question>>(200,list);
     }
     @GetMapping("/insertPaperQuestion")
-    public ResponseResult<Void> insertPaperQuestion(Paper paper,Question question) {
-        paperService.insertPaperQuestion(paper,question);
+    public ResponseResult<Void> insertPaperQuestion(Paper paper,Question question,Integer pqScore) {
+        if(pqScore == null)return new ResponseResult<>(500);
+        paperService.insertPaperQuestion(paper,question,pqScore);
         return new ResponseResult<>(200);
     }
     @GetMapping("/deletePaperQuestion")

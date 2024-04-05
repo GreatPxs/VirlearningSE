@@ -10,7 +10,16 @@ public class Paper {
     @Column(name = "id")
     private Integer paperId;
     private String name;
+    private Integer totalNum;
+    private Integer totalScore;
 
+    public Integer getTotalScore() {
+        return totalScore;
+    }
+
+    public void setTotalScore(Integer totalScore) {
+        this.totalScore = totalScore;
+    }
 
     public Integer getPaperId() {
         return paperId;
@@ -26,5 +35,13 @@ public class Paper {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Integer getTotalNum() {
+        return totalNum;
+    }
+
+    public void setTotalNum(Integer totalNum) {
+        this.totalNum = totalNum;
     }
 }
