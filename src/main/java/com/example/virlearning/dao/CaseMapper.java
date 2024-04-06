@@ -29,6 +29,13 @@ public interface CaseMapper {
     long CountCase(Map<String,Object> map);
 
     /**
+     * 查询病例类别表
+     * @return
+     */
+    List<Case> selectCase(Map<String,Object> map);
+    long selectCountCase(Map<String,Object> map);
+
+    /**
      * 根据id查询病例数据
      * @param id
      * @return

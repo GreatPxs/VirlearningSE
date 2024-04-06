@@ -3,11 +3,13 @@ package com.example.virlearning.service;
 import com.example.virlearning.config.InsertException;
 import com.example.virlearning.entity.Case;
 import com.example.virlearning.entity.Drug;
+import com.example.virlearning.model.vo.PaginationVO;
 import com.example.virlearning.util.PageQueryUtil;
 import com.example.virlearning.util.PageResult;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 
 public interface CaseService {
@@ -40,7 +42,12 @@ public interface CaseService {
      */
 
     PageResult getCasesPage(PageQueryUtil pageUtil);
-
+    /**
+     * 查询病例表
+     *
+     * @return
+     */
+    PaginationVO<Case> getselectCase(Map<String,Object> map);
     String insertfile1(Integer id,String url);
     String insertfile2(Integer id,String url);
     String insertfile3(Integer id,String url);

@@ -27,8 +27,8 @@
     </sql>
     <insert id="insert" >
         insert into  `case`(
-            name, symptom, animal,jzword,jcword,zdword,zlword,jzphoto,jzvideo,jcphoto,jcvideo,zdphoto,zdvideo,zlphoto,zlvideo
-        ) values(           #{name},#{symptom}, #{animal},#{jzword},#{jcword},#{zdword},#{zlword},#{jzphoto},#{jzvideo},#{jcphoto},#{jcvideo},#{zdphoto},#{zdvideo},#{zlphoto},#{zlvideo} )
+            is_delete,name, symptom, animal,jzword,jcword,zdword,zlword,jzphoto,jzvideo,jcphoto,jcvideo,zdphoto,zdvideo,zlphoto,zlvideo
+        ) values(     #{isDelete}  ,    #{name},#{symptom}, #{animal},#{jzword},#{jcword},#{zdword},#{zlword},#{jzphoto},#{jzvideo},#{jcphoto},#{jcvideo},#{zdphoto},#{zdvideo},#{zlphoto},#{zlvideo} )
     </insert>
     <!-- 根据条件查询病例总条数 -->
     <!-- Integer selectCountCase(Map<String,Object> map); -->
@@ -40,7 +40,40 @@
         </if>
 
     </select>
+    <!-- 查询病例表-->
+    <!-- List<Case> selectDrug(Map<String,Object> map); -->
+    <select id="selectCase" resultType="com.example.virlearning.entity.Case">
+        select  <include refid="Base_Column_List"/>
+        from  `case`
+        where  case.is_delete =0
+        <if test="name != '' and name != null" >
+            and name like '%${name}%'
+        </if>
+        <if test="symptom != '' and symptom != null" >
+            and symptom like '%${symptom}%'
+        </if>
+        <if test="animal != '' and animal != null" >
+            and animal like '%${animal}%'
+        </if>
 
+        limit #{beginNo} , #{pageSize}
+    </select>
+    <!-- 根据条件查询药品总条数 -->
+    <!-- Integer selectCountDrug(Map<String,Object> map); -->
+    <select id="selectCountCase" resultType="long">
+        select count(*)
+        from `case`
+        where is_delete =0
+        <if test="name != '' and name != null" >
+            and name like '%${name}%'
+        </if>
+        <if test="symptom != '' and symptom != null" >
+            and symptom like '%${symptom}%'
+        </if>
+        <if test="animal != '' and animal != null" >
+            and animal like '%${animal}%'
+        </if>
+    </select>
     <!-- 根据id查询病例全部数据 -->
     <!--  Case findId(Integer id); -->
     <select id="findId" resultType="com.example.virlearning.entity.Case">
@@ -58,7 +91,7 @@
     <!--Integer updateIdCase(Case record); -->
     <update id="updateIdCase" >
         update `case` set
-                          name=#{name}, symptom=#{symptom},
+                          name=#{name}, symptom=#{symptom},jzphoto=#{jzphoto},jcphoto=#{jcphoto},zdphoto=#{zdphoto},zlphoto=#{zlphoto},jzvideo=#{jzvideo},jcvideo=#{jcvideo},zdvideo=#{zdvideo},zlvideo=#{zlvideo},
                           animal=#{animal},jzword=#{jzword},jcword=#{jcword},zdword=#{zdword},zlword=#{zlword}
         where case_id=#{case_id} and is_delete != 1
     </update>

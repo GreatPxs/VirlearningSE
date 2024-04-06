@@ -6,6 +6,8 @@ import com.example.virlearning.config.UpdateException;
 import com.example.virlearning.dao.CaseMapper;
 import com.example.virlearning.entity.Case;
 import com.example.virlearning.entity.Department;
+import com.example.virlearning.entity.Drug;
+import com.example.virlearning.model.vo.PaginationVO;
 import com.example.virlearning.service.CaseService;
 import com.example.virlearning.util.PageQueryUtil;
 import com.example.virlearning.util.PageResult;
@@ -69,7 +71,7 @@ public class CaseServiceImpl implements CaseService {
  */
 @Override
     public void addCase(Case record) throws  InsertException {
-
+    record.setIsDelete(0);
     caseMapper.insert(record);
     }
     /**
@@ -91,6 +93,28 @@ public class CaseServiceImpl implements CaseService {
         }
         return count;
     };
+    /**
+     * 查询病例表
+     *
+     * @return
+     */
+    public PaginationVO<Case> getselectCase(Map<String,Object> map){
+        List<Case> list = selectCase(map);
+        long count = caseMapper.selectCountCase(map);
+        PaginationVO<Case> VO = new PaginationVO<>();
+        //把List和long封装成VO
+        VO.setCount(count);
+        VO.setDataList(list);
+        return VO;
+    };
+    private List<Case> selectCase(Map<String,Object> map){
+        return caseMapper.selectCase(map);
+    };
+    private long selectCountDrug(Map<String,Object> map){
+        Long count = caseMapper.CountCase(map);
+        return count;
+    };
+
 
     /**
      * 根据uid查询药品全部数据

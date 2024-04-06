@@ -4,6 +4,8 @@ import ch.qos.logback.classic.Logger;
 import com.example.virlearning.api.sysadmin.AdminRegisteUserAPI;
 import com.example.virlearning.common.ServiceResultEnum;
 import com.example.virlearning.entity.Case;
+import com.example.virlearning.entity.Drug;
+import com.example.virlearning.model.vo.PaginationVO;
 import com.example.virlearning.service.CaseService;
 
 import com.example.virlearning.service.FileService;
@@ -56,7 +58,28 @@ public class CaseApi {
         Case data = caseService.findId(id);
         return new ResponseResult<Case>(200,data);
     };
-
+    @RequestMapping("/selectCase")
+    @Operation(summary = "查询接口", description = "输入病名、动物或症状")
+    public ResponseResult<PaginationVO<Case>> selectDrug(String symptom, String animal, String name, String pageNoStr, String pageSizeStr) {
+        //获取参数
+        long pageNo = 1;	//如果没有传数据,默认为第一页
+        if( pageNoStr != null && pageNoStr.trim().length()>0 ){
+            pageNo = Long.parseLong(pageNoStr);
+        }
+        int pageSize = 10;	//如果没有传数据,默认为10条数据
+        if( pageSizeStr != null && pageSizeStr.trim().length()>0 ){
+            pageSize = Integer.parseInt(pageSizeStr);
+        }
+        long beginNo = (pageNo-1)*pageSize;
+        Map<String ,Object> map = new HashMap<String ,Object>();
+        map.put("symptom", symptom);
+        map.put("name", name);
+        map.put("animal", animal);
+        map.put("beginNo", beginNo);
+        map.put("pageSize", pageSize);
+        PaginationVO<Case> vo = caseService.getselectCase(map);
+        return new ResponseResult<PaginationVO<Case>>(200,vo);
+    }
     /**
      * 修改病例数据
      *

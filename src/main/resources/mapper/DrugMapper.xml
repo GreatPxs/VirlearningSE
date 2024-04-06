@@ -62,11 +62,11 @@
         <if test="unit != '' and unit != null" >
             and unit like '$%{unit}%'
         </if>
-        <if test="origin != '' and origin != null" >
-            and origin like '$%{origin}%'
+        <if test="drugNote != '' and drugNote != null" >
+            and drugNote like '%${drugNote}%'
         </if>
-        <if test="categoryId != '' and categoryId != null" >
-            and category_id like '%${categoryId}%'
+        <if test="specifications != '' and specifications != null" >
+            and specifications like '%${specifications}%'
         </if>
     </select>
 
