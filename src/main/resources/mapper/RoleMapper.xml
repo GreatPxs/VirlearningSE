@@ -23,7 +23,11 @@
         DELETE FROM role
         WHERE id = #{id} or name = #{name}
     </delete>
+    <select id="getTotalRoles" resultType="int">
+        select count(*) from `role`
+        where 1=1
 
+    </select>
     <update id="modifyRole">
         update role
         <set >
@@ -45,7 +49,15 @@
         </set>
         where id=#{id}
     </update>
-
+    <select id="findRoleList" resultType="com.example.virlearning.entity.Role">
+        select
+        id,name,role,dep_name,sex,age
+        from  `role`
+        where 1=1
+        <if test="start!=null and limit!=null">
+            limit #{start},#{limit}
+        </if>
+    </select>
 
 
 

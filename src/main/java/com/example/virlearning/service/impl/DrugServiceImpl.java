@@ -1,7 +1,7 @@
 package com.example.virlearning.service.impl;
 
+import com.example.virlearning.common.ServiceResultEnum;
 import com.example.virlearning.dao.DrugMapper;
-import com.example.virlearning.entity.Department;
 import com.example.virlearning.entity.Drug;
 import com.example.virlearning.entity.DrugANDDrugCategory;
 import com.example.virlearning.model.vo.PaginationVO;
@@ -42,12 +42,13 @@ public class DrugServiceImpl implements DrugService{
 	
 	/**
 	 * 查询药品数据（关联查询）药品类别表
+	 *
 	 * @return
 	 */
-	public PaginationVO<DrugANDDrugCategory> getselectDrug(Map<String,Object> map){
-		List<DrugANDDrugCategory> list = selectDrug(map);
+	public PaginationVO<Drug> getselectDrug(Map<String,Object> map){
+		List<Drug> list = selectDrug(map);
 		long count = selectCountDrug(map);
-		PaginationVO<DrugANDDrugCategory> VO = new PaginationVO<DrugANDDrugCategory>();
+		PaginationVO<Drug> VO = new PaginationVO<Drug>();
 		//把List和long封装成VO
 		VO.setCount(count);
 		VO.setDataList(list);
@@ -76,36 +77,20 @@ public class DrugServiceImpl implements DrugService{
 	
 	/**
 	 * 根据id删除药品
-	 * @param ids
+	 * @param id
 	 * @return 
 	 */
-	public void getdeleteIdDrug(String[] ids,String username)
-		throws ForeignKeyReferenceException,DeleteException{
-			//判断是否可以删除数据
-			String str = "";
-			String normalId = "";
-			for (String string : ids) {
-				Integer count = deleteDrugId( Integer.parseInt(string) );
-				if( count != 0 ){
-					Drug drug = findId(Integer.parseInt(string));
-					str += drug.getDrugName()+",";
-				}else{
-					normalId+=string+",";
-				}
-			}	
-			if( str.trim().length() != 0 ){
-				throw new ForeignKeyReferenceException("（"+str+"）药品,有数据引用，不能删除");
-			}
-			String[] stringUid = normalId.split(",");
-			for(String id:stringUid){
-				//设置is_delete
+	public void getdeleteIdDrug(int id,String username){
+
+
+
 				Integer isDelete = 1;
 				String modifiedUser = username;
 				Date modifiedTime = new Date();
-				deleteIdDrug(Integer.parseInt(id),isDelete,modifiedUser,modifiedTime);
+				deleteIdDrug(id,isDelete,modifiedUser,modifiedTime);
 			}
-	};
-	
+
+
 	/**
 	 * 查询药品数量
 	 * @return
@@ -165,9 +150,10 @@ public class DrugServiceImpl implements DrugService{
 	
 	/**
 	 * 查询药品所有数据
+	 *
 	 * @return
 	 */
-	private List<DrugANDDrugCategory> selectDrug(Map<String,Object> map){
+	private List<Drug> selectDrug(Map<String,Object> map){
 		return drugdao.selectDrug(map);
 	};
 	
@@ -222,7 +208,13 @@ public class DrugServiceImpl implements DrugService{
 		PageResult pageResult = new PageResult(Dept, total, pageUtil.getLimit(), pageUtil.getPage());
 		return pageResult;
 	}
-	
+
+	public String insertfile(Integer id,String url){
+		if (drugdao.findId(id) ==null) {
+			return ServiceResultEnum.Empty_DEPT_ERROR.getResult();
+		}
+		drugdao.insertfile(id, url);
+		return ServiceResultEnum.SUCCESS.getResult();}
 
 	
 	

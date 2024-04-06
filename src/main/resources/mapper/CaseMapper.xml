@@ -27,14 +27,14 @@
     </sql>
     <insert id="insert" >
         insert into  `case`(
-            name, symptom, animal,jzword,jcword,zdword,zlword
-        ) values(           #{name},#{symptom}, #{animal},#{jzword},#{jcword},#{zdword},#{zlword} )
+            name, symptom, animal,jzword,jcword,zdword,zlword,jzphoto,jzvideo,jcphoto,jcvideo,zdphoto,zdvideo,zlphoto,zlvideo
+        ) values(           #{name},#{symptom}, #{animal},#{jzword},#{jcword},#{zdword},#{zlword},#{jzphoto},#{jzvideo},#{jcphoto},#{jcvideo},#{zdphoto},#{zdvideo},#{zlphoto},#{zlvideo} )
     </insert>
     <!-- 根据条件查询病例总条数 -->
     <!-- Integer selectCountCase(Map<String,Object> map); -->
     <select id="CountCase" resultType="long">
         select count(*)
-        from `case`
+        from `case` where is_delete != 1
         <if test="name != '' and name != null" >
             and `name` like '$%{name}%'
         </if>
@@ -49,19 +49,23 @@
         from `case`
         where case_id=#{id}
     </select>
-
+    <update id="deleteIdCase">
+        update `case` set
+                          is_delete=#{isDelete}
+        where case_id =#{id}
+    </update>
     <!-- 修改药品数据 -->
     <!--Integer updateIdCase(Case record); -->
     <update id="updateIdCase" >
         update `case` set
                           name=#{name}, symptom=#{symptom},
                           animal=#{animal},jzword=#{jzword},jcword=#{jcword},zdword=#{zdword},zlword=#{zlword}
-        where case_id=#{case_id}
+        where case_id=#{case_id} and is_delete != 1
     </update>
     <!-- 查询总数-->
     <select id="getTotalCases" parameterType="Map" resultType="int">
         select count(*) from `case`
-        where 1=1
+        where 1=1 and is_delete != 1
         <if test="loginName!=null and loginName!=''">
             and login_name = #{loginName}
         </if>
@@ -71,13 +75,21 @@
         select
         <include refid="Base_Column_List"/>
         from `case`
-        where 1=1
+        where 1=1 and is_delete != 1
         order by case_id
         <if test="start!=null and limit!=null">
             limit #{start},#{limit}
         </if>
     </select>
+    <!-- 所有病例列表-->
+    <select id="findall" resultType="com.example.virlearning.entity.Case">
+        select
+        <include refid="Base_Column_List"/>
+        from `case`
+        where 1=1 and is_delete != 1
+        order by case_id
 
+    </select>
     <update id="insertfile1">
         update  `Case`
         <set>

@@ -1,9 +1,6 @@
 package com.example.virlearning.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
-
-import java.util.Date;
 
 @Data
 public class Case {
@@ -32,7 +29,9 @@ public class Case {
         private String zlword;
         private String zlphoto;
         private String zlvideo;
-
-
+        private Integer isDelete;//是否删除，0-未删除，1-已删除
+        public Integer getId(){
+                return case_id;
+        }
 
 }

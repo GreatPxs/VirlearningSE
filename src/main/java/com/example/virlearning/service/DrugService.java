@@ -26,10 +26,11 @@ public interface DrugService {
 	void addDrug(Drug drug,String username) throws InsertException;
 	
 	/**
-	 * 查询药品数据（关联查询）药品类别表
-	 * @return
-	 */
-	PaginationVO<DrugANDDrugCategory> getselectDrug(Map<String,Object> map);
+     * 查询药品数据（关联查询）药品类别表
+     *
+     * @return
+     */
+	PaginationVO<Drug> getselectDrug(Map<String,Object> map);
 	
 	/**
 	 * 根据uid查询药品全部数据
@@ -47,10 +48,10 @@ public interface DrugService {
 	
 	/**
 	 * 删除药品
-	 * @param ids
+	 * @param id
 	 * @return 
 	 */
-	void getdeleteIdDrug(String[] ids,String username);
+	void getdeleteIdDrug(int id,String username);
 	
 	/**
 	 * 查询药品数量
@@ -64,4 +65,5 @@ public interface DrugService {
 	 */
 	List<DrugANDDrugCategory> findselectIsdelete(Map<String,Object> map);
 	PageResult getDrugsPage(PageQueryUtil pageUtil);
+	String insertfile(Integer id,String url);
 }

@@ -41,8 +41,8 @@
     </select>
     <insert id="insertDept">
         insert into department_role(
-            name,dep_inf,play_role)
-        values(#{name},#{dep_inf},#{role})
+            name,dep_inf,play_role,fileurl)
+        values(#{name},#{dep_inf},#{role},#{fileurl})
     </insert>
     <update id="insertfile">
         update  department_role
@@ -74,6 +74,9 @@
             </if>
             <if test="play_role!= null and play_role != ''" >
                 play_role = #{role},
+            </if>
+            <if test="fileurl!= null and fileurl != ''" >
+                fileurl = #{fileurl},
             </if>
         </set>
         where id=#{id}

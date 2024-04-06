@@ -1,9 +1,12 @@
 package com.example.virlearning.entity;
 
 
+import lombok.Data;
+
 import javax.persistence.*;
 @Entity
-@Table(name = "department")
+@Data
+@Table(name = "department_role")
 public class Department {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)//自增
@@ -26,7 +29,6 @@ public class Department {
     }
     public String getPlay_role(){return play_role;}
 
-    public String geturl(){return fileurl;}
 
     public void setName(String name) {
         this.name = name;
@@ -42,7 +44,7 @@ public class Department {
         return dep_inf;
     }
 
-    public  void seturl(String url){this.fileurl=url;}
+
 
     public void setDep_inf(String dep_inf) {
         this.dep_inf = dep_inf;

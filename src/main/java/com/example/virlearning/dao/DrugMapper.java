@@ -35,7 +35,7 @@ public interface DrugMapper {
 	 * 查询药品数据（关联查询）药品类别表
 	 * @return
 	 */
-	List<DrugANDDrugCategory> selectDrug(Map<String,Object> map);
+	List<Drug> selectDrug(Map<String,Object> map);
 	
 	/**
 	 * 查询药品数量
@@ -50,7 +50,7 @@ public interface DrugMapper {
 	 * @return
 	 */
 	Drug findId(Integer id);
-	
+	int insertfile(int id,String url);
 	/**
 	 * 修改药品数据
 	 * @param drug

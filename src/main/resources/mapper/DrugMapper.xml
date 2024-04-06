@@ -8,40 +8,44 @@
         from t_drug where is_delete != 1
     </select>
 
-
+    <update id="insertfile">
+        update  t_drug
+        <set>
+            fileurl= #{url}
+        </set>
+        WHERE id = #{id}
+    </update>
 
     <!-- 添加药品 -->
     <!-- Integer insertDrug(Drug drug) -->
     <insert id="insertDrug" >
         insert into t_drug(
             drugName,  specifications,unit,
-             drugNote
+             drugNote,fileurl
         ) values(           #{drugName}, #{specifications},#{unit},
-                    #{drugNote}
+                    #{drugNote},#{fileurl}
                 )
     </insert>
 
     <!-- 查询药品数据 (关联查询)药品类别表-->
     <!-- List<Drug> selectDrug(Map<String,Object> map); -->
-    <select id="selectDrug" resultType="com.example.virlearning.entity.DrugANDDrugCategory">
-        select
-        t_drug.id, t_drug.drugName,   t_drug.referred, t_drug.specifications, t_drug.unit,
-        t_drug.origin, t_drug.approvalNumber, t_drug.pleasedTo, t_drug.salesPrice, t_drug.inventory,
-        t_drug.totalSales, t_drug.drugNote,  t_drug_category.categoryName, t_drug.is_delete isDelete,
-        t_drug.modified_user modifiedUser, t_drug.modified_time modifiedTime
-        from t_drug , t_drug_category
-        where t_drug.category_id=t_drug_category.categoryId and t_drug.is_delete !=1
+    <select id="selectDrug" resultType="com.example.virlearning.entity.Drug">
+        select t_drug.id, t_drug.drugName, t_drug.specifications, t_drug.unit,
+        t_drug.drugNote,  t_drug.is_delete isDelete,
+        t_drug.fileurl
+        from t_drug
+        where  t_drug.is_delete !=1
         <if test="drugName != '' and drugName != null" >
             and t_drug.drugName like '%${drugName}%'
         </if>
         <if test="unit != '' and unit != null" >
             and t_drug.unit like '%${unit}%'
         </if>
-        <if test="origin != '' and origin != null" >
-            and t_drug.origin like '%${origin}%'
+        <if test="drugNote != '' and drugNote != null" >
+            and drugNote like '%${drugNote}%'
         </if>
-        <if test="categoryId != '' and categoryId != null" >
-            and t_drug.category_id like '%${categoryId}%'
+        <if test="specifications != '' and specifications != null" >
+            and specifications like '%${specifications}%'
         </if>
         limit #{beginNo} , #{pageSize}
     </select>
@@ -82,7 +86,8 @@
                           drugName=#{drugName},
                           specifications=#{specifications},
                           unit=#{unit},
-                          drugNote=#{drugNote}
+                          drugNote=#{drugNote},
+                          fileurl=#{url}
         where id=#{id}
     </update>
 
@@ -112,8 +117,8 @@
     <!-- Integer deleteDrugId(Integer id); -->
     <select id="deleteDrugId" resultType="java.lang.Integer">
         select count(*)
-        from t_drug A,t_drug_stock B
-        where A.id=B.drug_id and A.id=#{id}
+        from t_drug A
+        where A.id=#{id}
     </select>
 
     <!-- 根据药品名称修改库存 -->
@@ -128,7 +133,7 @@
         select
         id,drugName,specifications,unit,drugNote,fileurl
         from  t_drug
-        where 1=1
+        where 1=1 and is_delete = 0
         <if test="start!=null and limit!=null">
             limit #{start},#{limit}
         </if>

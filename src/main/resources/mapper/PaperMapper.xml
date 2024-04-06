@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.virlearning.dao.PaperMapper">
+    <resultMap id="paperMap" type="com.example.virlearning.entity.Paper">
+        <id column="id" property="paperId" />
+    </resultMap>
+
+    <select id="getfindbyName" resultMap="paperMap" resultType="com.example.virlearning.entity.Paper">
+        select * from paper
+        <where>
+            <if test="type != null and type != ''">
+                and name like concat('%', #{ name }, '%')
+            </if>
+        </where>
+    </select>
+
+    <insert id="insertPaper">
+        insert into paper(
+            name)
+        values(#{name})
+    </insert>
+
+    <delete id="deletePaper">
+        DELETE FROM paper
+        WHERE id = #{paperId}
+    </delete>
+
+    <update id="modifyPaper">
+        update paper
+        <set >
+            <if test="name != null and name != ''" >
+                name = #{name}
+            </if>
+
+        </set>
+        where id=#{paperId}
+    </update>
+
+    <select id="getPaperInf">
+        SELECT *
+        FROM question q
+        WHERE q.id IN (SELECT pq.question_id
+                       FROM paper_question pq
+                       WHERE pq.paper_id = #{paperId})
+    </select>
+
+    <select id="getPaperTotal">
+        select total_num
+        from paper
+        where id = #{paperId}
+    </select>
+
+    <select id="getPaperTotalScore">
+        select total_score
+        from paper
+        where id = #{paperId}
+    </select>
+
+<!--先查试卷中题目题号的最大值，加一作为新添加题目的题号-->
+<!--    <insert id="insertPaperQuestion">-->
+<!--&#45;&#45;         SET @num = COALESCE((-->
+<!--&#45;&#45;             SELECT MAX(question_in_paper_id)-->
+<!--&#45;&#45;             FROM paper_question-->
+<!--&#45;&#45;             WHERE paper_id = #{paper.paperId}-->
+<!--&#45;&#45;         ), 0);-->
+
+<!--        INSERT INTO paper_question (paper_id, question_id, question_in_paper_id)-->
+<!--        VALUES (#{paperId, jdbcType=INTEGER}, #{questionId, jdbcType=INTEGER}, #{totalNum});-->
+<!--    </insert>-->
+    <insert id="insertPaperQuestion">
+        insert into paper_question(paper_id,question_id,question_in_paper_id,question_score)
+        values(#{paperId}, #{questionId},#{totalNum}+1,#{pqScore})
+    </insert>
+
+    <update id="updateTotalNum">
+        update paper
+        set total_num = #{totalNum}
+        where id = #{paperId}
+    </update>
+
+    <update id="updateTotalScore">
+        update paper
+        set total_score = #{totalScore}
+        where id = #{paperId}
+    </update>
+
+    <!-- 删除指定题目 -->
+    <delete id="deletePaperQuestion" parameterType="com.example.virlearning.entity.Paper">
+        DELETE from paper_question
+        WHERE paper_id = #{paper.paperId} AND question_id = #{question.id};
+    </delete>
+
+    <!-- 更新后续题目的题号 -->
+    <update id="updateQuestionIds" parameterType="com.example.virlearning.entity.Paper">
+        UPDATE paper_question AS pq1
+            INNER JOIN (
+            SELECT paper_id, question_in_paper_id
+            FROM paper_question
+            WHERE paper_id = #{paper.paperId} AND question_id = #{question.id}
+            ) AS pq2
+        ON pq1.paper_id = pq2.paper_id
+            AND pq1.question_in_paper_id > pq2.question_in_paper_id
+            SET pq1.question_in_paper_id = pq1.question_in_paper_id - 1;
+    </update>
+
+
+
+</mapper>

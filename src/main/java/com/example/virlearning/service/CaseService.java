@@ -6,6 +6,9 @@ import com.example.virlearning.entity.Drug;
 import com.example.virlearning.util.PageQueryUtil;
 import com.example.virlearning.util.PageResult;
 
+import java.io.IOException;
+import java.util.List;
+
 
 public interface CaseService {
     /**
@@ -15,6 +18,7 @@ public interface CaseService {
      * @throws InsertException
      */
     void addCase(Case record) throws InsertException;
+    void deleteCase(int id );
     /**
      * 根据uid查询药品全部数据
      * @param id
@@ -34,7 +38,9 @@ public interface CaseService {
      * @param pageUtil
      * @return
      */
+
     PageResult getCasesPage(PageQueryUtil pageUtil);
+
     String insertfile1(Integer id,String url);
     String insertfile2(Integer id,String url);
     String insertfile3(Integer id,String url);
@@ -43,5 +49,12 @@ public interface CaseService {
     String insertfile6(Integer id,String url);
     String insertfile7(Integer id,String url);
     String insertfile8(Integer id,String url);
+   /* boolean importAll() throws IOException;*/
+    /*List<Case> searchName(String key, String value) throws IOException;
+
+    List<Case> searchSymptom(String key,String value) throws IOException;
+
+    List<Case> searchAnimal(String key,String value) throws IOException;
+*/
 
 }

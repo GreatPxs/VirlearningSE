@@ -78,6 +78,11 @@
             <version>4.9.3</version>
         </dependency>
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-elasticsearch</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
             <version>1.2.79</version>
@@ -144,7 +149,32 @@
             <artifactId>spring-websocket</artifactId>
             <version>5.3.22</version>
         </dependency>
+        <dependency>
+            <groupId>co.elastic.clients</groupId>
+            <artifactId>elasticsearch-java</artifactId>
+            <version>8.13.1</version>
+        </dependency>
 
+
+        <!-- Needed only if you use the spring-boot Maven plugin -->
+        <dependency>
+            <groupId>jakarta.json</groupId>
+            <artifactId>jakarta.json-api</artifactId>
+            <version>2.0.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>org.elasticsearch</groupId>
+            <artifactId>elasticsearch</artifactId>
+            <version>8.13.1</version>
+            <scope>compile</scope>
+        </dependency>
 
         <dependency>
             <groupId>io.minio</groupId>
@@ -190,6 +220,16 @@
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
             <version>2.15.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-elasticsearch</artifactId>
+            <version>5.1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjdk.nashorn</groupId>
+            <artifactId>nashorn-core</artifactId>
+            <version>15.4</version>
         </dependency>
 
     </dependencies>

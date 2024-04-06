@@ -9,16 +9,57 @@ import com.example.virlearning.entity.Department;
 import com.example.virlearning.service.CaseService;
 import com.example.virlearning.util.PageQueryUtil;
 import com.example.virlearning.util.PageResult;
+import org.elasticsearch.client.internal.ElasticsearchClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSONObject;
+
+import org.elasticsearch.action.delete.DeleteRequest;
+import org.elasticsearch.action.get.GetRequest;
+import org.elasticsearch.action.get.GetResponse;
+import org.elasticsearch.action.index.IndexRequest;
+import org.elasticsearch.action.index.IndexResponse;
+import org.elasticsearch.action.search.SearchRequest;
+import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.action.update.UpdateRequest;
+import org.elasticsearch.action.update.UpdateResponse;
+import org.elasticsearch.client.RequestOptions;
+
+import org.elasticsearch.index.query.QueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.index.reindex.BulkByScrollResponse;
+import org.elasticsearch.index.reindex.DeleteByQueryRequest;
+import org.elasticsearch.search.SearchHit;
+import org.elasticsearch.search.SearchHits;
+import org.elasticsearch.search.builder.SearchSourceBuilder;
+import org.springframework.cglib.beans.BeanMap;
+import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import javax.annotation.Resource;
+import javax.naming.directory.SearchResult;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+
+
+import java.util.List;
+
+import static cn.hutool.core.bean.BeanUtil.beanToMap;
+
 
 @Service
 public class CaseServiceImpl implements CaseService {
 
+    private static final String CASE_INDEX = "CASE";
     @Autowired private CaseMapper caseMapper;
-
+   /* @Resource
+    private ElasticsearchClient client;*/
+    private static final int MAX_COUNT=1000;
+    private static final int START_OFFSET=0;
 /**
  * 添加药品类别
  * @param record
@@ -105,6 +146,12 @@ public class CaseServiceImpl implements CaseService {
         }
         caseMapper.insertfile7(id, url);
         return ServiceResultEnum.SUCCESS.getResult();}
+    public void deleteCase(int id )throws  InsertException {
+        int isdelete=1;
+        caseMapper.deleteIdCase(id,isdelete);
+
+
+    }
 
     public String insertfile8(Integer id,String url){
         if (caseMapper.findId(id)==null) {
@@ -118,7 +165,25 @@ public class CaseServiceImpl implements CaseService {
         }
         caseMapper.insertfile1(id, url);
         return ServiceResultEnum.SUCCESS.getResult();}
+/*
+    public boolean addcase(Case record, String id) throws IOException {
+        IndexRequest request = new IndexRequest(CASE_INDEX).id(id).source(beanToMap(record));
+        IndexResponse response = client.(request, RequestOptions.DEFAULT);
+        System.out.println(JSONObject.toJSON(response));
+        return false;
+    }
 
+
+
+    @Override
+    public boolean importAll() throws IOException {
+        List<Case> list = caseMapper.findall();
+        for(Case record:list){
+            addcase(record,String.valueOf(record.getId()));
+        }
+        return true;
+    }
+*/
 
 
 

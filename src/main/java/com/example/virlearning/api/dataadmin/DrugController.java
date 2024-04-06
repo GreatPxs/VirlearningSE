@@ -1,28 +1,29 @@
 package com.example.virlearning.api.dataadmin;
 
+import com.example.virlearning.common.ServiceResultEnum;
 import com.example.virlearning.entity.Drug;
-import com.example.virlearning.entity.DrugANDDrugCategory;
 import com.example.virlearning.entity.DrugCategory;
 import com.example.virlearning.model.vo.PaginationVO;
 import com.example.virlearning.service.DrugCategoryService;
 import com.example.virlearning.service.DrugService;
+import com.example.virlearning.service.FileService;
 import com.example.virlearning.util.PageQueryUtil;
 import com.example.virlearning.util.ResponseResult;
 import com.example.virlearning.util.Result;
 import com.example.virlearning.util.ResultGenerator;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/drug")
@@ -31,6 +32,8 @@ public class DrugController {
 	private DrugService drugService;
 	@Autowired //自动装配 
 	private DrugCategoryService drugCategoryService;
+	@Autowired
+	private FileService fileService;
 	
 	/**
 	 * 添加数据。药品类别信息
@@ -57,11 +60,10 @@ public class DrugController {
 	}
 	
 	/**
-
 	 * @return
-     */
+	 */
 	@RequestMapping("/selectDrug")
-	public ResponseResult<PaginationVO<DrugANDDrugCategory>> selectDrug(String drugName,String unit,String origin,Integer categoryId,String pageNoStr,String pageSizeStr) {
+	public ResponseResult<PaginationVO<Drug>> selectDrug(String drugName, String unit, String origin, Integer categoryId, String pageNoStr, String pageSizeStr) {
 		//获取参数
 		long pageNo = 1;	//如果没有传数据,默认为第一页
 		if( pageNoStr != null && pageNoStr.trim().length()>0 ){
@@ -79,10 +81,27 @@ public class DrugController {
 		map.put("beginNo", beginNo);
 		map.put("categoryId", categoryId);
 		map.put("pageSize", pageSize);
-		PaginationVO<DrugANDDrugCategory> vo = drugService.getselectDrug(map);
-		return new ResponseResult<PaginationVO<DrugANDDrugCategory>>(200,vo);
+		PaginationVO<Drug> vo = drugService.getselectDrug(map);
+		return new ResponseResult<PaginationVO<Drug>>(200,vo);
 	}
-	
+	@PostMapping("/file")
+	public Result insertFile(@RequestParam("id :") Integer id , MultipartFile file) throws IOException {
+
+		// 获取文件的输入流
+		InputStream inputStream = file.getInputStream();
+		// 生成文件名
+		String filename = UUID.randomUUID().toString() + file.getOriginalFilename();
+		// 调用文件上传方法
+		String fileUrl = fileService.uploadFile(filename, inputStream);
+		String insertFileResult = drugService.insertfile(id,fileUrl);
+		if (ServiceResultEnum.SUCCESS.getResult().equals(insertFileResult)) {
+			Result result=ResultGenerator.genSuccessResult();
+			result.setData(fileUrl);
+			return result;
+		}
+		return ResultGenerator.genFailResult(insertFileResult);
+
+	}
 	/**
 	 * 根据uid查询药品全部数据
 	 * @param id
@@ -133,10 +152,10 @@ public class DrugController {
 	 * @return
 	 */
 	@RequestMapping("/deleteIdDrug")
-	public ResponseResult<Void> deleteIdDrug(String id) {
-		String[] ids = id.split(",");
+	public ResponseResult<Void> deleteIdDrug(int id) {
+
 		String username = "username";
-		drugService.getdeleteIdDrug(ids, username);
+		drugService.getdeleteIdDrug(id, username);
 		return new ResponseResult<Void>(200);
 	}
 	

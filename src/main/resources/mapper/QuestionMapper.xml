@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.virlearning.dao.QuestionMapper">
+    <select id="getfindbyTypeDescription" resultType="com.example.virlearning.entity.Question">
+        select * from question
+        <where>
+            <if test="type != null and type != ''">
+                and type like concat('%', #{ type }, '%')
+            </if>
+            <if test="description != null and description != ''">
+                and description like concat('%', #{ description }, '%')
+            </if>
+        </where>
+    </select>
+
+    <insert id="insertQuestion">
+        insert into question(
+            type,description,option_a,option_b,option_c,option_d,answer)
+        values(#{type},#{description},#{option_a},#{option_b},#{option_c},#{option_d},#{answer})
+    </insert>
+
+    <delete id="deleteQuestion">
+        DELETE FROM question
+        WHERE id = #{id}
+    </delete>
+
+    <update id="modifyQuestion">
+        update question
+        <set >
+            <if test="type != null and type != ''" >
+                type = #{type},
+            </if>
+            <if test="description != null and description != ''" >
+                description = #{description},
+            </if>
+            <if test="option_a != null and option_a != ''" >
+                option_a = #{option_a},
+            </if>
+            <if test="option_b != null and option_b != ''" >
+                option_b = #{option_b},
+            </if>
+            <if test="option_c != null and option_c != ''" >
+                option_c = #{option_c},
+            </if>
+            <if test="option_d != null and option_d != ''" >
+                option_c = #{option_c},
+            </if>
+            <if test="answer != null and answer != ''" >
+                answer = #{answer},
+            </if>
+
+        </set>
+        where id=#{id}
+    </update>
+
+
+
+
+</mapper>

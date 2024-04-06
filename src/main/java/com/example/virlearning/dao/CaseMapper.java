@@ -5,6 +5,7 @@ import com.example.virlearning.entity.Drug;
 import com.example.virlearning.entity.User;
 import com.example.virlearning.util.PageQueryUtil;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -33,8 +34,8 @@ public interface CaseMapper {
      * @return
      */
    Case findId(Integer id);
-
-    /**
+    Integer deleteIdCase(@Param("id")Integer id, @Param("isDelete")Integer isDelete);
+                     /**
      * 修改病例数据
      * @param record
      * @return

@@ -13,6 +13,7 @@ import com.example.virlearning.util.Result;
 import com.example.virlearning.util.ResultGenerator;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -66,6 +68,13 @@ public class CaseApi {
 
         caseService.updateIdCase(record);
         return ResultGenerator.genSuccessResult();
+    }
+    @RequestMapping("/deleteCase")
+    public ResponseResult<Void> deleteCase(int id) {
+
+
+        caseService.deleteCase(id);
+        return new ResponseResult<Void>(200);
     }
 /**
  * 分页展示
@@ -229,5 +238,53 @@ public class CaseApi {
         return ResultGenerator.genFailResult(insertFileResult);
 
     }
+/*    @RequestMapping("/importAll")
+    public String importAll(){
+        try {
+            caseService.importAll();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "success";
+    }
+
+    //通过姓名查找药品
+    @RequestMapping("/searchMatch")
+    public List<Case> searchMatch(@RequestParam(value = "寻找药名", required = false) String name) {
+        try {
+            return caseService.searchName("name",name);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    //通过症状或者描述查询药品
+    @RequestMapping("/searchSymptom")
+    public List<Case> searchTerm(@RequestParam(value = "Symptom", required = false) String Symptom,
+                                 @RequestParam(value = "word", required = false) String word) {
+        try {
+            if(StringUtils.isNoneBlank(Symptom))
+                return caseService.searchSymptom("Symptom",Symptom);
+
+            else if(StringUtils.isNoneBlank(word))
+                return caseService.searchSymptom("word",word);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    //通过动物查找药品
+    @RequestMapping("/searchAnimal")
+    public List<Case> searchAnimal(@RequestParam(value = "Animal", required = false) String Animal) {
+        try {
+            return caseService.searchAnimal("Animal",Animal);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }*/
+
 
 }

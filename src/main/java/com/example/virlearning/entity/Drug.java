@@ -1,5 +1,8 @@
 package com.example.virlearning.entity;
 
+import lombok.Data;
+
+@Data
 public class Drug { private Integer id;//药品id
     private String drugName;//药品名
 
@@ -113,5 +116,5 @@ public class Drug { private Integer id;//药品id
                 + ", specifications=" + specifications + ", unit=" + unit + ", origin=" + origin + ", approvalNumber="
                 + approvalNumber + ", pleasedTo=" + pleasedTo + ", salesPrice=" + salesPrice + ", inventory="
                 + inventory + ", totalSales=" + totalSales + ", drugNote=" + drugNote + ", categoryId=" + categoryId
-                + ", isDelete=" + isDelete + "]";
+                + ", isDelete=" + isDelete +  ", fileurl=" + fileurl+"]";
     }}

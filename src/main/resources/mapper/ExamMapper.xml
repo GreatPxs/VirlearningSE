@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.virlearning.dao.ExamMapper">
+    <resultMap id="examMap" type="com.example.virlearning.entity.Exam">
+        <!--  这里的id标签标示它是主键  -->
+        <!--  column:数据库表中的字段名  -->
+        <!--  property:指定JavaBean中的属性  -->
+        <id column="id" property="examId" />
+
+        <!--  这里的result标签标示它是普通字段，其属性值与上述一致  -->
+        <result column="paper_id" property="paperId" />
+        <result column="start_time" property="startTime" />
+        <result column="end_time" property="endTime" />
+    </resultMap>
+    <resultMap id="userMap" type="com.example.virlearning.entity.User">
+        <id column="user_id" jdbcType="BIGINT" property="userId"/>
+        <result column="nick_name" jdbcType="VARCHAR" property="nickName"/>
+        <result column="login_name" jdbcType="VARCHAR" property="loginName"/>
+        <result column="password_md5" jdbcType="VARCHAR" property="passwordMd5"/>
+        <result column="introduce_sign" jdbcType="VARCHAR" property="introduceSign"/>
+        <result column="is_deleted" jdbcType="TINYINT" property="isDeleted"/>
+        <result column="locked_flag" jdbcType="TINYINT" property="lockedFlag"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+    </resultMap>
+
+    <select id="getfindbyName" resultMap="examMap" resultType="com.example.virlearning.entity.Exam">
+        select * from exam
+        <where>
+            <if test="name != null and name != ''">
+                and name like concat('%', #{ name }, '%')
+            </if>
+        </where>
+    </select>
+
+    <insert id="insertExam">
+        insert into exam(
+            name,paper_id,start_time,end_time)
+        values(#{name},#{paperId},
+                <choose>
+                    <when test="startTime != null and startTime != ''">
+                        #{startTime}
+                    </when>
+                    <otherwise>
+                        NULL
+                    </otherwise>
+                </choose>,
+                <choose>
+                    <when test="endTime != null and endTime != ''">
+                        #{endTime}
+                    </when>
+                    <otherwise>
+                        NULL
+                    </otherwise>
+                </choose>
+                )
+
+    </insert>
+
+    <delete id="deleteExam">
+        DELETE FROM exam
+        WHERE id = #{examId} or name = #{name}
+    </delete>
+
+    <update id="modifyExam">
+        update exam
+        <set >
+            <if test="name != null and name != ''" >
+                name = #{name},
+            </if>
+            <if test="paperId != null and paperId != ''" >
+                paper_id = #{paperId},
+            </if>
+            <if test="startTime != null and startTime != ''" >
+                start_time = #{startTime},
+            </if>
+            <if test="endTime != null and endTime != ''" >
+                end_time = #{endTime},
+            </if>
+        </set>
+        where id=#{examId}
+    </update>
+
+    <select id="getExamUser" resultMap="userMap" resultType="com.example.virlearning.entity.User">
+        select * from virlearning_mall_user
+        where user_id in
+        (select u.user_id
+        from exam e left join exam_user eu on e.id = eu.exam_id
+        left join virlearning_mall_user u on eu.user_id = u.user_id
+        where e.id = #{examId})
+    </select>
+
+<!--    <select id="getExamUser" resultMap="examMap" resultType="com.example.virlearning.entity.Exam">-->
+<!--        select * from exam-->
+<!--&#45;&#45;         where user_id in-->
+<!--&#45;&#45;         (select u.user_id-->
+<!--&#45;&#45;         from exam e left join exam_user eu on e.id = eu.exam_id-->
+<!--&#45;&#45;         left join virlearning_mall_user u on eu.user_id = u.user_id-->
+<!--&#45;&#45;         where e.id = #{examId})-->
+<!--    </select>-->
+
+    <insert id="insertExamUser" parameterType="map">
+        insert into exam_user(exam_id,user_id)
+        values(#{exam.examId},#{user.userId})
+    </insert>
+
+    <delete id="deleteExamUser" parameterType="map">
+        delete from exam_user
+        where exam_id = #{exam.examId} and user_id = #{user.userId}
+    </delete>
+
+    <select id="getPaperId">
+        select paper_id
+        from exam
+        where id = #{examId}
+    </select>
+
+    <select id="getPaperQuestionAnswer">
+        select Answer
+        from question
+        where id in (select question_id
+                     from paper_question
+                     where paper_id = #{paperId} and question_in_paper_id = #{i})
+    </select>
+    <select id="getPaperTotalNum">
+        select total_num
+        from paper
+        where id = #{paperId}
+    </select>
+    <select id="getPaperQuestionScore">
+        select question_score
+        from paper_question
+        where paper_id = #{paperId} and question_in_paper_id = #{i}
+    </select>
+
+    <update id="updateUserAnswer">
+        update exam_user
+        set user_answer = #{userAnswer}
+        where exam_id = #{examId} and user_id = #{userId}
+    </update>
+
+    <update id="updateUserScore">
+        update exam_user
+        set user_score = #{score}
+        where exam_id = #{examId} and user_id = #{userId}
+    </update>
+    <select id="getUserExam" resultMap="examMap" resultType="com.example.virlearning.entity.Exam">
+        select * from exam
+        where id in
+        (select exam_id
+        from exam_user
+        where user_id = #{userId})
+    </select>
+    <select id="getExamScore">
+        select user_score
+        from exam_user
+        where exam_id = #{examId} and user_id = #{userId}
+    </select>
+    <select id="getExamUserAnswer">
+        select user_answer
+        from exam_user
+        where exam_id = #{examId} and user_id = #{userId}
+    </select>
+</mapper>
