@@ -25,8 +25,8 @@ public class Paper {
         return paperId;
     }
 
-    public void setPaperId(Integer paperId) {
-        this.paperId = paperId;
+    public void setPaperId(Integer id) {
+        this.paperId = id;
     }
 
     public String getName() {

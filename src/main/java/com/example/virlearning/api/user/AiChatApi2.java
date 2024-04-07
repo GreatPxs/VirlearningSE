@@ -27,9 +27,7 @@ public class AiChatApi2 {
 
     @PostMapping("/chat-message")
     @ApiOperation("向大模型发起对话请求")
-    public ChatResponseVO chatMessage(
-
-            @ApiParam(value = "消息参数", required = true) @RequestBody ChatRequestDTO dto) {
+    public ChatResponseVO chatMessage(@ApiParam(value = "消息参数", required = true) @RequestBody ChatRequestDTO dto) {
         try {
             return service.chatMessage("ErnieBot", dto);
         } catch (Exception e) {

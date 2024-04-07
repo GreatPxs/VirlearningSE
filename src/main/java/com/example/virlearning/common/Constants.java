@@ -35,6 +35,7 @@ public class Constants {
     public final static int SELL_STATUS_DOWN = 1;//商品下架状态
 
     public final static int TOKEN_LENGTH = 32;//token字段长度
+    public static final String REDIS_KEY_PREFIX = "virlearning:";
 
     public final static String USER_INTRO = "随新所欲，蜂富多彩";//默认简介
 }
