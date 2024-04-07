@@ -37,4 +37,5 @@ public interface PaperMapper {
 
     //int getTotalNoPaperQuestion(PageQueryUtil pageUtil,Integer paperId);
     int getTotalQuestion();
+    int getPaperQuestionScore(Integer paperId,Integer questionId);
 }

@@ -181,5 +181,10 @@
     <select id="getTotalQuestion">
         select count(*) from question
     </select>
+    <select id="getPaperQuestionScore">
+        select question_score
+        from paper_question
+        where paper_id = #{paperId} and question_id = #{questionId}
+    </select>
 
 </mapper>

@@ -39,10 +39,13 @@ public class PaperServiceImpl implements PaperService {
     }
     public Integer deletePaperQuestion(Paper paper,Question question){
         Integer totalNum = paperDao.getPaperTotal(paper.getPaperId());
+        Integer totalScore = paperDao.getPaperTotalScore(paper.getPaperId());
         paperDao.updateQuestionIds(paper,question);
+        int pqScore = paperDao.getPaperQuestionScore(paper.getPaperId(),question.getId());
         int deleteNum = paperDao.deletePaperQuestion(paper,question);
         if(deleteNum == 1){
             paperDao.updateTotalNum(paper.getPaperId(), totalNum-1);
+            paperDao.updateTotalScore(paper.getPaperId(), totalScore-pqScore);
         }
         return deleteNum;
     }
