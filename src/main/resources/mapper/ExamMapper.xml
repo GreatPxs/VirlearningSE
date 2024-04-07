@@ -162,7 +162,7 @@
         where exam_id = #{examId} and user_id = #{userId}
     </select>
 
-    <select id="findExamList" resultType="com.example.virlearning.entity.Exam">
+    <select id="findExamList" resultMap="examMap" resultType="com.example.virlearning.entity.Exam">
         select
         *
         from  exam
@@ -177,7 +177,7 @@
 
     </select>
 
-    <select id="findUserExamList" resultType="com.example.virlearning.entity.Exam">
+    <select id="findUserExamList" resultMap="examMap" resultType="com.example.virlearning.entity.Exam">
         select * from exam
         where id in
         (select exam_id
