@@ -16,8 +16,8 @@ public interface PaperService {
     Integer insertPaperQuestion(Paper paper,Question question,Integer pqScore);
     Integer deletePaperQuestion(Paper paper,Question question);
     PageResult getPaperPage(PageQueryUtil pageUtil);
-    PageResult getPaperQuestionPage(PageQueryUtil pageUtil,Integer paperId);
-    PageResult getNoPaperQuestionPage(PageQueryUtil pageUtil,Integer paperId);
+    PageResult getPaperQuestionPage(PageQueryUtil pageUtil,Integer paperId,String type,String description);
+    PageResult getNoPaperQuestionPage(PageQueryUtil pageUtil,Integer paperId,String type,String description);
 
 
 }

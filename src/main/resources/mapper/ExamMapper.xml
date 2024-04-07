@@ -35,25 +35,25 @@
 
     <insert id="insertExam">
         insert into exam(
-            name,paper_id,start_time,end_time)
+        name,paper_id,start_time,end_time)
         values(#{name},#{paperId},
-                <choose>
-                    <when test="startTime != null and startTime != ''">
-                        #{startTime}
-                    </when>
-                    <otherwise>
-                        NULL
-                    </otherwise>
-                </choose>,
-                <choose>
-                    <when test="endTime != null and endTime != ''">
-                        #{endTime}
-                    </when>
-                    <otherwise>
-                        NULL
-                    </otherwise>
-                </choose>
-                )
+        <choose>
+            <when test="startTime != null and startTime != ''">
+                #{startTime}
+            </when>
+            <otherwise>
+                NULL
+            </otherwise>
+        </choose>,
+        <choose>
+            <when test="endTime != null and endTime != ''">
+                #{endTime}
+            </when>
+            <otherwise>
+                NULL
+            </otherwise>
+        </choose>
+        )
 
     </insert>
 
@@ -84,20 +84,20 @@
     <select id="getExamUser" resultMap="userMap" resultType="com.example.virlearning.entity.User">
         select * from virlearning_mall_user
         where user_id in
-        (select u.user_id
-        from exam e left join exam_user eu on e.id = eu.exam_id
-        left join virlearning_mall_user u on eu.user_id = u.user_id
-        where e.id = #{examId})
+              (select u.user_id
+               from exam e left join exam_user eu on e.id = eu.exam_id
+                           left join virlearning_mall_user u on eu.user_id = u.user_id
+               where e.id = #{examId})
     </select>
 
-<!--    <select id="getExamUser" resultMap="examMap" resultType="com.example.virlearning.entity.Exam">-->
-<!--        select * from exam-->
-<!--&#45;&#45;         where user_id in-->
-<!--&#45;&#45;         (select u.user_id-->
-<!--&#45;&#45;         from exam e left join exam_user eu on e.id = eu.exam_id-->
-<!--&#45;&#45;         left join virlearning_mall_user u on eu.user_id = u.user_id-->
-<!--&#45;&#45;         where e.id = #{examId})-->
-<!--    </select>-->
+    <!--    <select id="getExamUser" resultMap="examMap" resultType="com.example.virlearning.entity.Exam">-->
+    <!--        select * from exam-->
+    <!--&#45;&#45;         where user_id in-->
+    <!--&#45;&#45;         (select u.user_id-->
+    <!--&#45;&#45;         from exam e left join exam_user eu on e.id = eu.exam_id-->
+    <!--&#45;&#45;         left join virlearning_mall_user u on eu.user_id = u.user_id-->
+    <!--&#45;&#45;         where e.id = #{examId})-->
+    <!--    </select>-->
 
     <insert id="insertExamUser" parameterType="map">
         insert into exam_user(exam_id,user_id)
@@ -147,9 +147,9 @@
     <select id="getUserExam" resultMap="examMap" resultType="com.example.virlearning.entity.Exam">
         select * from exam
         where id in
-        (select exam_id
-        from exam_user
-        where user_id = #{userId})
+              (select exam_id
+               from exam_user
+               where user_id = #{userId})
     </select>
     <select id="getExamScore">
         select user_score
@@ -160,5 +160,39 @@
         select user_answer
         from exam_user
         where exam_id = #{examId} and user_id = #{userId}
+    </select>
+
+    <select id="findExamList" resultType="com.example.virlearning.entity.Exam">
+        select
+        *
+        from  exam
+        where 1=1
+        <if test="start!=null and limit!=null">
+            limit #{start},#{limit}
+        </if>
+    </select>
+    <select id="getTotalExam" resultType="int">
+        select count(*) from exam
+        where 1=1
+
+    </select>
+
+    <select id="findUserExamList" resultType="com.example.virlearning.entity.Exam">
+        select * from exam
+        where id in
+        (select exam_id
+        from exam_user
+        where user_id = #{userId})
+        <if test="pageUtil.start!=null and pageUtil.limit!=null">
+            limit #{pageUtil.start},#{pageUtil.limit}
+        </if>
+    </select>
+    <select id="getTotalUserExam" resultType="int">
+        select count(*) from exam
+        where id in
+              (select exam_id
+               from exam_user
+               where user_id = #{userId})
+
     </select>
 </mapper>

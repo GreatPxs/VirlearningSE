@@ -30,10 +30,10 @@ public interface PaperMapper {
     List<Paper> findPaperList(PageQueryUtil pageUtil);
 
     int getTotalPaper(PageQueryUtil pageUtil);
-    List<Question> findPaperQuestionList(PageQueryUtil pageUtil,Integer paperId);
+    List<Question> findPaperQuestionList(PageQueryUtil pageUtil,Integer paperId,String type,String description);
 
-    int getTotalPaperQuestion(PageQueryUtil pageUtil,Integer paperId);
-    List<Question> findNoPaperQuestionList(PageQueryUtil pageUtil,Integer paperId);
+    int getTotalPaperQuestion(PageQueryUtil pageUtil,Integer paperId,String type,String description);
+    List<Question> findNoPaperQuestionList(PageQueryUtil pageUtil,Integer paperId,String type,String description);
 
     //int getTotalNoPaperQuestion(PageQueryUtil pageUtil,Integer paperId);
     int getTotalQuestion();

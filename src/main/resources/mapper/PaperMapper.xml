@@ -8,7 +8,7 @@
     <select id="getfindbyName" resultMap="paperMap" resultType="com.example.virlearning.entity.Paper">
         select * from paper
         <where>
-            <if test="type != null and type != ''">
+            <if test="name != null and name != ''">
                 and name like concat('%', #{ name }, '%')
             </if>
         </where>
@@ -56,17 +56,17 @@
         where id = #{paperId}
     </select>
 
-<!--先查试卷中题目题号的最大值，加一作为新添加题目的题号-->
-<!--    <insert id="insertPaperQuestion">-->
-<!--&#45;&#45;         SET @num = COALESCE((-->
-<!--&#45;&#45;             SELECT MAX(question_in_paper_id)-->
-<!--&#45;&#45;             FROM paper_question-->
-<!--&#45;&#45;             WHERE paper_id = #{paper.paperId}-->
-<!--&#45;&#45;         ), 0);-->
+    <!--先查试卷中题目题号的最大值，加一作为新添加题目的题号-->
+    <!--    <insert id="insertPaperQuestion">-->
+    <!--&#45;&#45;         SET @num = COALESCE((-->
+    <!--&#45;&#45;             SELECT MAX(question_in_paper_id)-->
+    <!--&#45;&#45;             FROM paper_question-->
+    <!--&#45;&#45;             WHERE paper_id = #{paper.paperId}-->
+    <!--&#45;&#45;         ), 0);-->
 
-<!--        INSERT INTO paper_question (paper_id, question_id, question_in_paper_id)-->
-<!--        VALUES (#{paperId, jdbcType=INTEGER}, #{questionId, jdbcType=INTEGER}, #{totalNum});-->
-<!--    </insert>-->
+    <!--        INSERT INTO paper_question (paper_id, question_id, question_in_paper_id)-->
+    <!--        VALUES (#{paperId, jdbcType=INTEGER}, #{questionId, jdbcType=INTEGER}, #{totalNum});-->
+    <!--    </insert>-->
     <insert id="insertPaperQuestion">
         insert into paper_question(paper_id,question_id,question_in_paper_id,question_score)
         values(#{paperId}, #{questionId},#{totalNum}+1,#{pqScore})
@@ -103,6 +103,81 @@
             SET pq1.question_in_paper_id = pq1.question_in_paper_id - 1;
     </update>
 
+    <select id="findPaperList" resultType="com.example.virlearning.entity.Paper">
+        select
+        *
+        from  paper
+        where 1=1
+        <if test="start!=null and limit!=null">
+            limit #{start},#{limit}
+        </if>
+    </select>
+    <select id="getTotalPaper" resultType="int">
+        select count(*) from paper
+        where 1=1
 
+    </select>
+    <select id="findPaperQuestionList" resultType="com.example.virlearning.entity.Question">
+        SELECT *
+        FROM question q
+        WHERE q.id IN (SELECT pq.question_id
+        FROM paper_question pq
+        WHERE pq.paper_id = #{paperId})
+        <if test="type != null and type != ''">
+            and type like concat('%', #{ type }, '%')
+        </if>
+        <if test="description != null and description != ''">
+            and description like concat('%', #{ description }, '%')
+        </if>
+        <if test="pageUtil.start!=null and pageUtil.limit!=null">
+            limit #{pageUtil.start},#{pageUtil.limit}
+        </if>
+    </select>
+    <select id="getTotalPaperQuestion" resultType="int">
+        select count(*)
+        FROM question q
+        WHERE q.id IN (SELECT pq.question_id
+        FROM paper_question pq
+        WHERE pq.paper_id = #{paperId})
+        <if test="type != null and type != ''">
+            and type like concat('%', #{ type }, '%')
+        </if>
+        <if test="description != null and description != ''">
+            and description like concat('%', #{ description }, '%')
+        </if>
+    </select>
+
+    <select id="findNoPaperQuestionList" resultType="com.example.virlearning.entity.Question">
+        SELECT *
+        FROM question q
+        WHERE q.id  not IN (SELECT pq.question_id
+        FROM paper_question pq
+        WHERE pq.paper_id = #{paperId})
+        <if test="type != null and type != ''">
+            and type like concat('%', #{ type }, '%')
+        </if>
+        <if test="description != null and description != ''">
+            and description like concat('%', #{ description }, '%')
+        </if>
+        <if test="pageUtil.start!=null and pageUtil.limit!=null">
+            limit #{pageUtil.start},#{pageUtil.limit}
+        </if>
+    </select>
+    <select id="getNoTotalPaperQuestion" resultType="int">
+        SELECT count(*)
+        FROM question q
+        WHERE q.id  not IN (SELECT pq.question_id
+        FROM paper_question pq
+        WHERE pq.paper_id = #{paperId})
+        <if test="type != null and type != ''">
+            and type like concat('%', #{ type }, '%')
+        </if>
+        <if test="description != null and description != ''">
+            and description like concat('%', #{ description }, '%')
+        </if>
+    </select>
+    <select id="getTotalQuestion">
+        select count(*) from question
+    </select>
 
 </mapper>

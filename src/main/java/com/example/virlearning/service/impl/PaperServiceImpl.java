@@ -52,15 +52,15 @@ public class PaperServiceImpl implements PaperService {
         PageResult pageResult = new PageResult(Paper, total, pageUtil.getLimit(), pageUtil.getPage());
         return pageResult;
     }
-    public PageResult getPaperQuestionPage(PageQueryUtil pageUtil,Integer paperId) {
-        List<Question> question = paperDao.findPaperQuestionList(pageUtil,paperId);
-        int total = paperDao.getTotalPaperQuestion(pageUtil,paperId);
+    public PageResult getPaperQuestionPage(PageQueryUtil pageUtil,Integer paperId,String type,String description) {
+        List<Question> question = paperDao.findPaperQuestionList(pageUtil,paperId,type,description);
+        int total = paperDao.getTotalPaperQuestion(pageUtil,paperId,type,description);
         PageResult pageResult = new PageResult(question, total, pageUtil.getLimit(), pageUtil.getPage());
         return pageResult;
     }
-    public PageResult getNoPaperQuestionPage(PageQueryUtil pageUtil,Integer paperId) {
-        List<Question> question = paperDao.findNoPaperQuestionList(pageUtil,paperId);
-        int total = paperDao.getTotalQuestion() - paperDao.getTotalPaperQuestion(pageUtil,paperId);
+    public PageResult getNoPaperQuestionPage(PageQueryUtil pageUtil,Integer paperId,String type,String description) {
+        List<Question> question = paperDao.findNoPaperQuestionList(pageUtil,paperId,type,description);
+        int total = paperDao.getTotalQuestion() - paperDao.getTotalPaperQuestion(pageUtil,paperId,type,description);
         PageResult pageResult = new PageResult(question, total, pageUtil.getLimit(), pageUtil.getPage());
         return pageResult;
     }

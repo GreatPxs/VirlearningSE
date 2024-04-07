@@ -77,7 +77,8 @@ public class PaperController {
     @RequestMapping(value = "/paperQuestionList", method = RequestMethod.GET)
     @Operation(summary = "试卷中已选题目列表")
     public Result paperQuestionList(@RequestParam(required = false) @Parameter(description = "页码") Integer pageNumber,
-                                    @RequestParam(required = false) @Parameter(description = "每页条数") Integer pageSize,Integer paperId) {
+                                    @RequestParam(required = false) @Parameter(description = "每页条数") Integer pageSize,
+                                    Integer paperId,String type,String description) {
 
         if (pageNumber == null || pageNumber < 1 || pageSize == null || pageSize < 5) {
             return ResultGenerator.genFailResult("参数异常！");
@@ -87,13 +88,14 @@ public class PaperController {
         params.put("limit", pageSize);
 
         PageQueryUtil pageUtil = new PageQueryUtil(params);
-        return ResultGenerator.genSuccessResult(paperService.getPaperQuestionPage(pageUtil,paperId));
+        return ResultGenerator.genSuccessResult(paperService.getPaperQuestionPage(pageUtil,paperId,type,description));
     }
 
     @RequestMapping(value = "/nopaperQuestionList", method = RequestMethod.GET)
     @Operation(summary = "试卷中未选（剩余）题目列表")
     public Result noPaperQuestionList(@RequestParam(required = false) @Parameter(description = "页码") Integer pageNumber,
-                                      @RequestParam(required = false) @Parameter(description = "每页条数") Integer pageSize,Integer paperId) {
+                                      @RequestParam(required = false) @Parameter(description = "每页条数") Integer pageSize,
+                                      Integer paperId,String type,String description) {
 
         if (pageNumber == null || pageNumber < 1 || pageSize == null || pageSize < 5) {
             return ResultGenerator.genFailResult("参数异常！");
@@ -103,6 +105,6 @@ public class PaperController {
         params.put("limit", pageSize);
 
         PageQueryUtil pageUtil = new PageQueryUtil(params);
-        return ResultGenerator.genSuccessResult(paperService.getNoPaperQuestionPage(pageUtil,paperId));
+        return ResultGenerator.genSuccessResult(paperService.getNoPaperQuestionPage(pageUtil,paperId,type,description));
     }
 }

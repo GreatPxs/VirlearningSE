@@ -53,6 +53,22 @@
         where id=#{id}
     </update>
 
+    <select id="findQuestionList" resultType="com.example.virlearning.entity.Question">
+        select
+        *
+        from  question
+        where 1=1
+        <if test="start!=null and limit!=null">
+            limit #{start},#{limit}
+        </if>
+    </select>
+
+    <select id="getTotalQuestion" resultType="int">
+        select count(*) from question
+        where 1=1
+
+    </select>
+
 
 
 
