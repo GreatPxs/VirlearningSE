@@ -13,14 +13,6 @@ public class Paper {
     private Integer totalNum;
     private Integer totalScore;
 
-    public Integer getTotalScore() {
-        return totalScore;
-    }
-
-    public void setTotalScore(Integer totalScore) {
-        this.totalScore = totalScore;
-    }
-
     public Integer getPaperId() {
         return paperId;
     }
@@ -43,5 +35,13 @@ public class Paper {
 
     public void setTotalNum(Integer totalNum) {
         this.totalNum = totalNum;
+    }
+
+    public Integer getTotalScore() {
+        return totalScore;
+    }
+
+    public void setTotalScore(Integer totalScore) {
+        this.totalScore = totalScore;
     }
 }

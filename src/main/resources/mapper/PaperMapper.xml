@@ -3,6 +3,8 @@
 <mapper namespace="com.example.virlearning.dao.PaperMapper">
     <resultMap id="paperMap" type="com.example.virlearning.entity.Paper">
         <id column="id" property="paperId" />
+        <id column="total_num" property="totalNum" />
+        <id column="total_score" property="totalScore"/>
     </resultMap>
 
     <select id="getfindbyName" resultMap="paperMap" resultType="com.example.virlearning.entity.Paper">
@@ -103,7 +105,7 @@
             SET pq1.question_in_paper_id = pq1.question_in_paper_id - 1;
     </update>
 
-    <select id="findPaperList" resultType="com.example.virlearning.entity.Paper">
+    <select id="findPaperList" resultMap="paperMap" resultType="com.example.virlearning.entity.Paper">
         select
         *
         from  paper
