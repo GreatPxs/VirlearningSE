@@ -68,4 +68,16 @@ public class ExamServiceImpl implements ExamService {
         PageResult pageResult = new PageResult(exam, total, pageUtil.getLimit(), pageUtil.getPage());
         return pageResult;
     }
+    public PageResult getExamUserPage(PageQueryUtil pageUtil,Integer examId) {
+        List<User> user = examDao.findExamUserList(pageUtil,examId);
+        int total = examDao.getTotalExamUser(pageUtil,examId);
+        PageResult pageResult = new PageResult(user, total, pageUtil.getLimit(), pageUtil.getPage());
+        return pageResult;
+    }
+    public PageResult getNoExamUserPage(PageQueryUtil pageUtil,Integer examId) {
+        List<User> user = examDao.findNoExamUserList(pageUtil,examId);
+        int total = examDao.getTotalUser() - examDao.getTotalNoExamUser(pageUtil,examId);
+        PageResult pageResult = new PageResult(user, total, pageUtil.getLimit(), pageUtil.getPage());
+        return pageResult;
+    }
 }

@@ -124,4 +124,34 @@ public class ExamController {
         PageQueryUtil pageUtil = new PageQueryUtil(params);
         return ResultGenerator.genSuccessResult(examService.getUserExamPage(pageUtil,userId));
     }
+    @RequestMapping(value = "/examUserList", method = RequestMethod.GET)
+    @Operation(summary = "参加考试的用户列表")
+    public Result examUserList(@RequestParam(required = false) @Parameter(description = "页码") Integer pageNumber,
+                               @RequestParam(required = false) @Parameter(description = "每页条数") Integer pageSize,Integer examId) {
+
+        if (pageNumber == null || pageNumber < 1 || pageSize == null || pageSize < 5) {
+            return ResultGenerator.genFailResult("参数异常！");
+        }
+        Map params = new HashMap(8);
+        params.put("page", pageNumber);
+        params.put("limit", pageSize);
+
+        PageQueryUtil pageUtil = new PageQueryUtil(params);
+        return ResultGenerator.genSuccessResult(examService.getExamUserPage(pageUtil,examId));
+    }
+    @RequestMapping(value = "/noExamUserList", method = RequestMethod.GET)
+    @Operation(summary = "未参加考试的用户列表")
+    public Result noExamUserList(@RequestParam(required = false) @Parameter(description = "页码") Integer pageNumber,
+                                 @RequestParam(required = false) @Parameter(description = "每页条数") Integer pageSize,Integer examId) {
+
+        if (pageNumber == null || pageNumber < 1 || pageSize == null || pageSize < 5) {
+            return ResultGenerator.genFailResult("参数异常！");
+        }
+        Map params = new HashMap(8);
+        params.put("page", pageNumber);
+        params.put("limit", pageSize);
+
+        PageQueryUtil pageUtil = new PageQueryUtil(params);
+        return ResultGenerator.genSuccessResult(examService.getNoExamUserPage(pageUtil,examId));
+    }
 }

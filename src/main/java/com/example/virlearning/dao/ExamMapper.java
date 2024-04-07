@@ -40,5 +40,12 @@ public interface ExamMapper {
     List<Exam> findUserExamList(PageQueryUtil pageUtil,Integer userId);
 
     int getTotalUserExam(PageQueryUtil pageUtil,Integer userId);
+    List<User> findExamUserList(PageQueryUtil pageUtil,Integer examId);
+
+    int getTotalExamUser(PageQueryUtil pageUtil,Integer examId);
+    List<User> findNoExamUserList(PageQueryUtil pageUtil,Integer examId);
+
+    int getTotalNoExamUser(PageQueryUtil pageUtil,Integer examId);
+    int getTotalUser();
 
 }
