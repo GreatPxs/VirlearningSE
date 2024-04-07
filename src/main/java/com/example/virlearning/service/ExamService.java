@@ -24,6 +24,9 @@ public interface ExamService {
 
     PageResult getExamPage(PageQueryUtil pageUtil);
     PageResult getUserExamPage(PageQueryUtil pageUtil,Integer userId);
+    PageResult getExamUserPage(PageQueryUtil pageUtil,Integer examId);
+    PageResult getNoExamUserPage(PageQueryUtil pageUtil,Integer examId);
+
 
 
 }

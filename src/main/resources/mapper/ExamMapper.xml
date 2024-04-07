@@ -162,7 +162,7 @@
         where exam_id = #{examId} and user_id = #{userId}
     </select>
 
-    <select id="findExamList" resultMap="examMap" resultType="com.example.virlearning.entity.Exam">
+    <select id="findExamList" resultType="com.example.virlearning.entity.Exam">
         select
         *
         from  exam
@@ -177,7 +177,7 @@
 
     </select>
 
-    <select id="findUserExamList" resultMap="examMap" resultType="com.example.virlearning.entity.Exam">
+    <select id="findUserExamList" resultType="com.example.virlearning.entity.Exam">
         select * from exam
         where id in
         (select exam_id
@@ -194,5 +194,38 @@
                from exam_user
                where user_id = #{userId})
 
+    </select>
+    <select id="findExamUserList" resultMap="userMap" resultType="com.example.virlearning.entity.User">
+        select * from virlearning_mall_user
+        where user_id in
+        (select u.user_id
+        from exam e left join exam_user eu on e.id = eu.exam_id
+        left join virlearning_mall_user u on eu.user_id = u.user_id
+        where e.id = #{examId})
+        <if test="pageUtil.start!=null and pageUtil.limit!=null">
+            limit #{pageUtil.start},#{pageUtil.limit}
+        </if>
+    </select>
+    <select id="getTotalExamUser" resultType="int">
+        select count(*) from exam_user
+        where exam_id = #{examId}
+    </select>
+    <select id="findNoExamUserList" resultMap="userMap" resultType="com.example.virlearning.entity.User">
+        select * from virlearning_mall_user
+        where user_id not in
+        (select u.user_id
+        from exam e left join exam_user eu on e.id = eu.exam_id
+        left join virlearning_mall_user u on eu.user_id = u.user_id
+        where e.id = #{examId})
+        <if test="pageUtil.start!=null and pageUtil.limit!=null">
+            limit #{pageUtil.start},#{pageUtil.limit}
+        </if>
+    </select>
+    <select id="getTotalNoExamUser" resultType="int">
+        select count(*) from exam_user
+        where exam_id = #{examId}
+    </select>
+    <select id="getTotalUser" resultType="int">
+        select count(*) from virlearning_mall_user
     </select>
 </mapper>
