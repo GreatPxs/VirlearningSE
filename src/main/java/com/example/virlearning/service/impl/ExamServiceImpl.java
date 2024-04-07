@@ -1,9 +1,12 @@
 package com.example.virlearning.service.impl;
 
 import com.example.virlearning.dao.ExamMapper;
+import com.example.virlearning.entity.Department;
 import com.example.virlearning.entity.Exam;
 import com.example.virlearning.entity.User;
 import com.example.virlearning.service.ExamService;
+import com.example.virlearning.util.PageQueryUtil;
+import com.example.virlearning.util.PageResult;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
@@ -51,5 +54,18 @@ public class ExamServiceImpl implements ExamService {
     }
     public String getExamUserAnswer(Exam exam,User user){
         return examDao.getExamUserAnswer(exam.getExamId(),user.getUserId());
+    }
+
+    public PageResult getExamPage(PageQueryUtil pageUtil) {
+        List<Exam> exam = examDao.findExamList(pageUtil);
+        int total = examDao.getTotalExam(pageUtil);
+        PageResult pageResult = new PageResult(exam, total, pageUtil.getLimit(), pageUtil.getPage());
+        return pageResult;
+    }
+    public PageResult getUserExamPage(PageQueryUtil pageUtil,Integer userId) {
+        List<Exam> exam = examDao.findUserExamList(pageUtil,userId);
+        int total = examDao.getTotalUserExam(pageUtil,userId);
+        PageResult pageResult = new PageResult(exam, total, pageUtil.getLimit(), pageUtil.getPage());
+        return pageResult;
     }
 }

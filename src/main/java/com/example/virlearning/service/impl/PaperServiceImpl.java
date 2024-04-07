@@ -1,9 +1,12 @@
 package com.example.virlearning.service.impl;
 
 import com.example.virlearning.dao.PaperMapper;
+import com.example.virlearning.entity.Department;
 import com.example.virlearning.entity.Paper;
 import com.example.virlearning.entity.Question;
 import com.example.virlearning.service.PaperService;
+import com.example.virlearning.util.PageQueryUtil;
+import com.example.virlearning.util.PageResult;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
@@ -42,5 +45,23 @@ public class PaperServiceImpl implements PaperService {
             paperDao.updateTotalNum(paper.getPaperId(), totalNum-1);
         }
         return deleteNum;
+    }
+    public PageResult getPaperPage(PageQueryUtil pageUtil) {
+        List<Paper> Paper = paperDao.findPaperList(pageUtil);
+        int total = paperDao.getTotalPaper(pageUtil);
+        PageResult pageResult = new PageResult(Paper, total, pageUtil.getLimit(), pageUtil.getPage());
+        return pageResult;
+    }
+    public PageResult getPaperQuestionPage(PageQueryUtil pageUtil,Integer paperId) {
+        List<Question> question = paperDao.findPaperQuestionList(pageUtil,paperId);
+        int total = paperDao.getTotalPaperQuestion(pageUtil,paperId);
+        PageResult pageResult = new PageResult(question, total, pageUtil.getLimit(), pageUtil.getPage());
+        return pageResult;
+    }
+    public PageResult getNoPaperQuestionPage(PageQueryUtil pageUtil,Integer paperId) {
+        List<Question> question = paperDao.findNoPaperQuestionList(pageUtil,paperId);
+        int total = paperDao.getTotalQuestion() - paperDao.getTotalPaperQuestion(pageUtil,paperId);
+        PageResult pageResult = new PageResult(question, total, pageUtil.getLimit(), pageUtil.getPage());
+        return pageResult;
     }
 }

@@ -1,7 +1,9 @@
 package com.example.virlearning.dao;
 
+import com.example.virlearning.entity.Department;
 import com.example.virlearning.entity.Paper;
 import com.example.virlearning.entity.Question;
+import com.example.virlearning.util.PageQueryUtil;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -24,4 +26,15 @@ public interface PaperMapper {
     //在一个试卷中删除题目
     Integer deletePaperQuestion(Paper paper,Question question);
     Integer updateQuestionIds(Paper paper,Question question);
+
+    List<Paper> findPaperList(PageQueryUtil pageUtil);
+
+    int getTotalPaper(PageQueryUtil pageUtil);
+    List<Question> findPaperQuestionList(PageQueryUtil pageUtil,Integer paperId);
+
+    int getTotalPaperQuestion(PageQueryUtil pageUtil,Integer paperId);
+    List<Question> findNoPaperQuestionList(PageQueryUtil pageUtil,Integer paperId);
+
+    //int getTotalNoPaperQuestion(PageQueryUtil pageUtil,Integer paperId);
+    int getTotalQuestion();
 }

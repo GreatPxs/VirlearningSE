@@ -2,6 +2,8 @@ package com.example.virlearning.service;
 
 import com.example.virlearning.entity.Paper;
 import com.example.virlearning.entity.Question;
+import com.example.virlearning.util.PageQueryUtil;
+import com.example.virlearning.util.PageResult;
 
 import java.util.List;
 
@@ -13,4 +15,9 @@ public interface PaperService {
     List<Question> getPaperInf(Paper paper);
     Integer insertPaperQuestion(Paper paper,Question question,Integer pqScore);
     Integer deletePaperQuestion(Paper paper,Question question);
+    PageResult getPaperPage(PageQueryUtil pageUtil);
+    PageResult getPaperQuestionPage(PageQueryUtil pageUtil,Integer paperId);
+    PageResult getNoPaperQuestionPage(PageQueryUtil pageUtil,Integer paperId);
+
+
 }

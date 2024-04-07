@@ -1,7 +1,9 @@
 package com.example.virlearning.dao;
 
+import com.example.virlearning.entity.Department;
 import com.example.virlearning.entity.Exam;
 import com.example.virlearning.entity.User;
+import com.example.virlearning.util.PageQueryUtil;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
@@ -31,5 +33,12 @@ public interface ExamMapper {
     List<Exam> getUserExam(Long userId);
     Integer getExamScore(Integer examId,Long userId);
     String getExamUserAnswer(Integer examId,Long userId);
+
+    List<Exam> findExamList(PageQueryUtil pageUtil);
+
+    int getTotalExam(PageQueryUtil pageUtil);
+    List<Exam> findUserExamList(PageQueryUtil pageUtil,Integer userId);
+
+    int getTotalUserExam(PageQueryUtil pageUtil,Integer userId);
 
 }
