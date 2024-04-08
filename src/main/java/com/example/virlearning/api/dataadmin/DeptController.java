@@ -101,7 +101,7 @@ public class DeptController {
     }
     @PostMapping("/getdepname")
     public Result<List<String>> getdepname(String role){
-        List<String> list =deptService.getdepname(role);
+        List<Department> list =deptService.getdepname(role);
         if(list.isEmpty())return ResultGenerator.genFailResult("没有符合条件的科室");
         else {Result result = ResultGenerator.genSuccessResult();
         result.setMessage("Success");

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.virlearning.dao.ChatMapper">
+    <resultMap id="BaseResultMap" type="com.example.virlearning.entity.Chat">
+        <id column="dia_id" jdbcType="INTEGER" />
+        <result column="user_id" jdbcType="BIGINT" />
+        <result column="t_question" jdbcType="VARCHAR" />
+        <result column="time" jdbcType="DATE" />
+        <result column="answer" jdbcType="VARCHAR" />
+
+
+    </resultMap>
+    <sql id="Base_Column_List">
+        dia_id, user_id, t_question,answer,`time`
+    </sql>
+    <insert id="insertChat" >
+        insert into  chat(
+            dia_id, user_id, t_question,answer,`time`
+        ) values(     #{ dia_id}  ,    #{user_id},#{t_question}, #{answer},#{time})
+    </insert>
+    <select id="findChatList" resultType="com.example.virlearning.entity.Chat">
+        select
+        dia_id, user_id, t_question,answer,`time`
+        from  chat
+        where user_id=#{user_id} and  `time` between #{beforedate} and #{afterdate}
+        order by dia_id DESC
+
+    </select>
+
+
+
+
+
+
+
+
+
+</mapper>

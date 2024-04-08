@@ -37,7 +37,7 @@ public class DeptServiceImpl implements DeptService {
     /*根据职能名搜索对应的科室
 
      */
-    public List<String> getdepname(String role){
+    public List<Department> getdepname(String role){
     return deptDao.getdepname(role);
     }
     public PageResult getDeptsPage(PageQueryUtil pageUtil) {

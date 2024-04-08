@@ -15,7 +15,7 @@ public interface DeptService {
     Integer deleteDept(Department dept);
 
     Integer modifyDept(Department dept);
-    List<String> getdepname(String role);
+    List<Department> getdepname(String role);
     String insertfile(Integer id,String url);
     PageResult getDeptsPage(PageQueryUtil pageUtil);
 }

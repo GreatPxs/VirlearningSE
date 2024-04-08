@@ -16,7 +16,7 @@ public interface DeptMapper {
 
     Integer modifyDept(Department dept);
 
-    List <String> getdepname(String role);
+    List <Department> getdepname(String role);
     Department selectbyname(String name);
     int insertfile(int id,String url);
     List<Department> getfindid(Integer id);

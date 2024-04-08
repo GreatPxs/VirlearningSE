@@ -7,10 +7,11 @@
             <if test="name != null and name != ''">
                 and name like concat('%', #{ name }, '%')
             </if>
+
         </where>
     </select>
-    <select id="getdepname" resultType="String">
-        select name from department_role
+    <select id="getdepname" resultType="com.example.virlearning.entity.Department">
+        select * from department_role
         <where>
             <if test="play_role != null and play_role != ''">
                 and play_role like concat('%', #{ role }, '%')

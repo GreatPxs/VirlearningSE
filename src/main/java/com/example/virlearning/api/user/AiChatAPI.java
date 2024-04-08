@@ -3,30 +3,42 @@ package com.example.virlearning.api.user;
 
 import com.alibaba.fastjson.JSON;
 import com.example.virlearning.config.WenXinConfig;
-
+import com.example.virlearning.common.Constants;
+import com.example.virlearning.config.annotation.TokenToUser;
+import com.example.virlearning.entity.Chat;
+import com.example.virlearning.entity.Department;
+import com.example.virlearning.entity.User;
+import com.example.virlearning.model.vo.UserVO;
+import com.example.virlearning.service.ChatService;
 import com.example.virlearning.util.Result;
 import com.example.virlearning.util.ResultGenerator;
+import io.swagger.v3.oas.annotations.Parameter;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.w3c.dom.Text;
 
 import javax.annotation.Resource;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 @RestController
 @Slf4j
 public class AiChatAPI {
-
+    @Autowired
+    private ChatService chatService;
     @Resource
     private WenXinConfig wenXinConfig;
-
+//    private static final Logger log = LoggerFactory.getLogger(AiChatAPI.class);
     //历史对话，需要按照user,assistant
     List<Map<String,String>> messages = new ArrayList<>();
 
@@ -36,12 +48,18 @@ public class AiChatAPI {
      * @return
      */
     @PostMapping("/chat")
-    public Result chat(String question){
+    public Result chat(String question, @TokenToUser @Parameter(hidden = true) User loginUser){
+        Chat record=new Chat();
+        Date now = new Date();
+        record.setid(Math.toIntExact(loginUser.getUserId()));
+        record.setCreateTime(now);
+
         OkHttpClient client = new OkHttpClient();
         HashMap<String, String> user = new HashMap<>();
         user.put("role","user");
         user.put("content",question);
         messages.add(user);
+        record.setT_question(user.get("content"));
         String requestJson = constructRequestJson(1,0.95,0.8,1.0,true,messages);
         RequestBody body = RequestBody.create(MediaType.parse("application/json"), requestJson);
         Request request = new Request.Builder()
@@ -91,8 +109,10 @@ public class AiChatAPI {
             assistant.put("content",assistant.get("content") + JSON.parseObject(answerArray[i]).get("result"));
         }
         messages.add(assistant);
+        record.setAnswer(assistant.get("content"));
         Result result = ResultGenerator.genSuccessResult();
         result.setData(assistant.get("content"));
+        chatService.addChat(record);
         return result;
 
     }
@@ -122,5 +142,15 @@ public class AiChatAPI {
 
         System.out.println(JSON.toJSONString(request));
         return JSON.toJSONString(request);
+    }
+    @PostMapping("/getchat")
+    public Result<List<String>> getchat(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")Date beforedate, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")Date afterdate, @TokenToUser @Parameter(hidden = true) User loginUser){
+        Integer id= Math.toIntExact(loginUser.getUserId());
+        List<Chat> list =chatService.getchat(id,beforedate,afterdate);
+        if(list.isEmpty())return ResultGenerator.genFailResult("没有符合条件的对话记录");
+        else {Result result = ResultGenerator.genSuccessResult();
+            result.setMessage("Success");
+            result.setData(list);
+            return result;}
     }
 }
