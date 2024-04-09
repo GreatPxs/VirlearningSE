@@ -100,8 +100,8 @@
     <!--    </select>-->
 
     <insert id="insertExamUser" parameterType="map">
-        insert into exam_user(exam_id,user_id)
-        values(#{exam.examId},#{user.userId})
+        insert into exam_user(exam_id,user_id,user_score)
+        values(#{exam.examId},#{user.userId},-1)
     </insert>
 
     <delete id="deleteExamUser" parameterType="map">
@@ -177,22 +177,40 @@
 
     </select>
 
-    <select id="findUserExamList" resultMap="examMap" resultType="com.example.virlearning.entity.Exam">
+    <select id="findUserExamHistoryList" resultMap="examMap" resultType="com.example.virlearning.entity.Exam">
         select * from exam
         where id in
         (select exam_id
         from exam_user
-        where user_id = #{userId})
+        where user_id = #{userId} and user_score != -1)
         <if test="pageUtil.start!=null and pageUtil.limit!=null">
             limit #{pageUtil.start},#{pageUtil.limit}
         </if>
     </select>
-    <select id="getTotalUserExam" resultType="int">
+    <select id="getTotalUserExamHistory" resultType="int">
         select count(*) from exam
         where id in
               (select exam_id
                from exam_user
-               where user_id = #{userId})
+               where user_id = #{userId} and user_score != -1)
+
+    </select>
+    <select id="findUserExamTodoList" resultMap="examMap" resultType="com.example.virlearning.entity.Exam">
+        select * from exam
+        where id in
+        (select exam_id
+        from exam_user
+        where user_id = #{userId} and user_score = -1)
+        <if test="pageUtil.start!=null and pageUtil.limit!=null">
+            limit #{pageUtil.start},#{pageUtil.limit}
+        </if>
+    </select>
+    <select id="getTotalUserExamTodo" resultType="int">
+        select count(*) from exam
+        where id in
+              (select exam_id
+               from exam_user
+               where user_id = #{userId} and user_score = -1)
 
     </select>
     <select id="findExamUserList" resultMap="userMap" resultType="com.example.virlearning.entity.User">

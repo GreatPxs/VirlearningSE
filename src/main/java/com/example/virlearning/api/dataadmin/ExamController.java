@@ -109,9 +109,9 @@ public class ExamController {
         return ResultGenerator.genSuccessResult(examService.getExamPage(pageUtil));
     }
 
-    @RequestMapping(value = "/userExamList", method = RequestMethod.GET)
+    @RequestMapping(value = "/userExamHistoryList", method = RequestMethod.GET)
     @Operation(summary = "用户历史考试列表")
-    public Result userExamList(@RequestParam(required = false) @Parameter(description = "页码") Integer pageNumber,
+    public Result userExamHistoryList(@RequestParam(required = false) @Parameter(description = "页码") Integer pageNumber,
                                @RequestParam(required = false) @Parameter(description = "每页条数") Integer pageSize,Integer userId) {
 
         if (pageNumber == null || pageNumber < 1 || pageSize == null || pageSize < 5) {
@@ -122,7 +122,22 @@ public class ExamController {
         params.put("limit", pageSize);
 
         PageQueryUtil pageUtil = new PageQueryUtil(params);
-        return ResultGenerator.genSuccessResult(examService.getUserExamPage(pageUtil,userId));
+        return ResultGenerator.genSuccessResult(examService.getUserExamHistoryPage(pageUtil,userId));
+    }
+    @RequestMapping(value = "/userExamTodoList", method = RequestMethod.GET)
+    @Operation(summary = "用户待考考试列表")
+    public Result userExamTodoList(@RequestParam(required = false) @Parameter(description = "页码") Integer pageNumber,
+                                      @RequestParam(required = false) @Parameter(description = "每页条数") Integer pageSize,Integer userId) {
+
+        if (pageNumber == null || pageNumber < 1 || pageSize == null || pageSize < 5) {
+            return ResultGenerator.genFailResult("参数异常！");
+        }
+        Map params = new HashMap(8);
+        params.put("page", pageNumber);
+        params.put("limit", pageSize);
+
+        PageQueryUtil pageUtil = new PageQueryUtil(params);
+        return ResultGenerator.genSuccessResult(examService.getUserExamTodoPage(pageUtil,userId));
     }
     @RequestMapping(value = "/examUserList", method = RequestMethod.GET)
     @Operation(summary = "参加考试的用户列表")
