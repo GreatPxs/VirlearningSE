@@ -37,9 +37,12 @@ public interface ExamMapper {
     List<Exam> findExamList(PageQueryUtil pageUtil);
 
     int getTotalExam(PageQueryUtil pageUtil);
-    List<Exam> findUserExamList(PageQueryUtil pageUtil,Integer userId);
+    List<Exam> findUserExamHistoryList(PageQueryUtil pageUtil,Integer userId);
 
-    int getTotalUserExam(PageQueryUtil pageUtil,Integer userId);
+    int getTotalUserExamHistory(PageQueryUtil pageUtil,Integer userId);
+    List<Exam> findUserExamTodoList(PageQueryUtil pageUtil,Integer userId);
+
+    int getTotalUserExamTodo(PageQueryUtil pageUtil,Integer userId);
     List<User> findExamUserList(PageQueryUtil pageUtil,Integer examId);
 
     int getTotalExamUser(PageQueryUtil pageUtil,Integer examId);
