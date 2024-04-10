@@ -135,7 +135,7 @@
 
     <update id="updateUserAnswer">
         update exam_user
-        set user_answer = #{userAnswer}
+        set user_score = #{score},user_answer=#{userAnswer}
         where exam_id = #{examId} and user_id = #{userId}
     </update>
 
@@ -237,7 +237,12 @@
         where e.id = #{examId})
         <if test="pageUtil.start!=null and pageUtil.limit!=null">
             limit #{pageUtil.start},#{pageUtil.limit}
+
+
         </if>
+    </select>
+    <select id="findAllUserList" resultMap="userMap" resultType="com.example.virlearning.entity.User">
+        select * from virlearning_mall_user
     </select>
     <select id="getTotalNoExamUser" resultType="int">
         select count(*) from exam_user

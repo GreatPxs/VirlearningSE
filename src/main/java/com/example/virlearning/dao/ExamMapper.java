@@ -28,7 +28,7 @@ public interface ExamMapper {
     //得到试卷的题目总数
     Integer getPaperTotalNum(Integer paperId);
     Integer getPaperQuestionScore(Integer paperId,int i);
-    Integer updateUserAnswer(Integer examId,Long userId,String userAnswer);
+    Integer updateUserAnswer(Integer examId,Long userId,String userAnswer,Integer score);
     Integer updateUserScore(Integer examId,Long userId, Integer score);
     List<Exam> getUserExam(Long userId);
     Integer getExamScore(Integer examId,Long userId);
@@ -47,6 +47,7 @@ public interface ExamMapper {
 
     int getTotalExamUser(PageQueryUtil pageUtil,Integer examId);
     List<User> findNoExamUserList(PageQueryUtil pageUtil,Integer examId);
+    List<User> findAllUserList(PageQueryUtil pageUtil);
 
     int getTotalNoExamUser(PageQueryUtil pageUtil,Integer examId);
     int getTotalUser();
