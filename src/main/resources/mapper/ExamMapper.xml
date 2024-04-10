@@ -239,6 +239,9 @@
             limit #{pageUtil.start},#{pageUtil.limit}
         </if>
     </select>
+    <select id="findAllUserList" resultMap="userMap" resultType="com.example.virlearning.entity.User">
+        select * from virlearning_mall_user
+    </select>
     <select id="getTotalNoExamUser" resultType="int">
         select count(*) from exam_user
         where exam_id = #{examId}
