@@ -18,7 +18,12 @@ public class QuestionServiceImpl implements QuestionService {
     private QuestionMapper questionDao;
     public List<Question> getfindbyTypeDescription(String type, String description){return questionDao.getfindbyTypeDescription(type,description);}
     public Integer insertQuestion(Question question){return questionDao.insertQuestion(question);}
-    public Integer deleteQuestion(Question question){return questionDao.deleteQuestion(question);}
+    public Integer deleteQuestion(Question question){
+        int cnt = questionDao.countQuestionInPaper(question);
+        if(cnt == 0) {return questionDao.deleteQuestion(question);}
+        else {return -1;}
+    }
+    public List<String> getPapersQuestion(Question question){return questionDao.getPapersQuestion(question.getId());}
     public Integer modifyQuestion(Question question){return questionDao.modifyQuestion(question);}
     public PageResult getQuestionPage(PageQueryUtil pageUtil){
         List<Question> Question = questionDao.findQuestionList(pageUtil);

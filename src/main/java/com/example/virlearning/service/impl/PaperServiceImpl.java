@@ -22,7 +22,14 @@ public class PaperServiceImpl implements PaperService {
     PaperMapper paperDao;
     public List<Paper> getfindbyName(String name){return paperDao.getfindbyName(name);}
     public Integer insertPaper(Paper paper){return paperDao.insertPaper(paper);}
-    public Integer deletePaper(Paper paper){return paperDao.deletePaper(paper);}
+    public Integer deletePaper(Paper paper){
+        int cnt = paperDao.countPaperInExam(paper.getPaperId());
+        if(cnt == 0) {
+            paperDao.deleteAllPaperQuestion(paper);
+            return paperDao.deletePaper(paper);
+        }
+        else {return -1;}
+    }
     public Integer modifyPaper(Paper paper){return paperDao.modifyPaper(paper);}
     public List<Question> getPaperInf(Paper paper){return paperDao.getPaperInf(paper);}
     public Integer insertPaperQuestion(Paper paper,Question question,Integer pqScore){

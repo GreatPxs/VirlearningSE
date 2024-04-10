@@ -31,9 +31,14 @@ public class QuestionController {
         return new ResponseResult<>(200);
     }
     @GetMapping("/delete")
-    public ResponseResult<Void> deleteQuestion(Question question) {
-        questionService.deleteQuestion(question);
-        return new ResponseResult<>(200);
+    public ResponseResult<Integer> deleteQuestion(Question question) {
+        int cnt = questionService.deleteQuestion(question);
+        return new ResponseResult<>(200,cnt);
+    }
+    @GetMapping("/paperquestion")
+    public ResponseResult<List<String>> papersWithQuestion(Question question) {
+        List<String> list = questionService.getPapersQuestion(question);
+        return new ResponseResult<>(200,list);
     }
     @GetMapping("/modify")
     public ResponseResult<Void> modifyQuestion(Question question) {

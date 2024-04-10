@@ -32,9 +32,9 @@ public class PaperController {
         return new ResponseResult<>(200);
     }
     @GetMapping("/delete")
-    public ResponseResult<Void> deletePaper(Paper paper) {
-        paperService.deletePaper(paper);
-        return new ResponseResult<>(200);
+    public ResponseResult<Integer> deletePaper(Paper paper) {
+        int cnt = paperService.deletePaper(paper);
+        return new ResponseResult<>(200,cnt);
     }
     @GetMapping("/modify")
     public ResponseResult<Void> modifyPaper(Paper paper) {

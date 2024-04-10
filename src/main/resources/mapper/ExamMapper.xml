@@ -106,7 +106,13 @@
 
     <delete id="deleteExamUser" parameterType="map">
         delete from exam_user
-        where exam_id = #{exam.examId} and user_id = #{user.userId}
+        where 1=1
+        <if test="exam != null" >
+            and exam_id = #{exam.examId}
+        </if>
+        <if test="user != null" >
+            and user_id = #{user.userId}
+        </if>
     </delete>
 
     <select id="getPaperId">

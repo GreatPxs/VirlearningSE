@@ -18,7 +18,10 @@ public class ExamServiceImpl implements ExamService {
     ExamMapper examDao;
     public List<Exam> getfindbyName(String name){return examDao.getfindbyName(name);}
     public Integer insertExam(Exam exam){return examDao.insertExam(exam);}
-    public Integer deleteExam(Exam exam){return examDao.deleteExam(exam);}
+    public Integer deleteExam(Exam exam){
+        examDao.deleteExamUser(exam,null);
+        return examDao.deleteExam(exam);
+    }
     public Integer modifyExam(Exam exam){return examDao.modifyExam(exam);}
     public List<User> getExamUser(Exam exam){return examDao.getExamUser(exam);}
     public Integer insertExamUser(Exam exam,User user){return examDao.insertExamUser(exam,user);}
