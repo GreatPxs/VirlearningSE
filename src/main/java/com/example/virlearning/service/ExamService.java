@@ -23,8 +23,8 @@ public interface ExamService {
     String getExamUserAnswer(Exam exam,User user);
 
     PageResult getExamPage(PageQueryUtil pageUtil);
-    PageResult getUserExamHistoryPage(PageQueryUtil pageUtil,Integer userId);
-    PageResult getUserExamTodoPage(PageQueryUtil pageUtil,Integer userId);
+    PageResult getUserExamHistoryPage(PageQueryUtil pageUtil,Long userId);
+    PageResult getUserExamTodoPage(PageQueryUtil pageUtil,Long userId);
     PageResult getExamUserPage(PageQueryUtil pageUtil,Integer examId);
     PageResult getNoExamUserPage(PageQueryUtil pageUtil,Integer examId);
 

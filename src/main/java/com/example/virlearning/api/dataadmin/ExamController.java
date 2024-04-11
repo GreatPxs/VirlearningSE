@@ -122,7 +122,7 @@ public class ExamController {
     @RequestMapping(value = "/userExamHistoryList", method = RequestMethod.GET)
     @Operation(summary = "用户历史考试列表")
     public Result userExamHistoryList(@RequestParam(required = false) @Parameter(description = "页码") Integer pageNumber,
-                               @RequestParam(required = false) @Parameter(description = "每页条数") Integer pageSize,Integer userId) {
+                               @RequestParam(required = false) @Parameter(description = "每页条数") Integer pageSize,Long userId) {
 
         if (pageNumber == null || pageNumber < 1 || pageSize == null || pageSize < 5) {
             return ResultGenerator.genFailResult("参数异常！");
@@ -137,7 +137,7 @@ public class ExamController {
     @RequestMapping(value = "/userExamTodoList", method = RequestMethod.GET)
     @Operation(summary = "用户待考考试列表")
     public Result userExamTodoList(@RequestParam(required = false) @Parameter(description = "页码") Integer pageNumber,
-                                      @RequestParam(required = false) @Parameter(description = "每页条数") Integer pageSize,Integer userId) {
+                                      @RequestParam(required = false) @Parameter(description = "每页条数") Integer pageSize,Long userId) {
 
         if (pageNumber == null || pageNumber < 1 || pageSize == null || pageSize < 5) {
             return ResultGenerator.genFailResult("参数异常！");
@@ -179,4 +179,9 @@ public class ExamController {
         PageQueryUtil pageUtil = new PageQueryUtil(params);
         return ResultGenerator.genSuccessResult(examService.getNoExamUserPage(pageUtil,examId));
     }
+//    @PostMapping("/checkExamTime")
+//    public ResponseResult<Void> checkExamTime(Exam exam,User user) {
+//        examService.deleteExamUser(exam,user);
+//        return new ResponseResult<>(200);
+//    }
 }
