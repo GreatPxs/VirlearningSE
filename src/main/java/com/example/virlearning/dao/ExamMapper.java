@@ -33,16 +33,19 @@ public interface ExamMapper {
     List<Exam> getUserExam(Long userId);
     Integer getExamScore(Integer examId,Long userId);
     String getExamUserAnswer(Integer examId,Long userId);
+    Integer updateStartExamTime(Integer examId,Long userId,String time);
+    Integer updateEndExamTime(Integer examId,Long userId,String time);
+    Integer getExamLimitTime(Integer examId);
 
     List<Exam> findExamList(PageQueryUtil pageUtil);
 
     int getTotalExam(PageQueryUtil pageUtil);
-    List<Exam> findUserExamHistoryList(PageQueryUtil pageUtil,Integer userId);
+    List<Exam> findUserExamHistoryList(PageQueryUtil pageUtil,Long userId);
 
-    int getTotalUserExamHistory(PageQueryUtil pageUtil,Integer userId);
-    List<Exam> findUserExamTodoList(PageQueryUtil pageUtil,Integer userId);
+    int getTotalUserExamHistory(PageQueryUtil pageUtil,Long userId);
+    List<Exam> findUserExamTodoList(PageQueryUtil pageUtil,Long userId);
 
-    int getTotalUserExamTodo(PageQueryUtil pageUtil,Integer userId);
+    int getTotalUserExamTodo(PageQueryUtil pageUtil,Long userId);
     List<User> findExamUserList(PageQueryUtil pageUtil,Integer examId);
 
     int getTotalExamUser(PageQueryUtil pageUtil,Integer examId);

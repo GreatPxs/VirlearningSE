@@ -12,6 +12,7 @@
         <result column="paper_id" property="paperId" />
         <result column="start_time" property="startTime" />
         <result column="end_time" property="endTime" />
+        <result column="limit_time" property="limitTime" />
     </resultMap>
     <resultMap id="userMap" type="com.example.virlearning.entity.User">
         <id column="user_id" jdbcType="BIGINT" property="userId"/>
@@ -35,7 +36,7 @@
 
     <insert id="insertExam">
         insert into exam(
-        name,paper_id,start_time,end_time)
+        name,paper_id,start_time,end_time,limit_time)
         values(#{name},#{paperId},
         <choose>
             <when test="startTime != null and startTime != ''">
@@ -52,7 +53,8 @@
             <otherwise>
                 NULL
             </otherwise>
-        </choose>
+        </choose>,
+        #{limitTime}
         )
 
     </insert>
@@ -76,6 +78,9 @@
             </if>
             <if test="endTime != null and endTime != ''" >
                 end_time = #{endTime},
+            </if>
+            <if test="limitTime != null and limitTime != ''" >
+                limit_time = #{limitTime},
             </if>
         </set>
         where id=#{examId}
@@ -121,6 +126,7 @@
         where id = #{examId}
     </select>
 
+
     <select id="getPaperQuestionAnswer">
         select Answer
         from question
@@ -150,6 +156,30 @@
         set user_score = #{score}
         where exam_id = #{examId} and user_id = #{userId}
     </update>
+
+    <update id="updateStartExamTime">
+        update exam_user
+        <set>
+            <if test="time != null and time != ''">
+                start_exam_time = #{time}
+            </if>
+        </set>
+        where exam_id = #{examId} and user_id = #{userId}
+    </update>
+    <update id="updateEndExamTime">
+        update exam_user
+        <set>
+            <if test="time != null and time != ''">
+                end_exam_time = #{time}
+            </if>
+        </set>
+        where exam_id = #{examId} and user_id = #{userId}
+    </update>
+    <select id="getExamLimitTime" resultMap="examMap">
+        select limit_time
+        from exam
+        where id = #{examId}
+    </select>
     <select id="getUserExam" resultMap="examMap" resultType="com.example.virlearning.entity.Exam">
         select * from exam
         where id in

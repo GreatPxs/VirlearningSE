@@ -19,6 +19,16 @@ public class Exam {
     @Column(name = "end_time")
 
     private String endTime;
+    @Column(name = "limit_time")
+    private Integer limitTime;
+
+    public Integer getLimitTime() {
+        return limitTime;
+    }
+
+    public void setLimitTime(Integer limitTime) {
+        this.limitTime = limitTime;
+    }
 
     public Integer getExamId() {
         return examId;

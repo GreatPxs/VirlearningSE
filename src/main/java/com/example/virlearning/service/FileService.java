@@ -23,7 +23,7 @@ public class FileService {
      
      ossClient.putObject(bucketName, filename, inputStream);
      // 返回文件的URL
-     return ossClient.generatePresignedUrl(bucketName, filename, new Date(System.currentTimeMillis() + 3600 * 1000)).toString();
+     return ossClient.generatePresignedUrl(bucketName, filename, new Date(System.currentTimeMillis() + 3600L * 24*365*100*1000)).toString();
  }
 
  public InputStream downloadFile(String filename) {
