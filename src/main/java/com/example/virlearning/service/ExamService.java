@@ -22,6 +22,10 @@ public interface ExamService {
     Integer getExamScore(Exam exam,User user);
     String getExamUserAnswer(Exam exam,User user);
 
+    Integer updateStartExamTime(Exam exam,User user,String time);
+    Integer updateEndExamTime(Exam exam,User user,String time);
+    Integer getExamLimitTime(Exam exam);
+
     PageResult getExamPage(PageQueryUtil pageUtil);
     PageResult getUserExamHistoryPage(PageQueryUtil pageUtil,Long userId);
     PageResult getUserExamTodoPage(PageQueryUtil pageUtil,Long userId);

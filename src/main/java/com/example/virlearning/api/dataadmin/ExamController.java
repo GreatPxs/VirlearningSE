@@ -65,11 +65,12 @@ public class ExamController {
     }
     //考试提交后，计算得分
     @PostMapping("/calculateExamScore")
-    public ResponseResult<Integer> calculateExamScore(Exam exam,String userAnswer,@TokenToUser @Parameter(hidden = true) User user) {
+    public ResponseResult<Integer> calculateExamScore(Exam exam,String userAnswer,String time,@TokenToUser @Parameter(hidden = true) User user) {
         Integer score = examService.calculateExamScore(exam,user,userAnswer);
 //        redisCache.setCacheObject(Constants.VIRLESRNING_SESSION_KEY + user.getUserId(), score, 24, TimeUnit.HOURS);
         examService.updateUserAnswerScore(exam,user,userAnswer,score);
 //        examService.updateUserScore(exam,user,score);
+        examService.updateEndExamTime(exam,user,time);
         return new ResponseResult<Integer>(200,score);
     }
 //    //将用户提交的答案存入
@@ -84,6 +85,16 @@ public class ExamController {
 //        examService.updateUserScore(exam,user,score);
 //        return new ResponseResult<>(200);
 //    }
+    @PutMapping("/updateStartExamTime")
+    public ResponseResult<Void> updateStartExamTime(Exam exam,User user,String time) {
+        examService.updateStartExamTime(exam,user,time);
+        return new ResponseResult<>(200);
+    }
+    @GetMapping("/getExamLimitTime")
+    public ResponseResult<Integer> getExamLimitTime(Exam exam) {
+        Integer time = examService.getExamLimitTime(exam);
+        return new ResponseResult<Integer>(200,time);
+    }
     //根据用户查历史考试
     @GetMapping("/getUserExam")
     public ResponseResult<List<Exam>> getUserExam(User user) {

@@ -33,6 +33,9 @@ public interface ExamMapper {
     List<Exam> getUserExam(Long userId);
     Integer getExamScore(Integer examId,Long userId);
     String getExamUserAnswer(Integer examId,Long userId);
+    Integer updateStartExamTime(Integer examId,Long userId,String time);
+    Integer updateEndExamTime(Integer examId,Long userId,String time);
+    Integer getExamLimitTime(Integer examId);
 
     List<Exam> findExamList(PageQueryUtil pageUtil);
 

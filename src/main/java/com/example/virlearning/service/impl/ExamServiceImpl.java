@@ -61,6 +61,15 @@ public class ExamServiceImpl implements ExamService {
     public String getExamUserAnswer(Exam exam,User user){
         return examDao.getExamUserAnswer(exam.getExamId(),user.getUserId());
     }
+    public Integer updateStartExamTime(Exam exam,User user,String time){
+        return examDao.updateStartExamTime(exam.getExamId(),user.getUserId(),time);
+    }
+    public Integer updateEndExamTime(Exam exam,User user,String time){
+        return examDao.updateEndExamTime(exam.getExamId(),user.getUserId(),time);
+    }
+    public Integer getExamLimitTime(Exam exam){
+        return examDao.getExamLimitTime(exam.getExamId());
+    }
 
     public PageResult getExamPage(PageQueryUtil pageUtil) {
         List<Exam> exam = examDao.findExamList(pageUtil);
