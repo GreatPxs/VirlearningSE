@@ -190,4 +190,9 @@ public class ExamController {
         PageQueryUtil pageUtil = new PageQueryUtil(params);
         return ResultGenerator.genSuccessResult(examService.getNoExamUserPage(pageUtil,examId));
     }
+//    @PostMapping("/checkExamTime")
+//    public ResponseResult<Void> checkExamTime(Exam exam,User user) {
+//        examService.deleteExamUser(exam,user);
+//        return new ResponseResult<>(200);
+//    }
 }
