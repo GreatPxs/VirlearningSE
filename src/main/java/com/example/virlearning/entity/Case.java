@@ -12,6 +12,7 @@ public class Case {
         private String symptom;
 
         private String animal;
+        private String cname;
 
         private String cure_method;
 

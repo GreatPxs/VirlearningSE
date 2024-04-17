@@ -108,10 +108,11 @@ public class AiChatAPI {
 
             assistant.put("content",assistant.get("content") + JSON.parseObject(answerArray[i]).get("result"));
         }
+
         messages.add(assistant);
-        record.setAnswer(assistant.get("content"));
+        record.setAnswer(assistant.get("content").replaceAll("\n","").replaceAll("'*'",""));
         Result result = ResultGenerator.genSuccessResult();
-        result.setData(assistant.get("content"));
+        result.setData(assistant.get("content").replaceAll("\n","").replaceAll("'*'",""));
         chatService.addChat(record);
         return result;
 
