@@ -67,9 +67,9 @@ public class ExamController {
     @PostMapping("/calculateExamScore")
     public ResponseResult<Integer> calculateExamScore(Exam exam,String userAnswer,String time,@TokenToUser @Parameter(hidden = true) User user) {
         Integer score = examService.calculateExamScore(exam,user,userAnswer);
-//        redisCache.setCacheObject(Constants.VIRLESRNING_SESSION_KEY + user.getUserId(), score, 24, TimeUnit.HOURS);
+        redisCache.setCacheObject(Constants.VIRLESRNING_SESSION_KEY + user.getUserId(), score, 24, TimeUnit.HOURS);
         examService.updateUserAnswerScore(exam,user,userAnswer,score);
-//        examService.updateUserScore(exam,user,score);
+        examService.updateUserScore(exam,user,score);
         examService.updateEndExamTime(exam,user,time);
         return new ResponseResult<Integer>(200,score);
     }

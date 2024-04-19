@@ -51,7 +51,7 @@
             and name like '%${name}%'
         </if>
         <if test="cname != '' and cname != null" >
-            and name like '%${cname}%'
+            and cname like '%${cname}%'
         </if>
         <if test="symptom != '' and symptom != null" >
             and symptom like '%${symptom}%'
@@ -70,6 +70,9 @@
         where is_delete =0
         <if test="name != '' and name != null" >
             and name like '%${name}%'
+        </if>
+        <if test="cname != '' and cname != null" >
+            and cname like '%${cname}%'
         </if>
         <if test="symptom != '' and symptom != null" >
             and symptom like '%${symptom}%'
@@ -147,8 +150,11 @@
             <if test="zlword != null and zlword != ''">
                 zlword = #{zlword}
             </if>
+            <if test="isDelete != null">
+                is_delete = #{isDelete}
+            </if>
         </set>
-        where case_id = #{case_id} and is_delete != 1
+        where case_id = #{case_id}
     </update>
     <!-- 查询总数-->
     <select id="getTotalCases" parameterType="Map" resultType="int">

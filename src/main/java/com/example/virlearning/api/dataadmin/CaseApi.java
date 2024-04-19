@@ -59,8 +59,8 @@ public class CaseApi {
         return new ResponseResult<Case>(200,data);
     };
     @RequestMapping("/selectCase")
-    @Operation(summary = "查询接口", description = "输入病名、动物或症状")
-    public ResponseResult<PaginationVO<Case>> selectDrug(String symptom, String animal, String name, String pageNoStr, String pageSizeStr) {
+    @Operation(summary = "查询接口", description = "输入病名、动物、症状或病例名")
+    public ResponseResult<PaginationVO<Case>> selectDrug(String symptom, String animal, String name,String cname, String pageNoStr, String pageSizeStr) {
         //获取参数
         long pageNo = 1;	//如果没有传数据,默认为第一页
         if( pageNoStr != null && pageNoStr.trim().length()>0 ){
@@ -74,6 +74,7 @@ public class CaseApi {
         Map<String ,Object> map = new HashMap<String ,Object>();
         map.put("symptom", symptom);
         map.put("name", name);
+        map.put("cname", cname);
         map.put("animal", animal);
         map.put("beginNo", beginNo);
         map.put("pageSize", pageSize);
