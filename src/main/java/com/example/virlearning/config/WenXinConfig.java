@@ -24,7 +24,16 @@ public class WenXinConfig {
     public String ACCESS_TOKEN_URL;
     @Value("${wenxin.ERNIE-Bot4.0URL}")
     public String ERNIE_Bot_4_0_URL;
-
+    @Value("${wenxin.ERNIE-Bot4.0-PURL}")
+    public String ERNIE_Bot_4_0_Pre_URL;
+    @Value("${wenxin.ERNIE-Bot-e-URL}")
+    public String ERNIE_Bot_4_0_e_URL;
+    @Value("${wenxin.ERNIE-Bot-Local}")
+    public String ERNIE_Bot_LOCAL;
+    @Value("${wenxin.ERNIE-Bot-Kno}")
+    public String ERNIE_Bot_S;
+    @Value("${wenxin.ERNIE-Bot3.5-URL}")
+    public String ERNIE_Bot_3_5_URL;
     //过期时间为30天
     public String ACCESS_TOKEN = null;
     public String REFRESH_TOKEN = null;

@@ -9,6 +9,8 @@ public interface QuestionMapper {
     List<Question> getfindbyTypeDescription(String type,String description);
     Integer insertQuestion(Question question);
     Integer deleteQuestion(Question question);
+    Integer countQuestionInPaper(Question question);
+    List<String> getPapersQuestion(Integer id);
     Integer modifyQuestion(Question question);
     List<Question> findQuestionList(PageQueryUtil pageUtil);
     int getTotalQuestion(PageQueryUtil pageUtil);

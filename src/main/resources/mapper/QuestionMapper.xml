@@ -23,7 +23,20 @@
         DELETE FROM question
         WHERE id = #{id}
     </delete>
+    <select id="countQuestionInPaper">
+        select count(*) from paper_question
+        where question_id = #{id}
+    </select>
 
+    <select id="getPapersQuestion">
+        select name
+        from paper
+        where paper.id in (
+            select paper_id
+            from paper_question
+            where question_id = #{id}
+            )
+    </select>
     <update id="modifyQuestion">
         update question
         <set >

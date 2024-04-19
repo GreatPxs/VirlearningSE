@@ -7,6 +7,7 @@
         <result column="name" jdbcType="VARCHAR" />
         <result column="symptom" jdbcType="VARCHAR" />
         <result column="animal" jdbcType="VARCHAR" />
+        <result column="cname" jdbcType="VARCHAR" />
         <result column="jzword" jdbcType="VARCHAR" />
         <result column="jzphoto" jdbcType="VARCHAR" />
         <result column="jzvideo" jdbcType="VARCHAR" />
@@ -22,13 +23,13 @@
 
     </resultMap>
     <sql id="Base_Column_List">
-        case_id, `name`, symptom, animal, jzword, jzphoto,jzvideo,jcword,jcphoto,jcvideo,zdword,zdphoto,zdvideo,
+        case_id, `name`,cname, symptom, animal, jzword, jzphoto,jzvideo,jcword,jcphoto,jcvideo,zdword,zdphoto,zdvideo,
     zlword, zlphoto,zlvideo
     </sql>
     <insert id="insert" >
         insert into  `case`(
-            is_delete,name, symptom, animal,jzword,jcword,zdword,zlword,jzphoto,jzvideo,jcphoto,jcvideo,zdphoto,zdvideo,zlphoto,zlvideo
-        ) values(     #{isDelete}  ,    #{name},#{symptom}, #{animal},#{jzword},#{jcword},#{zdword},#{zlword},#{jzphoto},#{jzvideo},#{jcphoto},#{jcvideo},#{zdphoto},#{zdvideo},#{zlphoto},#{zlvideo} )
+            is_delete,name, cname,symptom, animal,jzword,jcword,zdword,zlword,jzphoto,jzvideo,jcphoto,jcvideo,zdphoto,zdvideo,zlphoto,zlvideo
+        ) values(     #{isDelete}  ,    #{name},#{cname},#{symptom}, #{animal},#{jzword},#{jcword},#{zdword},#{zlword},#{jzphoto},#{jzvideo},#{jcphoto},#{jcvideo},#{zdphoto},#{zdvideo},#{zlphoto},#{zlvideo} )
     </insert>
     <!-- 根据条件查询病例总条数 -->
     <!-- Integer selectCountCase(Map<String,Object> map); -->
@@ -49,6 +50,9 @@
         <if test="name != '' and name != null" >
             and name like '%${name}%'
         </if>
+        <if test="cname != '' and cname != null" >
+            and cname like '%${cname}%'
+        </if>
         <if test="symptom != '' and symptom != null" >
             and symptom like '%${symptom}%'
         </if>
@@ -66,6 +70,9 @@
         where is_delete =0
         <if test="name != '' and name != null" >
             and name like '%${name}%'
+        </if>
+        <if test="cname != '' and cname != null" >
+            and cname like '%${cname}%'
         </if>
         <if test="symptom != '' and symptom != null" >
             and symptom like '%${symptom}%'
@@ -89,11 +96,65 @@
     </update>
     <!-- 修改药品数据 -->
     <!--Integer updateIdCase(Case record); -->
-    <update id="updateIdCase" >
-        update `case` set
-                          name=#{name}, symptom=#{symptom},jzphoto=#{jzphoto},jcphoto=#{jcphoto},zdphoto=#{zdphoto},zlphoto=#{zlphoto},jzvideo=#{jzvideo},jcvideo=#{jcvideo},zdvideo=#{zdvideo},zlvideo=#{zlvideo},
-                          animal=#{animal},jzword=#{jzword},jcword=#{jcword},zdword=#{zdword},zlword=#{zlword}
-        where case_id=#{case_id} and is_delete != 1
+    <update id="updateIdCase">
+        update `case`
+        <set>
+            <if test="case_id != null ">
+                case_id = #{case_id},
+            </if>
+            <if test="name != null and name != ''">
+                `name` = #{name},
+            </if>
+            <if test="cname != null and cname != ''">
+                `cname` = #{cname},
+            </if>
+            <if test="symptom != null and symptom != ''">
+                symptom = #{symptom},
+            </if>
+            <if test="jzphoto != null and jzphoto != ''">
+                jzphoto = #{jzphoto},
+            </if>
+            <if test="jcphoto != null and jcphoto != ''">
+                jcphoto = #{jcphoto},
+            </if>
+            <if test="zdphoto != null and zdphoto != ''">
+                zdphoto = #{zdphoto},
+            </if>
+            <if test="zlphoto != null and zlphoto != ''">
+                zlphoto = #{zlphoto},
+            </if>
+            <if test="jzvideo != null and jzvideo != ''">
+                jzvideo = #{jzvideo},
+            </if>
+            <if test="jcvideo != null and jcvideo != ''">
+                jcvideo = #{jcvideo},
+            </if>
+            <if test="zdvideo != null and zdvideo != ''">
+                zdvideo = #{zdvideo},
+            </if>
+            <if test="zlvideo != null and zlvideo != ''">
+                zlvideo = #{zlvideo},
+            </if>
+            <if test="animal != null and animal != ''">
+                animal = #{animal},
+            </if>
+            <if test="jzword != null and jzword != ''">
+                jzword = #{jzword},
+            </if>
+            <if test="jcword != null and jcword != ''">
+                jcword = #{jcword},
+            </if>
+            <if test="zdword != null and zdword != ''">
+                zdword = #{zdword},
+            </if>
+            <if test="zlword != null and zlword != ''">
+                zlword = #{zlword}
+            </if>
+            <if test="isDelete != null">
+                is_delete = #{isDelete}
+            </if>
+        </set>
+        where case_id = #{case_id}
     </update>
     <!-- 查询总数-->
     <select id="getTotalCases" parameterType="Map" resultType="int">

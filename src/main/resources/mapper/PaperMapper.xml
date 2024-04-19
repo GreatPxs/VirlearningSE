@@ -26,6 +26,15 @@
         DELETE FROM paper
         WHERE id = #{paperId}
     </delete>
+    <delete id="deleteAllPaperQuestion">
+        delete from paper_question
+        where paper_id = #{paperId}
+    </delete>
+    <select id="countPaperInExam">
+        select count(*)
+        from exam
+        where paper_id = #{paperId}
+    </select>
 
     <update id="modifyPaper">
         update paper

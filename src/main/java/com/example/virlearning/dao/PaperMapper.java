@@ -14,6 +14,8 @@ public interface PaperMapper {
     List<Paper> getfindbyName(String name);
     Integer insertPaper(Paper paper);
     Integer deletePaper(Paper paper);
+    Integer countPaperInExam(Integer paperId);
+    Integer deleteAllPaperQuestion(Paper paper);
     Integer modifyPaper(Paper paper);
     //查一个试卷的具体信息，哪些题目
     List<Question> getPaperInf(Paper paper);

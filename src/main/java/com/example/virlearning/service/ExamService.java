@@ -16,15 +16,19 @@ public interface ExamService {
     Integer insertExamUser(Exam exam,User user);
     Integer deleteExamUser(Exam exam,User user);
     Integer calculateExamScore(Exam exam,User user,String userAnswer);
-    Integer updateUserAnswer(Exam exam,User user,String userAnswer);
+    Integer updateUserAnswerScore(Exam exam,User user,String userAnswer,Integer score);
     Integer updateUserScore(Exam exam,User user,Integer score);
     List<Exam> getUserExam(User user);
     Integer getExamScore(Exam exam,User user);
     String getExamUserAnswer(Exam exam,User user);
 
+    Integer updateStartExamTime(Exam exam,User user,String time);
+    Integer updateEndExamTime(Exam exam,User user,String time);
+    Integer getExamLimitTime(Exam exam);
+
     PageResult getExamPage(PageQueryUtil pageUtil);
-    PageResult getUserExamHistoryPage(PageQueryUtil pageUtil,Integer userId);
-    PageResult getUserExamTodoPage(PageQueryUtil pageUtil,Integer userId);
+    PageResult getUserExamHistoryPage(PageQueryUtil pageUtil,Long userId);
+    PageResult getUserExamTodoPage(PageQueryUtil pageUtil,Long userId);
     PageResult getExamUserPage(PageQueryUtil pageUtil,Integer examId);
     PageResult getNoExamUserPage(PageQueryUtil pageUtil,Integer examId);
 

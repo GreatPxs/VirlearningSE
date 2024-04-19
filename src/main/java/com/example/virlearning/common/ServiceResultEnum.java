@@ -24,7 +24,7 @@ public enum ServiceResultEnum {
     LOGIN_NAME_IS_NOT_PHONE("请输入正确的手机号！"),
 
     LOGIN_PASSWORD_NULL("请输入密码！"),
-
+    LOGIN_PASSWORD_SHORTorLONG("密码长度在8-20！"),
     LOGIN_VERIFY_CODE_NULL("请输入验证码！"),
 
     LOGIN_VERIFY_CODE_ERROR("验证码错误！"),

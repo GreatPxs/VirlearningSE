@@ -89,7 +89,8 @@ public class UserPersonalAPI {
         if (!NumberUtil.isPhone(UserRegisterParam.getLoginName())){
             return ResultGenerator.genFailResult(ServiceResultEnum.LOGIN_NAME_IS_NOT_PHONE.getResult());
         }
-        if(UserRegisterParam.getPassword() == null)return ResultGenerator.genFailResult(ServiceResultEnum.LOGIN_PASSWORD_NULL.getResult());
+        if(UserRegisterParam.getPassword().isEmpty())return ResultGenerator.genFailResult(ServiceResultEnum.LOGIN_PASSWORD_NULL.getResult());
+        if(UserRegisterParam.getPassword().length()<8||UserRegisterParam.getPassword().length()>20)return ResultGenerator.genFailResult(ServiceResultEnum.LOGIN_PASSWORD_SHORTorLONG.getResult());
         String registerResult = UserService.register(UserRegisterParam.getLoginName(), UserRegisterParam.getPassword());
 
         logger.info("register api,loginName={},loginResult={}", UserRegisterParam.getLoginName(), registerResult);
