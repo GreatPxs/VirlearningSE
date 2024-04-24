@@ -100,9 +100,9 @@ public class CaseApi {
         caseService.deleteCase(id);
         return new ResponseResult<Void>(200);
     }
-/**
- * 分页展示
- */
+    /**
+     * 分页展示
+     */
     @RequestMapping(value = "/showall", method = RequestMethod.GET)
     @Operation(summary = "病例列表")
     public Result list(@RequestParam(required = false) @Parameter(description = "页码") Integer pageNumber,
