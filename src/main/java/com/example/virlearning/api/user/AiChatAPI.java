@@ -143,7 +143,7 @@ public class AiChatAPI {
         messages.add(user);
         message.add(question);
         record.setT_question(user.get("content"));
-        String requestJson = constructRequestJson(1,0.95,0.8,1.0,true,messages);
+        String requestJson = constructRequestJson(Math.toIntExact(loginUser.getUserId()),0.95,0.8,1.0,true,messages);
         String requestJson3 = constructRequestJson3(question);
         RequestBody body = RequestBody.create(MediaType.parse("application/json"), requestJson);
         RequestBody body3 = RequestBody.create(MediaType.parse("application/json"), requestJson3);
