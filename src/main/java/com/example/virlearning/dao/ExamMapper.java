@@ -46,6 +46,8 @@ public interface ExamMapper {
     List<Exam> findUserExamTodoList(PageQueryUtil pageUtil,Long userId);
 
     int getTotalUserExamTodo(PageQueryUtil pageUtil,Long userId);
+    String getUserExamStartTime(Long userId,Integer examId);
+    String getUserExamEndTime(Long userId,Integer examId);
     List<User> findExamUserList(PageQueryUtil pageUtil,Integer examId);
 
     int getTotalExamUser(PageQueryUtil pageUtil,Integer examId);

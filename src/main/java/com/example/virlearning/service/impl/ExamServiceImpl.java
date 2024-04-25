@@ -128,4 +128,10 @@ public class ExamServiceImpl implements ExamService {
         PageResult pageResult = new PageResult(user, total, pageUtil.getLimit(), pageUtil.getPage());
         return pageResult;
     }
+    public String getUserExamStartTime(User user,Exam exam) {
+        return examDao.getUserExamStartTime(user.getUserId(),exam.getExamId());
+    }
+    public String getUserExamEndTime(User user,Exam exam) {
+        return examDao.getUserExamEndTime(user.getUserId(),exam.getExamId());
+    }
 }

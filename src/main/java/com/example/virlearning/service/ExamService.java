@@ -31,7 +31,7 @@ public interface ExamService {
     PageResult getUserExamTodoPage(PageQueryUtil pageUtil,Long userId);
     PageResult getExamUserPage(PageQueryUtil pageUtil,Integer examId);
     PageResult getNoExamUserPage(PageQueryUtil pageUtil,Integer examId);
-
-
+    String getUserExamStartTime(User user,Exam exam);
+    String getUserExamEndTime(User user,Exam exam);
 
 }
