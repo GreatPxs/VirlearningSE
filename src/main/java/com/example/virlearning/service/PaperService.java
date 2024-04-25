@@ -13,6 +13,9 @@ public interface PaperService {
     Integer deletePaper(Paper paper);
     Integer modifyPaper(Paper paper);
     List<Question> getPaperInf(Paper paper);
+    List<Integer> getPaperQuestionScoreList(Paper paper);
+    Integer getPaperTotal(Paper paper);
+    Integer getPaperTotalScore(Paper paper);
     Integer insertPaperQuestion(Paper paper,Question question,Integer pqScore);
     Integer deletePaperQuestion(Paper paper,Question question);
     PageResult getPaperPage(PageQueryUtil pageUtil);
