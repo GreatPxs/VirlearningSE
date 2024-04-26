@@ -249,6 +249,16 @@
                where user_id = #{userId} and user_score = -1)
 
     </select>
+    <select id="getUserExamStartTime" resultType="String">
+        select start_exam_time
+        from exam_user
+        where exam_id = #{examId} and user_id = #{userId}
+    </select>
+    <select id="getUserExamEndTime" resultType="String">
+        select end_exam_time
+        from exam_user
+        where exam_id = #{examId} and user_id = #{userId}
+    </select>
     <select id="findExamUserList" resultMap="userMap" resultType="com.example.virlearning.entity.User">
         select * from virlearning_mall_user
         where user_id in

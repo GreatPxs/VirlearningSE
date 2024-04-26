@@ -18,7 +18,8 @@ public interface PaperMapper {
     Integer deleteAllPaperQuestion(Paper paper);
     Integer modifyPaper(Paper paper);
     //查一个试卷的具体信息，哪些题目
-    List<Question> getPaperInf(Paper paper);
+    List<Question> getPaperInf(@Param("paperId")Integer paperId);
+    List<Integer> getPaperQuestionScoreList(Integer paperId);
     Integer getPaperTotal(Integer paperId);
     Integer getPaperTotalScore(Integer paperId);
     //在一个试卷中增加题目

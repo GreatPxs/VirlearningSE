@@ -268,7 +268,7 @@ public class AiChatAPI {
     public Result<List<String>> getchat(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")Date beforedate, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")Date afterdate, @TokenToUser @Parameter(hidden = true) User loginUser){
         Integer id= Math.toIntExact(loginUser.getUserId());
         List<Chat> list =chatService.getchat(id,beforedate,afterdate);
-        if(list.isEmpty())return ResultGenerator.genFailResult("没有符合条件的对话记录");
+        if(list.isEmpty())return ResultGenerator.genSuccessResult("没有符合条件的对话记录");
         else {Result result = ResultGenerator.genSuccessResult();
             result.setMessage("Success");
             result.setData(list);

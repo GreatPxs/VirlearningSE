@@ -31,7 +31,11 @@ public class PaperServiceImpl implements PaperService {
         else {return -1;}
     }
     public Integer modifyPaper(Paper paper){return paperDao.modifyPaper(paper);}
-    public List<Question> getPaperInf(Paper paper){return paperDao.getPaperInf(paper);}
+    public List<Question> getPaperInf(Paper paper){return paperDao.getPaperInf(paper.getPaperId());}
+    public List<Integer> getPaperQuestionScoreList(Paper paper){return paperDao.getPaperQuestionScoreList(paper.getPaperId());}
+    public Integer getPaperTotal(Paper paper){return paperDao.getPaperTotal(paper.getPaperId());}
+    public Integer getPaperTotalScore(Paper paper){return paperDao.getPaperTotalScore(paper.getPaperId());}
+
     public Integer insertPaperQuestion(Paper paper,Question question,Integer pqScore){
         Integer totalNum = paperDao.getPaperTotal(paper.getPaperId());
         Integer totalScore = paperDao.getPaperTotalScore(paper.getPaperId());

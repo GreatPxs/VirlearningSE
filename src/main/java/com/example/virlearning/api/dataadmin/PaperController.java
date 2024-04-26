@@ -52,8 +52,10 @@ public class PaperController {
     public ResponseResult<List<Question>> getPaperInf(Paper paper) {
         //构造key
         String key = Constants.PAPER_REDIS_KEY + paper.getPaperId();
+
         //查询redis是否存在
         List<Question> list = (List<Question>) redisCache.getCacheObject(key);
+
         //如果存在，直接返回
         if(list != null && list.size() > 0){
             return new ResponseResult<List<Question>>(200,list);
@@ -63,6 +65,34 @@ public class PaperController {
         redisCache.setCacheObject(key, list, 24, TimeUnit.HOURS);
         return new ResponseResult<List<Question>>(200,list);
     }
+    @GetMapping("/getPaperQuestionScoreList")
+    public ResponseResult<List<Integer>> getPaperQUestionScoreList(Paper paper) {
+        //构造key
+        String key = Constants.PAPER_QUESTION_SCORE_REDIS_KEY + paper.getPaperId();
+
+        //查询redis是否存在
+        List<Integer> list = (List<Integer>) redisCache.getCacheObject(key);
+
+        //如果存在，直接返回
+        if(list != null && list.size() > 0){
+            return new ResponseResult<List<Integer>>(200,list);
+        }
+        //否则添加到缓存再返回
+        list = paperService.getPaperQuestionScoreList(paper);
+        redisCache.setCacheObject(key, list, 24, TimeUnit.HOURS);
+        return new ResponseResult<List<Integer>>(200,list);
+    }
+    @GetMapping("/getPaperTotalNum")
+    public ResponseResult<Integer> getPaperTotalNum(Paper paper) {
+        int total = paperService.getPaperTotal(paper);
+        return new ResponseResult<>(200,total);
+    }
+    @GetMapping("/getPaperTotalScore")
+    public ResponseResult<Integer> getPaperTotalScore(Paper paper) {
+        int total = paperService.getPaperTotalScore(paper);
+        return new ResponseResult<>(200,total);
+    }
+
     @GetMapping("/insertPaperQuestion")
     public ResponseResult<Void> insertPaperQuestion(Paper paper,Question question,Integer pqScore) {
         if(pqScore == null)return new ResponseResult<>(500);

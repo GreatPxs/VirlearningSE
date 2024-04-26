@@ -47,12 +47,19 @@
         where id=#{paperId}
     </update>
 
-    <select id="getPaperInf">
-        SELECT *
+    <select id="getPaperInf" resultType="com.example.virlearning.entity.Question">
+        SELECT q.*
         FROM question q
-        WHERE q.id IN (SELECT pq.question_id
-                       FROM paper_question pq
-                       WHERE pq.paper_id = #{paperId})
+                 JOIN paper_question pq ON q.id = pq.question_id
+        WHERE pq.paper_id = #{paperId}
+        ORDER BY pq.question_in_paper_id;
+    </select>
+
+    <select id="getPaperQuestionScoreList" resultType="int">
+        SELECT question_score
+        from paper_question
+        where paper_id = #{paperId}
+        ORDER BY question_in_paper_id;
     </select>
 
     <select id="getPaperTotal">
@@ -129,18 +136,18 @@
 
     </select>
     <select id="findPaperQuestionList" resultType="com.example.virlearning.entity.Question">
-        SELECT *
+        SELECT q.*
         FROM question q
-        WHERE q.id IN (SELECT pq.question_id
-        FROM paper_question pq
-        WHERE pq.paper_id = #{paperId})
+        JOIN paper_question pq ON q.id = pq.question_id
+        WHERE pq.paper_id = #{paperId}
+        ORDER BY pq.question_in_paper_id;
         <if test="type != null and type != ''">
             and type like concat('%', #{ type }, '%')
         </if>
         <if test="description != null and description != ''">
             and description like concat('%', #{ description }, '%')
         </if>
-        <if test="pageUtil.start!=null and pageUtil.limit!=null">
+        <if test="pageUtil.start!=null and pageUtil.start!='' and pageUtil.limit!=null and pageUtil.limit!=''">
             limit #{pageUtil.start},#{pageUtil.limit}
         </if>
     </select>
@@ -170,7 +177,7 @@
         <if test="description != null and description != ''">
             and description like concat('%', #{ description }, '%')
         </if>
-        <if test="pageUtil.start!=null and pageUtil.limit!=null">
+        <if test="pageUtil.start!=null and pageUtil.start!='' and pageUtil.limit!=null and pageUtil.limit!=''">
             limit #{pageUtil.start},#{pageUtil.limit}
         </if>
     </select>
