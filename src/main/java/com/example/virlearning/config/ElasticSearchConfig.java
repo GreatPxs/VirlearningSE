@@ -40,7 +40,7 @@ public class ElasticSearchConfig {
             final CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
 
 
-//        RestClients restClients =
+
             RestClient restClient = RestClient.builder(new HttpHost(host, port))
                     .setHttpClientConfigCallback(httpClientBuilder->httpClientBuilder.setDefaultCredentialsProvider(credentialsProvider)).build();
 

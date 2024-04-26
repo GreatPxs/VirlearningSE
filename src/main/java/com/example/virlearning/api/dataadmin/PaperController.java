@@ -2,6 +2,7 @@ package com.example.virlearning.api.dataadmin;
 
 import com.example.virlearning.entity.Paper;
 import com.example.virlearning.entity.Question;
+import com.example.virlearning.redis.RedisCache;
 import com.example.virlearning.service.PaperService;
 import com.example.virlearning.util.PageQueryUtil;
 import com.example.virlearning.util.ResponseResult;
@@ -10,17 +11,23 @@ import com.example.virlearning.util.ResultGenerator;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import com.example.virlearning.common.Constants;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping("/paper")
 public class PaperController {
     @Resource
     PaperService paperService;
+    @Autowired
+    private RedisCache redisCache;
+
     @GetMapping("/select")
     public ResponseResult<List<Paper>> getfindbyName(String name) {
         List<Paper> list = paperService.getfindbyName(name);
@@ -43,9 +50,49 @@ public class PaperController {
     }
     @GetMapping("/getPaperInf")
     public ResponseResult<List<Question>> getPaperInf(Paper paper) {
-        List<Question> list = paperService.getPaperInf(paper);
+        //构造key
+        String key = Constants.PAPER_REDIS_KEY + paper.getPaperId();
+
+        //查询redis是否存在
+        List<Question> list = (List<Question>) redisCache.getCacheObject(key);
+
+        //如果存在，直接返回
+        if(list != null && list.size() > 0){
+            return new ResponseResult<List<Question>>(200,list);
+        }
+        //否则添加到缓存再返回
+        list = paperService.getPaperInf(paper);
+        redisCache.setCacheObject(key, list, 24, TimeUnit.HOURS);
         return new ResponseResult<List<Question>>(200,list);
     }
+    @GetMapping("/getPaperQuestionScoreList")
+    public ResponseResult<List<Integer>> getPaperQUestionScoreList(Paper paper) {
+        //构造key
+        String key = Constants.PAPER_QUESTION_SCORE_REDIS_KEY + paper.getPaperId();
+
+        //查询redis是否存在
+        List<Integer> list = (List<Integer>) redisCache.getCacheObject(key);
+
+        //如果存在，直接返回
+        if(list != null && list.size() > 0){
+            return new ResponseResult<List<Integer>>(200,list);
+        }
+        //否则添加到缓存再返回
+        list = paperService.getPaperQuestionScoreList(paper);
+        redisCache.setCacheObject(key, list, 24, TimeUnit.HOURS);
+        return new ResponseResult<List<Integer>>(200,list);
+    }
+    @GetMapping("/getPaperTotalNum")
+    public ResponseResult<Integer> getPaperTotalNum(Paper paper) {
+        int total = paperService.getPaperTotal(paper);
+        return new ResponseResult<>(200,total);
+    }
+    @GetMapping("/getPaperTotalScore")
+    public ResponseResult<Integer> getPaperTotalScore(Paper paper) {
+        int total = paperService.getPaperTotalScore(paper);
+        return new ResponseResult<>(200,total);
+    }
+
     @GetMapping("/insertPaperQuestion")
     public ResponseResult<Void> insertPaperQuestion(Paper paper,Question question,Integer pqScore) {
         if(pqScore == null)return new ResponseResult<>(500);

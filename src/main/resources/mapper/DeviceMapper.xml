@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.virlearning.dao.DeviceMapper">
+    <insert id="insertDevice">
+        insert into device(
+            name,video,photo,feature,dep)
+        values(#{name},#{video},#{photo},#{feature},#{dep})
+    </insert>
+    <select id="getfindNameDev" resultType="com.example.virlearning.entity.Device">
+        select * from device
+        <where>
+            <if test="name != null and name != ''">
+                and name like concat('%', #{ name }, '%')
+            </if>
+            <if test="dep != null and dep != ''">
+                and dep_name like concat('%', #{ dep }, '%')
+            </if>
+        </where>
+    </select>
+    <update id="deleteDevice">
+        update device set isdeleted= #{isdeleted}
+        WHERE id = #{id}
+    </update>
+    <select id="getTotalDevices" resultType="int">
+        select count(*) from `device`
+        where isdeleted!=1
+
+    </select>
+    <update id="modifyDevice">
+        update device
+        <set >
+            <if test="name != null and name != ''" >
+                name = #{name},
+            </if>
+            <if test="isdeleted != null " >
+                isdeleted = #{isdeleted},
+            </if>
+            <if test="dep != null and dep != ''" >
+                dep = #{dep},
+            </if>
+            <if test="video != null and video != ''" >
+                video = #{video},
+            </if>
+            <if test="photo != null and photo != ''" >
+                photo = #{photo},
+            </if>
+            <if test="feature != null and feature != ''" >
+                feature = #{feature},
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+    <select id="findDeviceList" resultType="com.example.virlearning.entity.Device">
+        select
+        id,name,dep,photo,video,feature
+        from  `device`
+        where isdeleted!=1
+        <if test="start!=null and limit!=null">
+            limit #{start},#{limit}
+        </if>
+    </select>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</mapper>

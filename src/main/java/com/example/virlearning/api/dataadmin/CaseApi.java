@@ -42,7 +42,7 @@ public class CaseApi {
      * @param record
      * @return 返回成功
      */
-    @RequestMapping("/addCase")
+    @PostMapping("/addCase")
     public ResponseResult<Void> addCase(Case record) {
 
         caseService.addCase(record);
@@ -58,7 +58,7 @@ public class CaseApi {
         Case data = caseService.findId(id);
         return new ResponseResult<Case>(200,data);
     };
-    @RequestMapping("/selectCase")
+    @PostMapping("/selectCase")
     @Operation(summary = "查询接口", description = "输入病名、动物、症状或病例名")
     public ResponseResult<PaginationVO<Case>> selectDrug(String symptom, String animal, String name,String cname, String pageNoStr, String pageSizeStr) {
         //获取参数
@@ -87,7 +87,7 @@ public class CaseApi {
      * @param record
      * @return
      */
-    @RequestMapping("/updateIdCase")
+    @PostMapping("/updateIdCase")
     public Result updateIdDrug(Case record) {
 
         caseService.updateIdCase(record);
@@ -100,9 +100,9 @@ public class CaseApi {
         caseService.deleteCase(id);
         return new ResponseResult<Void>(200);
     }
-/**
- * 分页展示
- */
+    /**
+     * 分页展示
+     */
     @RequestMapping(value = "/showall", method = RequestMethod.GET)
     @Operation(summary = "病例列表")
     public Result list(@RequestParam(required = false) @Parameter(description = "页码") Integer pageNumber,

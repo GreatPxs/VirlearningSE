@@ -15,6 +15,8 @@ public class Constants {
 
     public final static int INDEX_CAROUSEL_NUMBER = 5;//首页轮播图数量(可根据自身需求修改)
     public final static String VIRLESRNING_SESSION_KEY = "virlearining";
+    public final static String PAPER_REDIS_KEY = "paper";//缓存试卷
+    public final static String PAPER_QUESTION_SCORE_REDIS_KEY = "paperQuestionScore";//缓存试卷中题目的分值
     public final static int INDEX_CATEGORY_NUMBER = 10;//首页一级分类的最大数量
 
     public final static int INDEX_GOODS_HOT_NUMBER = 4;//首页热卖商品数量

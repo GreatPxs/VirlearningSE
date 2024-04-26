@@ -108,10 +108,21 @@ public class ExamController {
         return new ResponseResult<>(200,score);
     }
     //查用户一个考试的用户答案
+
     @GetMapping("/getExamUserAnswer")
     public ResponseResult<String> getExamUserAnswer(Exam exam,User user) {
         String ans = examService.getExamUserAnswer(exam,user);
         return new ResponseResult<>(200,ans);
+    }
+    @GetMapping("/getUserExamStartTime")
+    public ResponseResult<String> getUserExamStartTime(Exam exam,User user) {
+        String time = examService.getUserExamStartTime(user,exam);
+        return new ResponseResult<>(200,time);
+    }
+    @GetMapping("/getUserExamEndTime")
+    public ResponseResult<String> getUserExamEndTime(Exam exam,User user) {
+        String time = examService.getUserExamEndTime(user,exam);
+        return new ResponseResult<>(200,time);
     }
 
     @RequestMapping(value = "/showall", method = RequestMethod.GET)
